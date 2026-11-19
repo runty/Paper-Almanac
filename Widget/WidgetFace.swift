@@ -31,7 +31,9 @@ struct WidgetFace: View {
 
     private var paperFace: some View {
         GeometryReader { box in
-            if entry.theme == .fuji, let page = entry.sheet.page {
+            if entry.theme == .moon, let page = entry.sheet.page {
+                MoonFace(reading: MoonReading(page, site: entry.sheet.skySite), widget: true)
+            } else if entry.theme == .fuji, let page = entry.sheet.page {
                 FujiFace(reading: FujiReading(page), widget: true)
             } else if family == .systemLarge || family == .systemExtraLargePortrait {
                 fittedPaper(in: box.size)
@@ -335,7 +337,12 @@ struct DashboardAlmanac: View {
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(Text(info.date, format: .dateTime.weekday(.wide).month(.wide).day().year()))
             Rectangle().fill(ruleInk).frame(height: 1.5).accessibilityHidden(true)
-            if entry.theme == .fuji {
+            if entry.theme == .moon {
+                let moon = MoonReading(page, site: entry.sheet.skySite)
+                Text(verbatim: moon.phase)
+                Text(verbatim: moon.milestone?.name ?? moon.constellation.rawValue)
+                    .foregroundStyle(ruleInk)
+            } else if entry.theme == .fuji {
                 let value = FujiReading(page)
                 HStack(spacing: 5) {
                     if let sky = value.sky {
@@ -375,7 +382,9 @@ struct DashboardAlmanac: View {
         }
 
         let inks: (Color, Color)
-        if entry.theme == .fuji {
+        if entry.theme == .moon {
+            inks = (MoonFace.ink, MoonFace.blue)
+        } else if entry.theme == .fuji {
             inks = (FujiReading(info.page).redDate ? FujiFace.red : FujiFace.ink, FujiFace.ink)
         } else if entry.theme == .celestialAlmanac {
             inks = (CelestialFace.ink(weekday: info.weekday), CelestialFace.black)
@@ -405,6 +414,15 @@ struct DashboardAlmanac: View {
                 HStack(spacing: 7) {
                     TungShingNumeral(day: info.day, size: size).foregroundStyle(dateInk)
                     captions
+                }
+            case .moon:
+                HStack(spacing: 6) {
+                    if let sky = MoonReading(info.page).sky {
+                        MoonDisc(sky: sky, ink: ruleInk, paper: colorScheme == .dark ? .black : .white)
+                            .frame(width: size * 0.45, height: size * 0.45)
+                    }
+                    day.font(.system(size: size * 0.78, weight: .bold)).foregroundStyle(dateInk)
+                    captions.font(.system(size: 10))
                 }
             case .fuji:
                 HStack(spacing: 7) {

@@ -96,18 +96,30 @@ struct MoonDisc: View {
         let phase = sky.moonIllumination
         // Trace the illuminated limb and elliptical terminator, viewed north-up.
         ctx.fill(Path(ellipseIn: CGRect(x: 20-radius, y: 20-radius, width: 2*radius, height: 2*radius)), with: .color(ink))
+        let bounds = CGRect(x: 20-radius, y: 20-radius, width: 2*radius, height: 2*radius)
+        let light = IlluminatedLimb(fraction: phase, waxing: sky.moonIsWaxing).path(in: bounds)
+        ctx.fill(light, with: .color(paper))
+    }
+}
+
+/// Project the terminator onto a north-up circular disk.
+struct IlluminatedLimb: Shape {
+    let fraction: Double
+    let waxing: Bool
+    func path(in rect: CGRect) -> Path {
+        let radius = min(rect.width, rect.height) / 2
         var light = Path()
-        let side: CGFloat = sky.moonIsWaxing ? 1 : -1
+        let side: CGFloat = waxing ? 1 : -1
         for i in 0...48 {
             let a = -.pi / 2 + Double(i) * .pi / 48
-            let p = CGPoint(x: 20 + side * radius * cos(a), y: 20 + radius * sin(a))
+            let p = CGPoint(x: rect.midX + side * radius * cos(a), y: rect.midY + radius * sin(a))
             if i == 0 { light.move(to: p) } else { light.addLine(to: p) }
         }
         for i in (0...48).reversed() {
             let a = -.pi / 2 + Double(i) * .pi / 48
-            light.addLine(to: CGPoint(x: 20 + side * (1-2*phase) * radius * cos(a), y: 20 + radius*sin(a)))
+            light.addLine(to: CGPoint(x: rect.midX + side * (1-2*fraction) * radius * cos(a), y: rect.midY + radius*sin(a)))
         }
         light.closeSubpath()
-        ctx.fill(light, with: .color(paper))
+        return light
     }
 }

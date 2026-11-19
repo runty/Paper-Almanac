@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum DailyTheme: String, CaseIterable, Identifiable {
-    case tungShing, celestialAlmanac, editorialDay, tongsheng, huangli, fuji
+    case tungShing, celestialAlmanac, editorialDay, tongsheng, huangli, fuji, moon
     case showa, koyomi, deskLedger = "deskBlock", almanacColumns
     var id: Self { self }
     static let calendarLayoutKey = "print.himekuriCalendar"
@@ -43,6 +43,7 @@ enum DailyTheme: String, CaseIterable, Identifiable {
     }
 
     var widgetPaper: Color {
+        if self == .moon { return MoonFace.paper }
         if self == .fuji { return FujiFace.paper }
         if self == .celestialAlmanac { return CelestialFace.paper }
         return original?.paper ?? Color(red: 1, green: 0.994, blue: 0.98)
@@ -52,6 +53,7 @@ enum DailyTheme: String, CaseIterable, Identifiable {
         case .tungShing: "Yut Lik"
         case .celestialAlmanac: "Celestial Almanac"
         case .fuji: "Fuji"
+        case .moon: "Moon"
         case .deskLedger: "Desk Ledger"
         case .almanacColumns: "Almanac Columns"
         case .editorialDay: "Editorial Day"
@@ -64,10 +66,12 @@ struct Sheet {
     let label: String
     var page: PrintedDay?
     var loading = false
+    var skySite = SkySite.saved
     func description(for theme: DailyTheme, calendarLayout: Bool) -> String {
         if theme == .tungShing, let page, let proverb = ChineseProverb.on(page.date) {
             return description + " Chinese proverb. " + proverb.english
         }
+        if theme == .moon, let page { return MoonReading(page, site: skySite).summary }
         if theme == .fuji, let page { return FujiReading(page).summary }
         if theme == .celestialAlmanac, let page { return label + ". " + CelestialReading(page).summary }
         guard calendarLayout, let original = theme.original, let page else { return description }

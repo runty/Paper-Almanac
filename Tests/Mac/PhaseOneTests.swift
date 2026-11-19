@@ -167,6 +167,37 @@ final class PhaseOneTests: XCTestCase {
         add(proof)
     }
 
+    @MainActor func testMoonOrdinaryDarkSkyAndAnniversaryPages() async throws {
+        let pages = try await DayReader.load(["2027-01-18", "2027-01-07", "2027-07-20", "1950-07-20"])
+        XCTAssertFalse(MoonReading(pages[0]).darkSky)
+        XCTAssertTrue(MoonReading(pages[1]).darkSky)
+        XCTAssertEqual(MoonReading(pages[1]).constellation, .orion)
+        XCTAssertEqual(MoonReading(pages[2]).milestone?.name, "Apollo 11")
+        XCTAssertNil(MoonReading(pages[3]).milestone)
+        let sydney = MoonReading(pages[1], site: SkySite(latitude: -34, longitude: 151),
+                                 zone: try XCTUnwrap(TimeZone(identifier: "Australia/Sydney")))
+        XCTAssertNotNil(sydney.localSky)
+        XCTAssertTrue(sydney.note.contains("9 PM"))
+        XCTAssertTrue(sydney.caption.contains("Local sky"))
+        XCTAssertTrue(MoonReading(pages[1]).caption.contains("Northern sky"))
+        let midsummer = try await DayReader.load(["2027-06-21"])[0]
+        let midnightSun = MoonReading(midsummer, site: SkySite(latitude: 78, longitude: 16),
+                                     zone: try XCTUnwrap(TimeZone(identifier: "Europe/Oslo")))
+        XCTAssertEqual(midnightSun.localSky?.darkEnough, false)
+        XCTAssertTrue(midnightSun.note.contains("still bright"))
+        for page in pages.prefix(3) {
+            let sheet = Sheet(label: page.date.label, page: page)
+            let renderer = ImageRenderer(content: SheetView(sheet: sheet, theme: .moon))
+            renderer.scale = 3
+            let cg = try XCTUnwrap(renderer.cgImage)
+            let png = try XCTUnwrap(NSBitmapImageRep(cgImage: cg).representation(using: .png, properties: [:]))
+            let proof = XCTAttachment(data: png, uniformTypeIdentifier: "public.png")
+            proof.name = "Moon-" + page.date.label
+            proof.lifetime = .keepAlways
+            add(proof)
+        }
+    }
+
     @MainActor func testFujiReferenceAndWeekday() async throws {
         let pages = try await DayReader.load(["2027-01-01", "2027-01-04"])
         for (index, page) in pages.enumerated() {
@@ -200,7 +231,7 @@ final class PhaseOneTests: XCTestCase {
         XCTAssertEqual(DailyTheme(rawValue: "deskBlock")?.title, "Desk Ledger")
         XCTAssertNil(DailyTheme(rawValue: "brutalist"))
         XCTAssertNil(DailyTheme(rawValue: "calendarPoster"))
-        XCTAssertEqual(DailyTheme.allCases, [.tungShing, .celestialAlmanac, .editorialDay, .tongsheng, .huangli, .fuji,
+        XCTAssertEqual(DailyTheme.allCases, [.tungShing, .celestialAlmanac, .editorialDay, .tongsheng, .huangli, .fuji, .moon,
                                              .showa, .koyomi, .deskLedger, .almanacColumns])
         XCTAssertEqual(DailyTheme.allCases.filter(\.opensWithCalendar), [.showa, .koyomi])
         for example in pages {
@@ -223,7 +254,7 @@ final class PhaseOneTests: XCTestCase {
                 }
             }
         }
-        XCTAssertEqual(rendered.count, 42)
+        XCTAssertEqual(rendered.count, 45)
         let leapDay = try await DayReader.load(["2024-02-29"])[0]
         let february = DayInfo(page: leapDay).grid
         XCTAssertEqual(february.first, [nil, nil, nil, nil, 1, 2, 3])

@@ -18,6 +18,8 @@ struct SheetView: View {
                         Color.clear.frame(height: 25)
                         PrintFace(day: page).scaleEffect(0.75).frame(width: 300, height: 375)
                     }
+                } else if theme == .moon {
+                    MoonFace(reading: MoonReading(page, site: sheet.skySite), widget: widgetSize != nil)
                 } else if theme == .fuji {
                     FujiFace(reading: FujiReading(page))
                 } else if let t = theme.original {

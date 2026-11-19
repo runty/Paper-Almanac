@@ -31,6 +31,11 @@ final class PadStore: ObservableObject {
     var remainingFraction: Double {
         CivilDay.remainingPaper(on: top.label)
     }
+    func updateSkySite(_ site: SkySite?) {
+        if top.skySite != site { top.skySite = site }
+        if next.skySite != site { next.skySite = site }
+    }
+
     func refreshToday() {
         let previous = dates.visible
         readDates()

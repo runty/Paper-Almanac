@@ -1,4 +1,5 @@
 import XCTest
+import CoreLocation
 
 final class MobileUITests: XCTestCase {
     private let dates = ["2026-10-31", "2026-11-06", "2026-11-11"]
@@ -32,6 +33,39 @@ final class MobileUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Clean your home"].waitForExistence(timeout: 5))
         app.buttons["Done"].tap()
         XCTAssertTrue(app.descendants(matching: .any)["daily-sheet-2026-11-06"].exists)
+    }
+
+    @MainActor func testMoonUsesSeasonalSkyUntilLocationIsSelected() {
+        let app = XCUIApplication()
+        app.resetAuthorizationStatus(for: .location)
+        let device = XCUIDevice.shared
+        let oldLocation = device.location
+        device.location = XCUILocation(location: CLLocation(latitude: -33.87, longitude: 151.21))
+        defer { device.location = oldLocation }
+        app.launch()
+        let palette = app.buttons["Theme"]
+        let previous = palette.value as? String
+        palette.tap()
+        app.buttons["Moon"].tap()
+        let sheet = show("2027-01-18", in: app)
+        let system = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        XCTAssertTrue(sheet.label.contains("Northern sky"))
+        XCTAssertFalse(system.alerts.firstMatch.exists)
+
+        func toggleLocation() {
+            palette.tap()
+            app.descendants(matching: .any)["Use Current Location"].firstMatch.tap()
+        }
+        toggleLocation()
+        let allow = system.buttons["Allow While Using App"]
+        XCTAssertTrue(allow.waitForExistence(timeout: 8))
+        allow.tap()
+        let local = NSPredicate(format: "label CONTAINS %@", "Local sky")
+        XCTAssertTrue(app.descendants(matching: .any).matching(local).firstMatch.waitForExistence(timeout: 15))
+        XCTAssertTrue(sheet.label.contains("9 PM"))
+        toggleLocation()
+        XCTAssertTrue(sheet.label.contains("Northern sky"))
+        if let previous, previous != "Moon" { palette.tap(); app.buttons[previous].tap() }
     }
 
     @MainActor func testAboutIncludesFujiCredits() {

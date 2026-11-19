@@ -33,6 +33,7 @@ private struct DayCommands: Commands {
 }
 
 private struct AlmanacWindow: View {
+    @ObservedObject private var location = MoonLocation.shared
     @StateObject private var store = PadStore()
     @AppStorage(DailyTheme.key, store: DailyTheme.defaults) private var theme: DailyTheme = .tungShing
     @AppStorage(PadStore.advanceKey) private var liveAdvance: String?
@@ -78,6 +79,11 @@ private struct AlmanacWindow: View {
                     )) {
                         Label("Auto Change Date", systemImage: "calendar.badge.clock")
                     }
+                    if theme == .moon {
+                        Toggle(isOn: Binding(get: { location.enabled }, set: location.setEnabled)) {
+                            Label("Use Current Location", systemImage: "location")
+                        }
+                    }
                     Button("About", systemImage: "info.circle") { showingAbout = true }
                     Divider()
                     Picker("Theme", selection: themeSelection) {
@@ -120,11 +126,20 @@ private struct AlmanacWindow: View {
         .preferredColorScheme(.light)
         .focusedSceneValue(\.dayNavigation, pickingDate ? nil : DayNavigation(pad: store, pickDate: openPicker))
         .onChange(of: calendarLayout) { WidgetCenter.shared.reloadTimelines(ofKind: "TungShingDailyWidget") }
-        .onChange(of: theme) { WidgetCenter.shared.reloadTimelines(ofKind: "TungShingDailyWidget") }
+        .onAppear { if theme == .moon { location.refresh() } }
+        .onReceive(location.$site) { store.updateSkySite($0) }
+        .alert("Sky Notes", isPresented: Binding(get: { location.message != nil }, set: { if !$0 { location.message = nil } })) {
+            Button("OK") { location.message = nil }
+        } message: { Text(location.message ?? "") }
+        .onChange(of: theme) {
+            if theme == .moon { location.refresh() }
+            WidgetCenter.shared.reloadTimelines(ofKind: "TungShingDailyWidget")
+        }
         .onChange(of: liveAdvance) { store.refreshToday() }
         .onChange(of: heldDay) { store.refreshToday() }
         .onChange(of: phase) {
             if phase == .active {
+                if theme == .moon { location.refresh() }
                 store.refreshToday()
                 WidgetCenter.shared.reloadTimelines(ofKind: "TungShingDailyWidget")
             }
@@ -194,7 +209,12 @@ private struct AccessibleDay: View {
             VStack(alignment: .leading, spacing: 16) {
                 Button(action: today) { Text(verbatim: sheet.label).font(.title.bold()) }
                     .buttonStyle(.plain).accessibilityHint("Return to today")
-                if let day = sheet.page, theme == .fuji {
+                if let day = sheet.page, theme == .moon {
+                    let reading = MoonReading(day, site: sheet.skySite)
+                    Text(verbatim: [reading.phase, reading.illumination].compactMap { $0 }.joined(separator: " · "))
+                    Text(verbatim: reading.caption).font(.headline)
+                    Text(verbatim: reading.note)
+                } else if let day = sheet.page, theme == .fuji {
                     let reading = FujiReading(day)
                     Text(verbatim: reading.weekday)
                     if let holiday = reading.holidayLine { Text(verbatim: holiday) }

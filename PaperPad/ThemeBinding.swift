@@ -5,10 +5,12 @@ struct ThemeBinding: View {
     let theme: DailyTheme
 
     var body: some View {
-        if theme == .editorialDay || theme == .deskLedger {
+        if theme == .editorialDay || theme == .deskLedger || theme == .moon {
             Group {
                 if theme == .editorialDay {
                     EditorialLinen()
+                } else if theme == .moon {
+                    LinearGradient(colors: [Color(white: 0.54), MoonFace.blue], startPoint: .top, endPoint: .bottom)
                 } else {
                     LinearGradient(stops: [
                         .init(color: Color(white: 0.88), location: 0),

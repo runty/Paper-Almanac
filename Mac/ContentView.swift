@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var store = PadStore.shared
+    @ObservedObject private var location = MoonLocation.shared
     var pageScale: CGFloat = 1
     private var theme: PageTheme { store.theme.original ?? .tongsheng }
 
@@ -16,14 +17,19 @@ struct ContentView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onAppear {
             store.refreshToday()
+            if store.theme == .moon { location.refresh() }
         }
+        .onReceive(location.$site) { store.updateSkySite($0) }
+        .alert("Sky Notes", isPresented: Binding(get: { location.message != nil }, set: { if !$0 { location.message = nil } })) {
+            Button("OK") { location.message = nil }
+        } message: { Text(location.message ?? "") }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(store.top.description(for: store.theme, calendarLayout: store.calendarLayout))
         .accessibilityIdentifier("daily-sheet-" + store.top.label + (store.top.page == nil ? "-pending" : ""))
         .accessibilityValue(store.top.label)
         .accessibilityAction(named: "Tear to next day") { store.tear() }
         .accessibilityAction(named: "Today") { store.today() }
-        .activityListActions(store: store, enabled: store.theme != .fuji)
+        .activityListActions(store: store, enabled: store.theme != .fuji && store.theme != .moon)
         .activityLists(store: store, theme: store.theme)
     }
 

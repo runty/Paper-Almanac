@@ -100,6 +100,7 @@ private enum CalendarSize: Int, CaseIterable {
         }
         menu.addItem(withTitle: "Calendar Size", action: nil, keyEquivalent: "").submenu = sizes
         action("Auto Change Date", #selector(toggleAutomaticDate))
+        action("Use Current Location", #selector(toggleMoonLocation))
         action("Show Month Calendar", #selector(toggleLayout))
         menu.delegate = self
         menu.addItem(.separator())
@@ -115,6 +116,9 @@ private enum CalendarSize: Int, CaseIterable {
         for option in menu.items {
             if option.action == #selector(toggleAutomaticDate) {
                 option.state = store.automaticallyUpdatesDate ? .on : .off
+            } else if option.action == #selector(toggleMoonLocation) {
+                option.isHidden = store.theme != .moon
+                option.state = MoonLocation.shared.enabled ? .on : .off
             } else if option.action == #selector(toggleLayout) {
                 option.isHidden = store.theme.original == nil
                 option.title = store.calendarLayout ? "Show Do and Don’t" : "Show Month Calendar"
@@ -180,6 +184,7 @@ private enum CalendarSize: Int, CaseIterable {
     }
 
     @objc private func refresh() {
+        if store.theme == .moon { MoonLocation.shared.refresh() }
         store.refreshToday()
         updateMenuBarDate()
     }
@@ -190,6 +195,9 @@ private enum CalendarSize: Int, CaseIterable {
     private func showPad() { pad?.makeKeyAndOrderFront(nil); NSApp.activate() }
     @objc private func toggleAutomaticDate() {
         store.setAutomaticallyUpdatesDate(!store.automaticallyUpdatesDate)
+    }
+    @objc private func toggleMoonLocation() {
+        MoonLocation.shared.setEnabled(!MoonLocation.shared.enabled)
     }
     @objc private func today() { store.today(); showPad() }
     @objc private func aboutApp() {
@@ -220,6 +228,7 @@ private enum CalendarSize: Int, CaseIterable {
         DailyTheme.defaults.set(store.calendarLayout, forKey: DailyTheme.calendarLayoutKey)
         DailyTheme.defaults.set(value, forKey: DailyTheme.key)
         store.theme = theme
+        if theme == .moon { MoonLocation.shared.refresh() }
         WidgetCenter.shared.reloadTimelines(ofKind: "TungShingDailyWidget")
     }
     @objc private func jump() {
