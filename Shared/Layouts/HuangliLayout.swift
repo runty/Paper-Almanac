@@ -1,0 +1,249 @@
+//
+//  HuangliLayout.swift
+//  himekuri
+//
+//  黄历 — the Mandarin name for the same almanac the 通勝 page prints, and so
+//  set in its own register: simplified characters throughout, and none of the
+//  Hijri dating the Southeast Asian pads carry. Green on white inside a double
+//  rule, the weekday standing in a filled column, and the 八卦 wheel stamped in
+//  the middle of the day's judgements.
+//
+
+import SwiftUI
+
+struct HuangliLayout: View {
+    let info: DayInfo
+    let t: PageTheme
+    @Environment(\.isWidgetSheet) private var isWidgetSheet
+
+
+
+
+    /// 黄历 is the mainland name, so the page is set in mainland characters.
+    private func cn(_ text: String) -> String { ChineseScript.simplified.render(text) }
+
+    var body: some View {
+        ZStack {
+            // The double rule an almanac page is boxed in.
+            if !isWidgetSheet {
+                Rectangle()
+                    .strokeBorder(t.ink.opacity(0.9), lineWidth: 2.2)
+                    .padding(7)
+                Rectangle()
+                    .strokeBorder(t.ink.opacity(0.9), lineWidth: 0.7)
+                    .padding(11.5)
+            }
+
+            VStack(spacing: 0) {
+                Spacer().frame(height: 26)
+                masthead
+                hero
+                lunarLine
+                if info.calendarLayout {
+                    MonthGrid(info: info, t: t, customHeaders: Array("日一二三四五六").map(String.init))
+                        .frame(maxWidth: .infinity).padding(.vertical, 4)
+                } else {
+                    adviceBlock
+                }
+                pillarRow
+                Spacer(minLength: 0)
+                footer
+                Spacer().frame(height: 16)
+            }
+            .padding(.horizontal, 20)
+        }
+    }
+
+    // MARK: - Masthead
+
+    private var masthead: some View {
+        VStack(spacing: 2) {
+            Text(verbatim: "公历 \(info.year)年\(info.month)月 · \(monthNamesEN[info.month])")
+                .font(.system(size: 7.5, weight: .semibold, design: .serif))
+                .tracking(0.5)
+                .foregroundStyle(t.ink.opacity(0.85))
+            HStack(spacing: 7) {
+                Text(verbatim: cn(info.report.yearPillar.label) + "年")
+                    .font(Theme.mincho(14))
+                Text(verbatim: "【\(cn(info.report.yearZodiac))】")
+                    .font(Theme.mincho(12))
+            }
+            .foregroundStyle(t.ink)
+            Rectangle()
+                .fill(t.ink.opacity(0.7))
+                .frame(height: 0.7)
+                .padding(.top, 4)
+        }
+    }
+
+    // MARK: - Hero
+
+    /// Numeral in the middle, the good-luck couplet down one side and the
+    /// weekday standing in a filled column down the other.
+    private var hero: some View {
+        HStack(alignment: .center, spacing: 0) {
+            VerticalText("恭喜发财", font: Theme.mincho(9), color: t.ink, spacing: 2)
+                .frame(width: 26)
+
+            Spacer(minLength: 0)
+
+            Text(verbatim: "\(info.day)")
+                .font(.system(size: 78, weight: .black, design: .serif))
+                .foregroundStyle(t.ink)
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+                .dayNumberTarget()
+
+            Spacer(minLength: 0)
+
+            HStack(spacing: 2) {
+                Text(verbatim: weekdayNamesEN[info.weekday])
+                    .font(.system(size: 6, weight: .heavy, design: .serif))
+                    .tracking(0.6)
+                    .rotationEffect(.degrees(90))
+                    .fixedSize()
+                    .frame(width: 9)
+                VerticalText(
+                    "星期" + ["日", "一", "二", "三", "四", "五", "六"][info.weekday - 1],
+                    font: Theme.mincho(11), color: t.paper, spacing: 2
+                )
+                .padding(.vertical, 5)
+                .padding(.horizontal, 3.5)
+                .background(t.ink, in: .rect(cornerRadius: 1))
+            }
+            .frame(width: 34)
+        }
+        .frame(height: 104)
+    }
+
+    // MARK: - The lunisolar date
+
+    private var lunarLine: some View {
+        VStack(spacing: 3) {
+            HStack(spacing: 5) {
+                Text(verbatim: "农历")
+                    .font(.system(size: 8, weight: .bold))
+                    .foregroundStyle(t.paper)
+                    .padding(.vertical, 2)
+                    .padding(.horizontal, 4)
+                    .background(t.ink, in: .rect(cornerRadius: 1))
+                Text(verbatim: cn(info.report.lunarMonthLabel))
+                    .font(Theme.mincho(12))
+                Text(verbatim: info.report.lunarDayLabel + "日")
+                    .font(Theme.mincho(17))
+            }
+            .foregroundStyle(t.ink)
+
+            // 節氣 and festivals are the calendar's own landmarks; the slot
+            // holds its height so the block below never shifts.
+            Group {
+                if let name = info.page.holiday?.chinese ?? info.report.termOnDate.map(termName) {
+                    Text(verbatim: cn(name))
+                        .font(Theme.mincho(8.5))
+                        .foregroundStyle(t.paper)
+                        .padding(.horizontal, 5)
+                        .padding(.vertical, 1)
+                        .background(t.ink, in: .rect(cornerRadius: 1))
+                } else if let phase = info.phase {
+                    Text(verbatim: phase)
+                        .font(Theme.mincho(8.5))
+                        .foregroundStyle(t.ink)
+                }
+            }
+            .frame(height: 13)
+        }
+        .padding(.top, 6)
+    }
+
+    // MARK: - 宜 / 忌, either side of the wheel
+
+    private var adviceBlock: some View {
+        HStack(alignment: .center, spacing: 0) {
+            column("宜", info.chineseActivities(info.page.recommended, empty: "無所宜").map(cn))
+                .activityLink(day: info.page.date.label, side: .recommended)
+            Spacer(minLength: 0)
+            VStack(spacing: 3) {
+                BaguaWheel(color: t.ink, size: 58)
+                Text(verbatim: info.report.dayPillar.label).font(Theme.mincho(9))
+            }
+            Spacer(minLength: 0)
+            column("忌", info.chineseActivities(info.page.avoided, empty: info.report.trace.avoidsEverything ? "諸事皆忌" : "無所忌").map(cn))
+                .activityLink(day: info.page.date.label, side: .avoided)
+        }
+        .padding(.top, 8)
+        .frame(height: 96)
+    }
+
+    private func column(_ head: String, _ items: [String]) -> some View {
+        VStack(spacing: 2.5) {
+            Text(verbatim: head)
+                .font(Theme.mincho(15))
+                .foregroundStyle(t.paper)
+                .frame(width: 19, height: 19)
+                .background(t.ink, in: .rect(cornerRadius: 1))
+            ForEach(items, id: \.self) { item in
+                Text(verbatim: item)
+                    .font(Theme.mincho(8.5))
+                    .foregroundStyle(t.ink)
+            }
+        }
+        .frame(width: 54)
+    }
+
+    // MARK: - The day's own pillar, and what follows from it
+
+    /// 戊申金虚宿除日 — set as one string, the way the old pages run it together.
+    private var pillarRow: some View {
+        VStack(spacing: 4) {
+            Text(verbatim: cn(info.report.dayPillar.label + String(info.report.nayin.suffix(1)) + info.report.mansion + (info.report.officer + "日")))
+                .font(Theme.mincho(13))
+                .foregroundStyle(t.paper)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 3)
+                .background(t.ink, in: .rect(cornerRadius: 1))
+
+            HStack(spacing: 0) {
+                Text(verbatim: "吉时 " + openHours)
+                    .font(Theme.mincho(8.5))
+                    .frame(maxWidth: .infinity)
+            }
+            .foregroundStyle(t.ink)
+
+            HStack(spacing: 0) {
+                ForEach(Array(info.report.luckyDirections.prefix(3)), id: \.self) { part in
+                    Text(verbatim: part)
+                        .font(Theme.mincho(8))
+                        .frame(maxWidth: .infinity)
+                }
+            }
+            .foregroundStyle(t.ink)
+        }
+        .padding(.top, 8)
+    }
+
+    /// The open double-hours run together — 子丑寅巳申酉 — as the old pages set
+    /// them, rather than the 通勝 page's grid. Branch names are script-neutral.
+    private var openHours: String {
+        (0..<12)
+            .filter { !info.report.hourLuckIsInauspicious[$0] }
+            .map { hourBranches[$0] }
+            .joined()
+    }
+
+    // MARK: - Footer
+
+    private var footer: some View {
+        HStack(spacing: 0) {
+            Text(verbatim: "宜忌依黄历")
+                .font(Theme.mincho(7))
+                .foregroundStyle(t.ink.opacity(0.75))
+            Spacer(minLength: 0)
+            Text(verbatim: "黄历")
+                .font(Theme.mincho(10))
+                .foregroundStyle(t.paper)
+                .frame(width: 20, height: 20)
+                .background(t.ink.opacity(0.9), in: .rect(cornerRadius: 2))
+                .rotationEffect(.degrees(-2))
+        }
+    }
+}

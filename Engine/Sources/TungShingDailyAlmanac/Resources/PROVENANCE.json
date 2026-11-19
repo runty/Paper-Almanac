@@ -1,0 +1,119 @@
+{
+  "format": "tung-shing-daily-almanac-resources/v1",
+  "allowedUses": [
+    "development",
+    "internalBuild",
+    "release"
+  ],
+  "releaseAdmission": "Existing +08 pair retains its prior release admission; Japanese lunar context derives from admitted regional-lunar-calendars-1. Celestial daily nine-star is an explicitly named annotation variant. CelestialSky is a bounded approximate illustration, not a new accepted calendar/chart capability. CelestialHistory imports the finite source-reviewed 2026-11-18 corpus with GCAT CC BY 4.0 attribution; see each canonical research/import record. Celestial elapsed moon age is a bounded numerical annotation derived from the admitted calendar root inventory, not a new calendar or chart capability. FujiHolidays exposes the unchanged admitted OFFICIAL-HOLIDAYS-JP-1955-2027-v1 table through a shared narrow provider target.",
+  "resources": [
+    {
+      "file": "calendar-1901-2100-runtime.json",
+      "sha256": "ddf89a6787fd12401a0ba5e515869e58d2686d8970db826dcf783a7d2b2ad907",
+      "repository": "https://github.com/runty/tung-shing-research",
+      "source": "docs/handoff/extensions/calendar-1901-2100-1/RUNTIME_DATA.json",
+      "candidate": "c6c8c8791b59226a02bdc1877bef5639222d5593",
+      "admission": "12e7e3d34aaef9777c56cd70ae2c3fa1dac34dbf",
+      "transformation": "Byte-identical copy of already admitted Sources/TungShingEngine/Resources asset",
+      "terms": "Own generated work; DE440 data under NAIF rules; HKO source tables are not distributed"
+    },
+    {
+      "file": "calendar-1901-2100-context-terms.json",
+      "sha256": "7021dbde2d23d844af80a150a6c7c6436fd10f45644b90e6ebace3e343f142f8",
+      "repository": "https://github.com/runty/tung-shing-research",
+      "source": "docs/handoff/extensions/calendar-context-terms-1/CONTEXT_TERMS.json",
+      "candidate": "2a57de435f39335ae47bfd0c3350fcfd1b0de5bd",
+      "admission": "ef1e2ef7ee712932a7a0e373954a1fbf903d1cf6",
+      "transformation": "Byte-identical copy of already admitted Sources/TungShingEngine/Resources asset",
+      "terms": "Own generated work; DE440 data under NAIF rules"
+    },
+    {
+      "file": "almanac-1901-2100-differences.json",
+      "sha256": "0eb390a0acd1cede1016837a90e82fa85abbe6dfb2840dad0cdbd75fe5b05ab2",
+      "repository": "https://github.com/runty/tung-shing-research",
+      "source": "docs/handoff/extensions/almanac-1901-2100-1/ALMANAC_DIFFERENCES.json",
+      "candidate": "90e79a0002dca1bf2a03d0394c64d91cb4a16563",
+      "admission": "50413df01c904a4f009d07a3e375f48daafa1fdb",
+      "transformation": "Byte-identical copy of already admitted Sources/TungShingEngine/Resources asset",
+      "terms": "Own comparison results derived from MIT cnlunar rules"
+    },
+    {
+      "file": "celestial-japanese-context.json",
+      "sha256": "e35d9cfd5e57a130d2145f116f85f8e09c15ec0e1cbc9b1e7fbac6f1fce39d17",
+      "repository": "https://github.com/runty/tung-shing-research",
+      "source": "docs/handoff/extensions/regional-lunar-calendars-1/RUNTIME_UTC9.json",
+      "sourceSHA256": "6c6798a78ea1b09c4658f5ad01719dc92bb30ac397ee00068403be60c0857fca",
+      "candidate": "e5012c5ac4dd0098fd089072fa5af57029d75b24",
+      "admission": "docs/handoff/extensions/accepted/regional-lunar-calendars-1/DECISION.json",
+      "transformation": "Own deterministic extraction via docs/research/celestial-almanac/build_japanese_context.py; retains month identities, solstice/context dates and sensitive conjunction dates only",
+      "terms": "Own generated work; JPL DE440 data under NAIF rules; no NAOJ tables or third-party code copied"
+    },
+    {
+      "file": "celestial-conjunctions.json",
+      "sha256": "9abaf747539299e3cda06cbdd04d4b040108ecd743f45bf24b535ae5a34f22bf",
+      "repository": "https://github.com/runty/tung-shing-research",
+      "source": "docs/handoff/calendar-pack/review/certified-roots/LOCAL_ROOTS.json",
+      "sourceSHA256": "61a0e9bf2e53fb890ff873ca8e6508fd2beab35913553f7fdada219f6e6c6a22",
+      "sourceAdmission": "Same pinned root inventory used by admitted calendar-1901-2100-1 (admission 12e7e3d34aaef9777c56cd70ae2c3fa1dac34dbf); this finite conjunction-age annotation is independently verified in MOON_AGE_REFERENCE.json",
+      "eventModel": "DE440S-SKYFIELD155-SCALAR-REAL-v1",
+      "transformation": "Own extraction via docs/research/celestial-almanac/build_moon_age.py; retains 2476 conjunction 4ms TT-window midpoints rounded to milliseconds since J2000.0 TT, including predecessor/successor halo; no solar terms, projections or source observations",
+      "clock": "12:00 fixed reference UTC; frozen TT-reference-clock=69.184 seconds (K37), not official historical/future UTC",
+      "verification": "docs/research/celestial-almanac/MOON_AGE_REFERENCE.json; all 73049 noons have unambiguous preceding roots; all retained roots independently checked with DE440/Skyfield",
+      "terms": "Own generated mathematical data derived from NASA/JPL DE440 under the existing NAIF rules; no third-party software, prose or calendar source tables copied"
+    }
+  ],
+  "ruleImplementation": "Existing TungShingAlmanac, cnlunar-3f674fe-8char-noon-calendar-fixes-1901-2100-v1",
+  "notices": "THIRD_PARTY_NOTICES.txt",
+  "excluded": "No broad registry, personal/chart-system, consultation or saved-document resources; no third-party calendar source tables or source code except the existing admitted Cabinet Office Japanese national holiday table in the shared target. Compiled CelestialHistory anniversary facts and CelestialSky mathematical coefficients are the explicit narrow annotations recorded below. The small Japanese context remains separate from the +08 report. No GCAT archive, historical research evidence, numerical ephemeris or sky validation fixture is bundled.",
+  "annotationImplementation": "CelestialTraditions (celestial-traditions-1), CelestialSky (celestial-sky-2), and CelestialHistory (celestial-history-2026-11-18-v1); per-annotation canonical research and import references below. FujiHolidays delegates only to the unchanged shared JapanHolidays provider.",
+  "annotations": [
+    {
+      "implementation": "CelestialTraditions",
+      "revision": "celestial-traditions-1",
+      "runtimeFile": "Sources/TungShingDailyAlmanac/CelestialTraditions.swift",
+      "repository": "https://github.com/runty/tung-shing-research",
+      "canonicalResearch": "docs/research/celestial-almanac/README.md",
+      "canonicalResearchSHA256": "cd801b1c87a69eebafb995e427e14b453ac604b8f17681fd7db5b91b91bb7acb",
+      "engineImportOrMethodRecord": "docs/design/DAILY_ALMANAC_PRODUCT.md",
+      "pathConvention": "canonicalResearch is relative to repository; runtimeFile and engineImportOrMethodRecord are relative to the engine source root.",
+      "researchRevision": "54bf9548d8d0781c715572871c30c3689a3efc45"
+    },
+    {
+      "implementation": "CelestialSky",
+      "revision": "celestial-sky-2",
+      "runtimeFile": "Sources/TungShingDailyAlmanac/CelestialSky.swift",
+      "repository": "https://github.com/runty/tung-shing-research",
+      "canonicalResearch": "docs/research/celestial-almanac/SKY_METHOD.md",
+      "canonicalResearchSHA256": "02334c9de15c9152b672b10e7a81c47cb9325eff513e8086195520030abfad6f",
+      "engineImportOrMethodRecord": "docs/design/CELESTIAL_SKY.md",
+      "pathConvention": "canonicalResearch is relative to repository; runtimeFile and engineImportOrMethodRecord are relative to the engine source root.",
+      "elapsedAgeRevision": "celestial-elapsed-moon-age-2",
+      "researchRevision": "54bf9548d8d0781c715572871c30c3689a3efc45"
+    },
+    {
+      "implementation": "CelestialHistory",
+      "revision": "celestial-history-2026-11-18-v1",
+      "runtimeFile": "Sources/TungShingDailyAlmanac/CelestialHistory.swift",
+      "repository": "https://github.com/runty/tung-shing-research",
+      "canonicalResearch": "docs/research/celestial-almanac/HISTORY_PROVENANCE.json",
+      "canonicalResearchSHA256": "2e42ba9ba26a8d2072f092378d39ccc154e829294396bdccefc99a37a4dce452",
+      "engineImportOrMethodRecord": "docs/celestial-history-provenance.json",
+      "pathConvention": "canonicalResearch is relative to repository; runtimeFile and engineImportOrMethodRecord are relative to the engine source root.",
+      "researchRevision": "54bf9548d8d0781c715572871c30c3689a3efc45"
+    }
+  ],
+  "sharedTargetResources": [
+    {
+      "target": "TungShingJapanHolidays",
+      "file": "HolidayData/JP_RUNTIME_DATA.json",
+      "sha256": "147a8cd38f097c8c5319fb4342f57e143bf9cbda7df5d4090295f8d896ddfe7b",
+      "repository": "https://github.com/runty/tung-shing-research",
+      "source": "docs/handoff/extensions/regional-holidays-jp-1/RUNTIME_DATA.json",
+      "candidate": "81f5d301a780316c248b44d8a768ef5b6c28e384",
+      "admission": "e3eb3f81f236facfa672472d34ebf59922c63ee4 / docs/handoff/extensions/accepted/regional-holidays-jp-1/DECISION.json",
+      "transformation": "No content transformation; existing regional Swift implementation and byte-identical admitted table moved into one shared narrow target",
+      "terms": "Cabinet Office, Government of Japan; Public Data License (Version 1.0), compatible with CC BY 4.0; attribution in THIRD_PARTY_NOTICES.txt",
+      "coverage": "1955-01-01 through 2027-12-31 inclusive; no extrapolation"
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+name: TungShingDaily
+options:
+  deploymentTarget:
+    macOS: "27.0"
+    iOS: "27.1"
+  xcodeVersion: "27.2"
+packages:
+  Engine:
+    path: Engine
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    PAPER_ALMANAC_BUNDLE_ID: org.paperalmanac.dev
+    PAPER_ALMANAC_APP_GROUP: group.org.paperalmanac.dev
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+    CURRENT_PROJECT_VERSION: 4
+    MARKETING_VERSION: 0.2.0
+    ENABLE_HARDENED_RUNTIME: YES
+    CODE_SIGN_ENTITLEMENTS: Shared/Daily.entitlements
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+targetTemplates:
+  Almanac:
+    platform: macOS
+    sources:
+      - path: Shared
+        excludes: ["*.entitlements"]
+      - DailyProof/DayReader.swift
+      - DailyProof/TungShingNumeral.swift
+      - DailyProof/Fonts
+      - DailyProof/PrintFace.swift
+      - DailyProof/ChineseProverb.swift
+      - path: DailyProof/Proverbs/ChineseProverbs.tsv
+        buildPhase: resources
+      - DailyProof/DayNumberTarget.swift
+      - DailyProof/ActivityLink.swift
+      - DailyProof/ActivityGlosses.swift
+      - DailyProof/ActivityPreference.swift
+    dependencies:
+      - package: Engine
+        product: TungShingDailyAlmanac
+  MobileSettings:
+    platform: iOS
+    settings:
+      CURRENT_PROJECT_VERSION: 5
+      TARGETED_DEVICE_FAMILY: "1,2"
+      CODE_SIGN_STYLE: Automatic
+      CODE_SIGN_ENTITLEMENTS: Config/Mobile.entitlements
+      ENABLE_HARDENED_RUNTIME: NO
+      SUPPORTS_MACCATALYST: NO
+targets:
+  TungShingMobile:
+    productName: Paper Almanac
+    templates: [Almanac, MobileSettings]
+    platform: iOS
+    type: application
+    sources:
+      - Mobile
+      - About
+      - PaperPad
+    dependencies:
+      - target: DailyHomeWidget
+        embed: true
+    info:
+      path: Config/MobileInfo.plist
+      properties:
+        CFBundleDisplayName: Paper Almanac
+        ITSAppUsesNonExemptEncryption: false
+        PaperAlmanacAppGroup: $(PAPER_ALMANAC_APP_GROUP)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        UISupportedInterfaceOrientations~ipad: [UIInterfaceOrientationPortrait, UIInterfaceOrientationPortraitUpsideDown, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        CFBundleURLTypes:
+          - CFBundleURLSchemes: [tungshingdaily]
+    settings:
+      PRODUCT_NAME: Paper Almanac
+      PRODUCT_BUNDLE_IDENTIFIER: $(PAPER_ALMANAC_BUNDLE_ID)
+      ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+  DailyHomeWidget:
+    platform: iOS
+    templates: [Almanac, MobileSettings]
+    type: app-extension
+    sources: [Widget]
+    info:
+      path: Config/HomeWidgetInfo.plist
+      properties:
+        CFBundleDisplayName: Daily Almanac
+        PaperAlmanacAppGroup: $(PAPER_ALMANAC_APP_GROUP)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: $(PAPER_ALMANAC_BUNDLE_ID).widget
+      APPLICATION_EXTENSION_API_ONLY: YES
+      SKIP_INSTALL: YES
+  TungShingDaily:
+    productName: Paper Almanac
+    type: application
+    templates: [Almanac]
+    sources:
+      - Mac
+      - About
+      - PaperPad
+    dependencies:
+      - target: DailyWidget
+        embed: true
+    info:
+      path: Config/AppInfo.plist
+      properties:
+        PaperAlmanacAppGroup: $(PAPER_ALMANAC_APP_GROUP)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleDisplayName: Paper Almanac
+        ITSAppUsesNonExemptEncryption: false
+        LSApplicationCategoryType: public.app-category.lifestyle
+        LSUIElement: true
+        NSPrincipalClass: NSApplication
+        CFBundleURLTypes:
+          - CFBundleURLSchemes: [tungshingdaily]
+    settings:
+      ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+      PRODUCT_NAME: Paper Almanac
+      PRODUCT_BUNDLE_IDENTIFIER: $(PAPER_ALMANAC_BUNDLE_ID)
+  DailyWidget:
+    type: app-extension
+    templates: [Almanac]
+    sources: [Widget]
+    info:
+      path: Config/WidgetInfo.plist
+      properties:
+        PaperAlmanacAppGroup: $(PAPER_ALMANAC_APP_GROUP)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleDisplayName: Daily Almanac
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: $(PAPER_ALMANAC_BUNDLE_ID).widget
+      SKIP_INSTALL: YES
+      APPLICATION_EXTENSION_API_ONLY: YES
+  MobileWidgetTests:
+    type: bundle.unit-test
+    platform: iOS
+    templates: [Almanac, MobileSettings]
+    sources: [Tests/MobileWidget, Widget/DailyProvider.swift, Widget/WidgetFace.swift]
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: $(PAPER_ALMANAC_BUNDLE_ID).mobile.widgettests
+      CODE_SIGN_ENTITLEMENTS: ""
+      GENERATE_INFOPLIST_FILE: YES
+  MobileUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [Tests/Mobile]
+    dependencies:
+      - target: TungShingMobile
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: $(PAPER_ALMANAC_BUNDLE_ID).mobile.uitests
+      CURRENT_PROJECT_VERSION: 5
+      TARGETED_DEVICE_FAMILY: "1,2"
+      TEST_TARGET_NAME: TungShingMobile
+      CODE_SIGN_STYLE: Automatic
+      CODE_SIGN_ENTITLEMENTS: ""
+      GENERATE_INFOPLIST_FILE: YES
+  DailyTests:
+    type: bundle.unit-test
+    templates: [Almanac]
+    sources: [Tests/Mac, Widget/DailyProvider.swift, Widget/WidgetFace.swift]
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: $(PAPER_ALMANAC_BUNDLE_ID).tests
+      GENERATE_INFOPLIST_FILE: YES
+      CODE_SIGN_ENTITLEMENTS: ""
+  DailyUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources: [Tests/UI]
+    dependencies:
+      - target: TungShingDaily
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: $(PAPER_ALMANAC_BUNDLE_ID).uitests
+      TEST_TARGET_NAME: TungShingDaily
+      GENERATE_INFOPLIST_FILE: YES
+      CODE_SIGN_ENTITLEMENTS: ""
+schemes:
+  TungShingMobile:
+    build:
+      targets:
+        TungShingMobile: all
+    test:
+      targets: [MobileWidgetTests, MobileUITests]
+  TungShingDaily:
+    build:
+      targets:
+        TungShingDaily: all
+    test:
+      targets: [DailyTests, DailyUITests]

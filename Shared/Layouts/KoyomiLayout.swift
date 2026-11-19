@@ -1,0 +1,120 @@
+//
+//  KoyomiLayout.swift
+//  himekuri
+//
+//  The traditional lunar almanac.
+//
+
+import SwiftUI
+
+struct KoyomiLayout: View {
+    @Environment(\.isWidgetSheet) private var isWidgetSheet
+    let info: DayInfo
+    let t: PageTheme
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Spacer().frame(height: 34)
+
+            HStack(alignment: .top, spacing: 0) {
+                // Left: weekday and rokuyō, boxed in red.
+                VStack(spacing: 12) {
+                    VerticalText(info.weekdayKanji, font: Theme.mincho(19), color: t.accent(for: info), spacing: 3)
+                    VerticalText(info.calendarLayout ? info.rokuyo : info.report.officer + "日", font: Theme.mincho(13), color: t.accentRed, spacing: 2)
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 4)
+                        .overlay(Rectangle().stroke(t.accentRed, lineWidth: 1))
+                }
+                .frame(width: 58)
+                .padding(.top, 8)
+
+                Spacer(minLength: 0)
+
+                // Center: the day, written in kanji.
+                VStack(spacing: 8) {
+                    VerticalText(
+                        kanjiNumber(info.day),
+                        font: Theme.mincho(dayFontSize),
+                        color: t.accent(for: info),
+                        spacing: 0
+                    )
+                    .dayNumberTarget()
+                    Text(verbatim: "(\(info.day))")
+                        .font(.system(size: 11, weight: .semibold, design: .serif).monospacedDigit())
+                        .foregroundStyle(t.ink.opacity(0.6))
+                }
+
+                Spacer(minLength: 0)
+
+                // Right: era year and month, the tallest column.
+                VStack(spacing: 12) {
+                    VerticalText(info.calendarLayout ? info.eraYear : info.yearPillar, font: Theme.mincho(12), color: t.ink, spacing: 1)
+                    VerticalText(kanjiNumber(info.month) + "月", font: Theme.mincho(24), color: t.ink, spacing: 2)
+                }
+                .frame(width: 58)
+                .padding(.top, 8)
+            }
+            .padding(.horizontal, 18)
+
+            Spacer(minLength: 2)
+
+            // Old-calendar date.
+            Text(verbatim: "旧暦 \(info.isLeapLunarMonth ? "閏" : "")\(kanjiNumber(info.lunarMonth))月\(kanjiNumber(info.lunarDay))日")
+                .font(Theme.mincho(10))
+                .foregroundStyle(t.ink.opacity(0.75))
+
+            Text(verbatim: info.calendarLayout ? info.proverb.jp : info.lunarCaption)
+                .font(Theme.mincho(11))
+                .foregroundStyle(t.ink)
+                .padding(.top, 5)
+
+            Rectangle()
+                .fill(t.ink.opacity(0.5))
+                .frame(height: 0.6).padding(.horizontal, 35)
+                .padding(.vertical, 7)
+
+            HStack(alignment: .bottom) {
+                Group {
+                    if info.calendarLayout {
+                        MonthGrid(info: info, t: t)
+                    } else {
+                        ActivityPanel(page: info.page, design: .serif)
+                            .padding(.trailing, isWidgetSheet ? 46 : 0)
+                    }
+                }.frame(maxWidth: .infinity)
+            }
+            .overlay(alignment: .bottomTrailing) {
+                seal.padding(.trailing, 20)
+            }
+
+            Spacer().frame(height: 12)
+        }
+    }
+
+    /// Point size for the kanji day, chosen from how many characters it takes.
+    ///
+    /// The column is only as tall as the numeral sets, so a lone 二 used to leave
+    /// a hole under it where 三十一 filled the page. Sizing by character count
+    /// evens the three cases out. A single glyph inks at most 136pt wide, inside
+    /// the 148pt the side columns leave free.
+    ///
+    /// Day count, not `day >= 20`: 二十 and 三十 are two characters, and the old
+    /// test shrank them as if they were three.
+    private var dayFontSize: CGFloat {
+        switch kanjiNumber(info.day).count {
+        case 1: 140
+        case 2: 64
+        default: 52
+        }
+    }
+
+    /// A red hanko seal.
+    private var seal: some View {
+        Text(verbatim: "暦")
+            .font(Theme.mincho(13))
+            .foregroundStyle(t.paper)
+            .frame(width: 22, height: 22)
+            .background(t.accentRed.opacity(0.9), in: .rect(cornerRadius: 2))
+            .rotationEffect(.degrees(-2))
+    }
+}
