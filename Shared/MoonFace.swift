@@ -69,7 +69,7 @@ struct MoonFace: View {
             Text(verbatim: month).tracking(label * 0.13).font(.system(size: label))
             Text(verbatim: String(reading.info.day))
                 .font(.custom("HelveticaNeue-Bold", fixedSize: size))
-                .tracking(-size * 0.05)
+                .fixedSize()
                 .foregroundStyle(reading.info.isSunday || reading.info.page.holiday != nil ? Self.red : Self.ink)
                 .dayNumberTarget()
             Text(verbatim: weekdayNamesEN[reading.info.weekday].uppercased())
