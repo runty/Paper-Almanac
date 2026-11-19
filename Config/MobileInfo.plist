@@ -34,7 +34,7 @@
 	<key>NSLocationDefaultAccuracyReduced</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Moon can use your approximate location for local evening sky notes.</string>
+	<string>Tsukikage can use your approximate location for local evening sky notes.</string>
 	<key>PaperAlmanacAppGroup</key>
 	<string>$(PAPER_ALMANAC_APP_GROUP)</string>
 	<key>UIApplicationSceneManifest</key>

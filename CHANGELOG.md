@@ -2,11 +2,12 @@
 
 ## Unreleased
 
-- Added **Nihon**, a Japanese tear-off theme for Mac, iPhone, iPad, and widgets including CarPlay. Its full page shows Rokuyō, the old-calendar date, the daily mansion, lunar age, and a traditional tide name.
-- Expanded the daily Japanese sayings from 16 to 140. Nihon shows each saying with its English reading on the full page. Shōwa and Koyomi draw from the same rotation.
+- Added **Illyeok**, a Korean tear-off calendar with patterned date numerals, a lunar date, and 31 proverbs in Korean and English. The theme is available on Mac, iPhone, iPad, and their widgets, including CarPlay.
+- Added **Rekichū**, a Japanese tear-off theme for Mac, iPhone, iPad, and widgets including CarPlay. Its full page shows Rokuyō, the old-calendar date, the daily mansion, lunar age, and a traditional tide name.
+- Expanded the daily Japanese sayings from 16 to 140. Rekichū shows each saying with its English reading on the full page. Shōwa and Koyomi draw from the same rotation.
 
-- Added **Moon** to the Mac, iPhone, and iPad apps and their widgets. Its stippled lunar disk follows the daily phase. Dark-sky dates feature constellation drawings, and selected spaceflight anniversaries feature illustrated mission notes.
-- Moon opens with northern mid-latitude sky notes. Enable **Use Current Location** in the app for a local evening guide. Turning it off clears the saved location.
+- Added **Tsukikage** to the Mac, iPhone, and iPad apps and their widgets. Its stippled lunar disk follows the daily phase. Dark-sky dates feature constellation drawings, and selected spaceflight anniversaries feature illustrated mission notes.
+- Tsukikage opens with northern mid-latitude sky notes. Enable **Use Current Location** in the app for a local evening guide. Turning it off clears the saved location.
 
 ## 0.2.3 · November 18, 2026
 

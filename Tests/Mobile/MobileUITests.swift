@@ -46,7 +46,7 @@ final class MobileUITests: XCTestCase {
         let palette = app.buttons["Theme"]
         let previous = palette.value as? String
         palette.tap()
-        app.buttons["Moon"].tap()
+        app.buttons["Tsukikage"].tap()
         let sheet = show("2027-01-18", in: app)
         let system = XCUIApplication(bundleIdentifier: "com.apple.springboard")
         XCTAssertTrue(sheet.label.contains("Northern sky"))
@@ -65,7 +65,7 @@ final class MobileUITests: XCTestCase {
         XCTAssertTrue(sheet.label.contains("9 PM"))
         toggleLocation()
         XCTAssertTrue(sheet.label.contains("Northern sky"))
-        if let previous, previous != "Moon" { palette.tap(); app.buttons[previous].tap() }
+        if let previous, previous != "Tsukikage" { palette.tap(); app.buttons[previous].tap() }
     }
 
     @MainActor func testAboutIncludesFujiCredits() {

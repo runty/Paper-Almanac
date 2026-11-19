@@ -4,7 +4,7 @@
 
 Paper Almanac is based on **Himekuri 日めくり**, Pluk’s original macOS tear-off calendar. It adapts Himekuri’s desktop pad and four of its print styles, Shōwa Print, Koyomi, Huangli, and Tong Sheng. Paper Almanac uses its own Metal paper physics engine to simulate how sheets lift, tear, and fall. [Original Himekuri source](https://github.com/pluk-inc/himekuri) · [Himekuri website](https://himekuri.app/)
 
-Paper Almanac works offline on Mac, iPhone, and iPad and opens to the local date. The default Yut Lik theme shows the lunar date, solar term, a weekly proverb, and the day's Do and Avoid activities. Tap or click an activity list to read it in full. Pick from twelve themes, including Celestial Almanac, Fuji, Moon and Nihon. Widgets follow your selected theme.
+Paper Almanac works offline on Mac, iPhone, and iPad and opens to the local date. The default Yut Lik theme shows the lunar date, solar term, a weekly proverb, and the day's Do and Avoid activities. Tap or click an activity list to read it in full. Pick from thirteen themes, including Celestial Almanac, Fuji, Tsukikage, Rekichū, and Illyeok. Widgets follow your selected theme.
 
 ![Ten of the Mac themes on November 18, 2026](docs/mac-themes.jpg)
 
@@ -14,23 +14,29 @@ Turn off **Auto Change Date** in the menu-bar calendar on Mac or the palette men
 
 The **Extra Large Portrait** widget displays one complete, borderless page in your selected theme. On iPhone, open the widget picker from the Home Screen. On iPad, swipe right from the first Home Screen page to open Today View, then open the picker there. Choose **Paper Almanac** and swipe to the tall preview.
 
-## Nihon
+## Illyeok · 일력
 
-Nihon draws on Shin Nippon Calendar’s small daily tear-off pad. Ordinary weekdays print in black, Saturdays in blue, and Sundays and Japanese public holidays in vermilion. The faint numeral beneath the date belongs to the next sheet.
+Illyeok draws on a Korean wall calendar with a mint-green binding, a miniature month grid, and patterned date numerals. The page gives the lunar date using the Korean Dangi calendar in Seoul time and the day’s sexagenary name. Saturdays print in blue, and Sundays and January 1 print in red. A striped taegeuk sits behind the New Year’s Day numeral.
 
-![Nihon in 2027. Friday, February 19 is black, Saturday, February 20 is blue, and the spring equinox holiday on March 21 is vermilion.](docs/nihon-pages.png)
+In the space the original pad set aside for handwritten notes, Illyeok prints a Korean proverb and an English reading. The 31 sayings rotate by civil date, including across New Year. The apps and widgets share the same offline collection. [Proverb credits](THIRD_PARTY_NOTICES.md)
 
-Choose **Nihon** in the Mac menu bar or the palette menu on iPhone and iPad. The full page pairs a Japanese saying and its English reading with the Japanese old-calendar date, Rokuyō (六曜), the day’s mansion in the 28-day cycle (二十八宿), and lunar age at noon in Japan. Small widgets and CarPlay show a shorter reading with the date, Rokuyō, tide name, and Japanese saying.
+## Rekichū
+
+Rekichū (暦注) takes its name from the traditional annotations printed beside a date. The design draws on Shin Nippon Calendar’s small daily tear-off pad. Ordinary weekdays print in black, Saturdays in blue, and Sundays and Japanese public holidays in vermilion. The faint numeral beneath the date belongs to the next sheet.
+
+![Rekichū in 2027. Friday, February 19 is black, Saturday, February 20 is blue, and the spring equinox holiday on March 21 is vermilion.](docs/nihon-pages.png)
+
+Choose **Rekichū** in the Mac menu bar or the palette menu on iPhone and iPad. The full page pairs a Japanese saying and its English reading with the Japanese old-calendar date, Rokuyō (六曜), the day’s mansion in the 28-day cycle (二十八宿), and lunar age at noon in Japan. Small widgets and CarPlay show a shorter reading with the date, Rokuyō, tide name, and Japanese saying.
 
 The 140 sayings rotate once per day, continuing across New Year. The collection includes the 16 original Himekuri sayings and 124 additional selections. [Sources and credits](THIRD_PARTY_NOTICES.md)
 
 The tide name follows the traditional old-calendar day classification. Actual coastal tide heights and times depend on the location. [Japanese calendar mansions](https://eco.mtk.nao.ac.jp/koyomi/wiki/C6F3BDBDC8ACBDC9.html) · [Japan Coast Guard tide guide](https://www.kaiho.mlit.go.jp/07kanku/senzaki/03_oyakudachi/pdf/guidebook2026.pdf)
 
-## Moon
+## Tsukikage
 
-Choose **Moon** from the Mac menu-bar calendar or the palette menu on iPhone and iPad. The blue-gray lunar print shows the phase and illuminated fraction for the displayed date, calculated at noon UTC. Near new moon, a constellation chart appears on the dim disk. On selected spaceflight anniversaries, a spacecraft drawing and a historical note mark the event.
+Tsukikage (月影) means “moonlight.” Choose **Tsukikage** from the Mac menu-bar calendar or the palette menu on iPhone and iPad. The blue-gray lunar print shows the phase and illuminated fraction for the displayed date, calculated at noon UTC. Near new moon, a constellation chart appears on the dim disk. On selected spaceflight anniversaries, a spacecraft drawing and a historical note mark the event.
 
-![Three Moon pages for 2027. January 18 shows a waxing gibbous Moon, January 7 traces Orion across the new moon, and July 20 marks the Apollo 11 landing.](docs/moon-pages.png)
+![Three Tsukikage pages for 2027. January 18 shows a waxing gibbous Moon, January 7 traces Orion across the new moon, and July 20 marks the Apollo 11 landing.](docs/moon-pages.png)
 
 The default sky notes use a northern mid-latitude viewpoint and require no location permission. To see where to look from your area, select **Use Current Location** in the same menu. Local notes give a guide star’s direction and approximate height above the horizon at 9 PM in your device’s time zone. The app rounds your coordinates to the nearest degree and shares them with its widgets on that device. Turning the option off clears the saved coordinates and restores the northern sky notes.
 

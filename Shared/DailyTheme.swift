@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum DailyTheme: String, CaseIterable, Identifiable {
-    case tungShing, celestialAlmanac, editorialDay, tongsheng, huangli, fuji, moon, nihon
+    case tungShing, celestialAlmanac, editorialDay, tongsheng, huangli, fuji, moon, nihon, illyeok
     case showa, koyomi, deskLedger = "deskBlock", almanacColumns
     var id: Self { self }
     static let calendarLayoutKey = "print.himekuriCalendar"
@@ -42,9 +42,10 @@ enum DailyTheme: String, CaseIterable, Identifiable {
         onDarkPaper ? Color(red: 1, green: 0.65, blue: 0.56) : ResearchFace.vermilion
     }
 
-    var offersActivityLists: Bool { self != .fuji && self != .moon && self != .nihon }
+    var offersActivityLists: Bool { self != .fuji && self != .moon && self != .nihon && self != .illyeok }
 
     var widgetPaper: Color {
+        if self == .illyeok { return IllyeokFace.paper }
         if self == .nihon { return NihonFace.paper }
         if self == .moon { return MoonFace.paper }
         if self == .fuji { return FujiFace.paper }
@@ -56,8 +57,9 @@ enum DailyTheme: String, CaseIterable, Identifiable {
         case .tungShing: "Yut Lik"
         case .celestialAlmanac: "Celestial Almanac"
         case .fuji: "Fuji"
-        case .moon: "Moon"
-        case .nihon: "Nihon"
+        case .moon: "Tsukikage"
+        case .nihon: "Rekichū"
+        case .illyeok: "Illyeok"
         case .deskLedger: "Desk Ledger"
         case .almanacColumns: "Almanac Columns"
         case .editorialDay: "Editorial Day"
@@ -75,6 +77,7 @@ struct Sheet {
         if theme == .tungShing, let page, let proverb = ChineseProverb.on(page.date) {
             return description + " Chinese proverb. " + proverb.english
         }
+        if theme == .illyeok, let page { return IllyeokReading(page).summary }
         if theme == .nihon, let page { return NihonReading(page).summary }
         if theme == .moon, let page { return MoonReading(page, site: skySite).summary }
         if theme == .fuji, let page { return FujiReading(page).summary }

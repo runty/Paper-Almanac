@@ -36,7 +36,7 @@
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSLocationUsageDescription</key>
-	<string>Moon can use your approximate location for local evening sky notes.</string>
+	<string>Tsukikage can use your approximate location for local evening sky notes.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>PaperAlmanacAppGroup</key>

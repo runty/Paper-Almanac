@@ -35,6 +35,8 @@ targetTemplates:
         buildPhase: resources
       - path: DailyProof/Proverbs/JapaneseProverbs.tsv
         buildPhase: resources
+      - path: DailyProof/Proverbs/KoreanProverbs.tsv
+        buildPhase: resources
       - DailyProof/DayNumberTarget.swift
       - DailyProof/ActivityLink.swift
       - DailyProof/ActivityGlosses.swift
@@ -67,7 +69,7 @@ targets:
     info:
       path: Config/MobileInfo.plist
       properties:
-        NSLocationWhenInUseUsageDescription: Moon can use your approximate location for local evening sky notes.
+        NSLocationWhenInUseUsageDescription: Tsukikage can use your approximate location for local evening sky notes.
         NSLocationDefaultAccuracyReduced: true
         CFBundleDisplayName: Paper Almanac
         ITSAppUsesNonExemptEncryption: false
@@ -117,7 +119,7 @@ targets:
     info:
       path: Config/AppInfo.plist
       properties:
-        NSLocationUsageDescription: Moon can use your approximate location for local evening sky notes.
+        NSLocationUsageDescription: Tsukikage can use your approximate location for local evening sky notes.
         PaperAlmanacAppGroup: $(PAPER_ALMANAC_APP_GROUP)
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)

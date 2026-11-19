@@ -167,6 +167,30 @@ final class PhaseOneTests: XCTestCase {
         add(proof)
     }
 
+    @MainActor func testIllyeokLunarDatesAndPrintedPages() async throws {
+        let dates = ["2027-01-01", "2022-01-05", "2022-01-10", "2023-05-27", "2023-03-22", "2022-01-09", "2022-01-01"]
+        let pages = try await DayReader.load(dates)
+        let readings = pages.map(IllyeokReading.init)
+        XCTAssertEqual(readings.map(\.lunar), ["11월 24일", "12월 3일", "12월 8일", "4월 8일", "윤2월 1일", "12월 7일", "11월 29일"])
+        XCTAssertEqual(readings.map(\.ink), [IllyeokFace.red, IllyeokFace.black, IllyeokFace.black, IllyeokFace.blue, IllyeokFace.black, IllyeokFace.red, IllyeokFace.red])
+        XCTAssertEqual(KoreanProverb.entries.count, 31)
+        XCTAssertEqual(Set(KoreanProverb.entries.map(\.korean)).count, 31)
+        for reading in [readings[0], readings[1], readings[2], readings[3], readings[5]] {
+            let pad = ZStack(alignment: .top) {
+                IllyeokFace(reading: reading)
+                IllyeokBinding().frame(height: Metrics.bindingH)
+            }.frame(width: Metrics.pageW, height: Metrics.pageH)
+            let renderer = ImageRenderer(content: pad)
+            renderer.scale = 3
+            let image = NSBitmapImageRep(cgImage: try XCTUnwrap(renderer.cgImage))
+            let proof = XCTAttachment(data: try XCTUnwrap(image.representation(using: .png, properties: [:])),
+                                      uniformTypeIdentifier: "public.png")
+            proof.name = "Illyeok-" + reading.info.page.date.label
+            proof.lifetime = .keepAlways
+            add(proof)
+        }
+    }
+
     func testJapaneseProverbEdition() {
         XCTAssertGreaterThanOrEqual(Proverbs.all.count, 140)
         let count = Int64(Proverbs.all.count)
@@ -191,7 +215,7 @@ final class PhaseOneTests: XCTestCase {
             let image = NSBitmapImageRep(cgImage: try XCTUnwrap(renderer.cgImage))
             let proof = XCTAttachment(data: try XCTUnwrap(image.representation(using: .png, properties: [:])),
                                       uniformTypeIdentifier: "public.png")
-            proof.name = "Nihon-" + page.date.label
+            proof.name = DailyTheme.nihon.title + "-" + page.date.label
             proof.lifetime = .keepAlways
             add(proof)
         }
@@ -222,7 +246,7 @@ final class PhaseOneTests: XCTestCase {
             let cg = try XCTUnwrap(renderer.cgImage)
             let png = try XCTUnwrap(NSBitmapImageRep(cgImage: cg).representation(using: .png, properties: [:]))
             let proof = XCTAttachment(data: png, uniformTypeIdentifier: "public.png")
-            proof.name = "Moon-" + page.date.label
+            proof.name = DailyTheme.moon.title + "-" + page.date.label
             proof.lifetime = .keepAlways
             add(proof)
         }
@@ -259,9 +283,11 @@ final class PhaseOneTests: XCTestCase {
         var rendered = Set<Data>()
         XCTAssertEqual(DailyTheme(rawValue: "tungShing")?.title, "Yut Lik")
         XCTAssertEqual(DailyTheme(rawValue: "deskBlock")?.title, "Desk Ledger")
+        XCTAssertEqual(DailyTheme(rawValue: "moon")?.title, "Tsukikage")
+        XCTAssertEqual(DailyTheme(rawValue: "nihon")?.title, "Rekichū")
         XCTAssertNil(DailyTheme(rawValue: "brutalist"))
         XCTAssertNil(DailyTheme(rawValue: "calendarPoster"))
-        XCTAssertEqual(DailyTheme.allCases, [.tungShing, .celestialAlmanac, .editorialDay, .tongsheng, .huangli, .fuji, .moon, .nihon,
+        XCTAssertEqual(DailyTheme.allCases, [.tungShing, .celestialAlmanac, .editorialDay, .tongsheng, .huangli, .fuji, .moon, .nihon, .illyeok,
                                              .showa, .koyomi, .deskLedger, .almanacColumns])
         XCTAssertEqual(DailyTheme.allCases.filter(\.opensWithCalendar), [.showa, .koyomi])
         for example in pages {
@@ -284,7 +310,7 @@ final class PhaseOneTests: XCTestCase {
                 }
             }
         }
-        XCTAssertEqual(rendered.count, 48)
+        XCTAssertEqual(rendered.count, 51)
         let leapDay = try await DayReader.load(["2024-02-29"])[0]
         let february = DayInfo(page: leapDay).grid
         XCTAssertEqual(february.first, [nil, nil, nil, nil, 1, 2, 3])

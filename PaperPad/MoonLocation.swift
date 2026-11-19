@@ -49,7 +49,7 @@ import WidgetKit
             }
         case .denied, .restricted:
             setEnabled(false)
-            message = "Location access is off. Moon is using the northern mid-latitude sky. You can allow access in your device’s Location Services settings."
+            message = "Location access is off. \(DailyTheme.moon.title) is using the northern mid-latitude sky. You can allow access in your device’s Location Services settings."
         case .authorizedAlways, .authorizedWhenInUse:
             askingPermission = false
             guard !pending, lastFix.map({ Date.now.timeIntervalSince($0) > 900 }) ?? true else { return }
@@ -82,13 +82,13 @@ import WidgetKit
         pending = false
         if (error as? CLError)?.code == .denied {
             setEnabled(false)
-            message = "Location access is off. Moon is using the northern mid-latitude sky."
+            message = "Location access is off. \(DailyTheme.moon.title) is using the northern mid-latitude sky."
         } else { unavailable() }
     }
 
     private func unavailable() {
-        message = site == nil ? "Your location is unavailable. Moon is using the northern mid-latitude sky."
-                              : "Your location is unavailable. Moon is using your last saved area."
+        message = site == nil ? "Your location is unavailable. \(DailyTheme.moon.title) is using the northern mid-latitude sky."
+                              : "Your location is unavailable. \(DailyTheme.moon.title) is using your last saved area."
     }
 
     private func save(_ value: SkySite?) {

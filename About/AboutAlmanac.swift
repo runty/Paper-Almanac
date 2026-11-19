@@ -58,11 +58,14 @@ struct AboutAlmanac: View {
                     Text("The Yut Lik theme draws on the [Yut Lik calendar](https://ricefolk.com/back-on-the-boat-jason-soy-sally-fung-of-yutlik-calendar/) by Jason Soy and Sally Fung of Back On The Boat.")
                     Text("Celestial Almanac’s translucent numerals and astronomical diagrams draw on [NOTON’s Himekuri calendar](https://noton.info/product/nx015/), designed by Carsten Nicolai and nibo.")
                 }
-                credit("Nihon") {
+                credit("Illyeok · 일력") {
+                    Text("The mint binding and patterned numerals draw on a Korean wall calendar. The Korean proverbs come from [English Wiktionary via Kaikki](https://kaikki.org/dictionary/Korean/pos-proverb/index.html), with English readings adapted for Paper Almanac under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).")
+                }
+                credit(DailyTheme.nihon.title) {
                     Text("The page draws on Shin Nippon Calendar’s small daily tear-off calendar. The Wadscorp engine supplies the Japanese old-calendar date and Rokuyō.")
                     Text("The original 16 Himekuri sayings are joined by a selection from [English Wiktionary via Kaikki](https://kaikki.org/dictionary/Japanese/pos-proverb/index.html), with English readings adapted for the page. The additional collection is shared under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).")
                 }
-                credit("Moon") {
+                credit(DailyTheme.moon.title) {
                     Text("The printed layout draws on Shin Nippon Calendar’s Sora daily calendar. The lunar engraving adapts the [LRO near-side mosaic](https://science.nasa.gov/photojournal/nearside-spectacular/) by NASA, GSFC and Arizona State University. The Wadscorp engine supplies the daily illumination at noon UTC.")
                 }
                 credit("Fuji") {
@@ -80,6 +83,8 @@ struct AboutAlmanac: View {
                 credit("Type & sound") {
                     Text("Taviraj Medium, designed by Cadson Demak, gives the Yut Lik theme its distinctive date numerals.")
                     license("SIL Open Font License 1.1", resource: "Taviraj-LICENSE")
+                    Text("Illyeok pairs its hand-drawn 0, 1 and 5 with Besley Narrow ExtraBold by Owen Earl of indestructible type*.")
+                    license("SIL Open Font License 1.1 · Besley", resource: "Besley-LICENSE")
                     Text("Paper tearing sounds are synthesized by the app.")
                 }
             }

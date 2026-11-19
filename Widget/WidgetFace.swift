@@ -31,7 +31,9 @@ struct WidgetFace: View {
 
     private var paperFace: some View {
         GeometryReader { box in
-            if entry.theme == .nihon, let page = entry.sheet.page {
+            if entry.theme == .illyeok, let page = entry.sheet.page {
+                IllyeokFace(reading: IllyeokReading(page), widget: true)
+            } else if entry.theme == .nihon, let page = entry.sheet.page {
                 NihonFace(reading: NihonReading(page), widget: true)
             } else if entry.theme == .moon, let page = entry.sheet.page {
                 MoonFace(reading: MoonReading(page, site: entry.sheet.skySite), widget: true)
@@ -339,7 +341,11 @@ struct DashboardAlmanac: View {
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(Text(info.date, format: .dateTime.weekday(.wide).month(.wide).day().year()))
             Rectangle().fill(ruleInk).frame(height: 1.5).accessibilityHidden(true)
-            if entry.theme == .nihon {
+            if entry.theme == .illyeok {
+                let proverb = KoreanProverb.on(page.date.dayID.value)
+                Text(verbatim: proverb.korean).font(.system(size: compact ? 12 : 14, weight: .semibold))
+                Text(verbatim: proverb.english).font(.custom("Georgia", fixedSize: compact ? 10 : 12))
+            } else if entry.theme == .nihon {
                 let reading = NihonReading(page)
                 Text(verbatim: reading.rokuyo + "  ·  " + reading.tide)
                 Text(verbatim: reading.info.proverb.jp).font(Theme.mincho(compact ? 12 : 14)).lineLimit(2)
@@ -388,7 +394,9 @@ struct DashboardAlmanac: View {
         }
 
         let inks: (Color, Color)
-        if entry.theme == .nihon {
+        if entry.theme == .illyeok {
+            inks = (IllyeokReading(info.page).ink, Color(red: 0.12, green: 0.39, blue: 0.25))
+        } else if entry.theme == .nihon {
             inks = (NihonFace.ink(info.weekday - 1, holiday: NihonReading(info.page).holiday != nil), NihonFace.blue)
         } else if entry.theme == .moon {
             inks = (MoonFace.ink, MoonFace.blue)
@@ -422,6 +430,14 @@ struct DashboardAlmanac: View {
                 HStack(spacing: 7) {
                     TungShingNumeral(day: info.day, size: size).foregroundStyle(dateInk)
                     captions
+                }
+            case .illyeok:
+                HStack(spacing: 7) {
+                    IllyeokNumeral(day: info.day, ink: dateInk).frame(width: size, height: size * 0.8)
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(verbatim: String(info.month) + "월")
+                        Text(verbatim: IllyeokReading(info.page).weekday)
+                    }
                 }
             case .nihon:
                 HStack(spacing: 5) {
