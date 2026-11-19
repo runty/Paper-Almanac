@@ -8,7 +8,7 @@ struct SheetView: View {
     let sheet: Sheet
     let theme: DailyTheme
     var calendarLayout = false
-    var widgetWidth: CGFloat?
+    var widgetSize: CGSize?
     var body: some View {
         ZStack {
             (theme.original?.paper ?? Color(red: 1, green: 0.994, blue: 0.98))
@@ -34,8 +34,9 @@ struct SheetView: View {
                     Text(sheet.loading ? "Opening the almanac…" : "Almanac unavailable")
                 }.foregroundStyle(.black)
             }
-        }.frame(width: widgetWidth ?? 300, height: 400).clipShape(RoundedRectangle(cornerRadius: widgetWidth == nil ? 2 : 0))
-            .environment(\.isWidgetSheet, widgetWidth != nil)
+        }.frame(width: widgetSize?.width ?? 300, height: widgetSize?.height ?? 400)
+            .clipShape(RoundedRectangle(cornerRadius: widgetSize == nil ? 2 : 0))
+            .environment(\.isWidgetSheet, widgetSize != nil)
             .environment(\.colorScheme, .light)
             .accessibilityElement(children: .ignore).accessibilityLabel(sheet.description(for: theme, calendarLayout: calendarLayout))
     }

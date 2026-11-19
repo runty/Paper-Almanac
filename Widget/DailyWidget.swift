@@ -10,7 +10,7 @@ private struct FamilyFace: View {
 @main struct TungShingWidget: Widget {
     private var families: [WidgetFamily] {
         #if os(iOS)
-        [.systemSmall, .systemMedium, .systemLarge, .systemExtraLarge]
+        [.systemSmall, .systemMedium, .systemLarge, .systemExtraLarge, .systemExtraLargePortrait]
         #else
         [.systemSmall, .systemMedium, .systemLarge]
         #endif

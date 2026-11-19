@@ -1,10 +1,11 @@
 import SwiftUI
 import TungShingData
 
-// The bound sheet is 400 × 500 print points. Widgets can widen the plate at the same type size.
+// The bound sheet is 400 × 500 print points. Widgets can resize the plate at the same type size.
 struct PrintFace: View {
     let day: PrintedDay
     var plateWidth: CGFloat = 400
+    var plateHeight: CGFloat = 500
     var showsPageBorder = true
     static let green = Color(red: 0.025, green: 0.32, blue: 0.22)
     private static let red = Color(red: 0.86, green: 0.10, blue: 0.27)
@@ -79,7 +80,7 @@ struct PrintFace: View {
                         column("宜", "Do", side: .recommended, reading: day.recommended)
                         Rectangle().fill(rule).frame(width: 1)
                         column("忌", "Avoid", side: .avoided, reading: day.avoided)
-                    }.frame(height: 129)
+                    }.frame(height: 129 + min(48, (plateHeight - 500) / 3))
                     Rectangle().fill(rule).frame(height: 1)
                     HStack {
                         label("Day pillar   日柱  " + report.dayPillar.label, 10)
@@ -93,7 +94,7 @@ struct PrintFace: View {
                     }
                 }.clipShape(panelShape).overlay { panelShape.strokeBorder(rule, lineWidth: 1.1) }
             }.padding(.horizontal, 12).padding(.top, 10).padding(.bottom, 12)
-        }.frame(width: plateWidth, height: 500).foregroundStyle(ink)
+        }.frame(width: plateWidth, height: plateHeight).foregroundStyle(ink)
     }
 
     private var hourStrip: some View {
@@ -146,11 +147,12 @@ struct PrintFace: View {
         ZStack {
             Canvas { context, size in
                 let center = CGPoint(x: size.width / 2, y: size.height / 2)
+                let radius = hypot(center.x, center.y)
                 var rays = Path()
                 for i in 0..<84 {
                     let angle = Double(i) * .pi / 42
                     rays.move(to: center)
-                    rays.addLine(to: CGPoint(x: center.x + cos(angle) * 80, y: center.y + sin(angle) * 80))
+                    rays.addLine(to: CGPoint(x: center.x + cos(angle) * radius, y: center.y + sin(angle) * radius))
                 }
                 context.stroke(rays, with: .color(rule), lineWidth: 0.9)
             }

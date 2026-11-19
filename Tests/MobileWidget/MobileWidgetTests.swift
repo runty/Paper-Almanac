@@ -3,6 +3,11 @@ import WidgetKit
 import XCTest
 
 final class MobileWidgetTests: XCTestCase {
+    private var portraitWidgetSize: CGSize {
+        UIDevice.current.userInterfaceIdiom == .pad
+            ? CGSize(width: 342, height: 529)
+            : CGSize(width: 350, height: 566)
+    }
     func testWindowsKeepTheirBrowsedPageWhenAnotherWindowTears() {
         var date = PadDates(today: "2026-11-06", advance: nil)
         date.browse("2026-10-31")
@@ -40,7 +45,8 @@ final class MobileWidgetTests: XCTestCase {
             (.systemSmall, CGSize(width: 158, height: 158)),
             (.systemMedium, CGSize(width: 338, height: 158)),
             (.systemLarge, CGSize(width: 378, height: 394)),
-            (.systemExtraLarge, CGSize(width: 715, height: 338))
+            (.systemExtraLarge, CGSize(width: 715, height: 338)),
+            (.systemExtraLargePortrait, portraitWidgetSize)
         ]
         for theme in DailyTheme.allCases where theme != .tungShing {
             for calendar in theme.original == nil ? [false] : [false, true] {
@@ -109,10 +115,14 @@ final class MobileWidgetTests: XCTestCase {
             (.systemSmall, CGSize(width: 158, height: 158)),
             (.systemMedium, CGSize(width: 338, height: 158)),
             (.systemLarge, CGSize(width: 338, height: 354)),
-            (.systemExtraLarge, CGSize(width: 715, height: 338))
+            (.systemExtraLarge, CGSize(width: 715, height: 338)),
+            (.systemExtraLargePortrait, portraitWidgetSize)
         ]
         for (family, size) in families where family != .systemExtraLarge || UIDevice.current.userInterfaceIdiom == .pad {
-            let view = WidgetFace(entry: first, family: family).frame(width: size.width, height: size.height)
+            let view = WidgetFace(entry: first, family: family)
+                .frame(width: size.width, height: size.height)
+                .background(first.theme.widgetPaper)
+                .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
             let renderer = ImageRenderer(content: view)
             renderer.scale = 2
             let image = try XCTUnwrap(renderer.uiImage)

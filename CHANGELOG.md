@@ -1,5 +1,9 @@
 # Paper Almanac changelog
 
+## 0.2.3 · November 18, 2026
+
+- The new **Extra Large Portrait** widget fills a tall tile with one complete, borderless almanac page in your selected theme. Add it from the Home Screen on iPhone or from Today View on iPad.
+
 ## 0.2.1 · November 18, 2026
 
 - Turn off **Auto Change Date** to hold the current page across midnight and relaunch. Tearing advances the held page one day. **Today** holds the current date when automatic changes are off.

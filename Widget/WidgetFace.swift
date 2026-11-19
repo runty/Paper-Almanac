@@ -33,10 +33,10 @@ struct WidgetFace: View {
         GeometryReader { box in
             if entry.theme == .fuji, let page = entry.sheet.page {
                 FujiFace(reading: FujiReading(page), widget: true)
+            } else if family == .systemLarge || family == .systemExtraLargePortrait {
+                fittedPaper(in: box.size)
             } else if entry.theme == .celestialAlmanac, let page = entry.sheet.page {
-                if family == .systemLarge {
-                    fittedPaper(in: box.size)
-                } else if family == .systemExtraLarge {
+                if family == .systemExtraLarge {
                     HStack(spacing: 20) {
                         fittedPaper(in: CGSize(width: box.size.width * 0.44, height: box.size.height))
                         celestialObservation(CelestialReading(page))
@@ -87,7 +87,7 @@ struct WidgetFace: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(.horizontal, 16).frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if family == .systemLarge || family == .systemExtraLarge {
+            } else if family == .systemExtraLarge {
                 fittedPaper(in: box.size)
             } else if family == .systemMedium, let page = entry.sheet.page {
                 let palette = widgetPalette(theme: entry.theme, page: page)
@@ -190,19 +190,22 @@ struct WidgetFace: View {
         }.foregroundStyle(theme.ink)
     }
     @ViewBuilder private func fittedPaper(in size: CGSize) -> some View {
+        let isTallPortrait = family == .systemExtraLargePortrait
         if entry.theme == .tungShing, let page = entry.sheet.page, size.width > 0, size.height > 0 {
             // Keep the print type and seals proportional. Give wider widgets longer rules and columns.
             let scale = min(size.height / 500, size.width / 400)
-            PrintFace(day: page, plateWidth: size.width / scale, showsPageBorder: false)
+            PrintFace(day: page, plateWidth: size.width / scale,
+                      plateHeight: isTallPortrait ? size.height / scale : 500, showsPageBorder: false)
                 .scaleEffect(scale)
                 .frame(width: size.width, height: size.height)
                 .accessibilityElement(children: .ignore).accessibilityLabel(entry.sheet.description(for: entry.theme, calendarLayout: entry.calendarLayout))
         } else if size.width > 0, size.height > 0 {
             // Omit the binding area but leave room for the widget's rounded top corners.
-            let visibleHeight: CGFloat = 384
-            let scale = min(size.height / visibleHeight, size.width / 300)
+            let scale = min(size.height / 384, size.width / 300)
+            let visibleHeight: CGFloat = isTallPortrait ? size.height / scale : 384
             let width = size.width / scale
-            SheetView(sheet: entry.sheet, theme: entry.theme, calendarLayout: entry.calendarLayout, widgetWidth: width)
+            let sheetSize = CGSize(width: width, height: visibleHeight + 16)
+            SheetView(sheet: entry.sheet, theme: entry.theme, calendarLayout: entry.calendarLayout, widgetSize: sheetSize)
                 .frame(width: width, height: visibleHeight, alignment: .bottom).clipped()
                 .scaleEffect(scale).frame(width: size.width, height: size.height)
         }
