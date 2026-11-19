@@ -41,6 +41,10 @@ private struct AlmanacWindow: View {
     @AppStorage(DailyTheme.calendarLayoutKey, store: DailyTheme.defaults) private var calendarLayout = false
     @Environment(\.scenePhase) private var phase
     @Environment(\.dynamicTypeSize) private var textSize
+    @Environment(\.layoutDirection) private var direction
+    @State private var hingeStatus: DeviceHinge.Status?
+    @State private var coverPaletteCenter: CGPoint?
+    @AppStorage("duo.coverCalendarViewport") private var coverViewport = ""
     @State private var pickingDate = false
     @State private var showingAbout = false
     @State private var picked = Date.now
@@ -64,53 +68,45 @@ private struct AlmanacWindow: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Spacer()
-                if theme.original != nil {
-                    button(calendarLayout ? "Show Do and Don’t" : "Show Month Calendar",
-                           calendarLayout ? "list.bullet" : "calendar") { calendarLayout.toggle() }
-                        .accessibilityIdentifier("himekuri-layout")
-                }
-                Menu {
-                    Button("Go to Date…", systemImage: "calendar") { openPicker() }
-                        .accessibilityIdentifier("go-to-date")
-                    Toggle(isOn: Binding(
-                        get: { store.automaticallyUpdatesDate },
-                        set: { store.setAutomaticallyUpdatesDate($0) }
-                    )) {
-                        Label("Auto Change Date", systemImage: "calendar.badge.clock")
-                    }
-                    if theme == .moon {
-                        Toggle(isOn: Binding(get: { location.enabled }, set: location.setEnabled)) {
-                            Label("Use Current Location", systemImage: "location")
+        GeometryReader { space in
+            if space.size.width > space.size.height, hingeStatus == .partiallyOpen || hingeStatus == .fullyOpen {
+                openDuoLayout(in: space)
+            } else {
+                VStack(spacing: 0) {
+                    toolbar
+                    calendarPane
+                        .onGeometryChange(for: CGRect?.self) { pane in
+                            guard hingeStatus == .closed, space.size.width < space.size.height else { return nil }
+                            let window = space.frame(in: .global)
+                            let frame = pane.frame(in: .global)
+                            // Record the calendar area relative to the cover’s physical top and right edges.
+                            return CGRect(x: window.maxX - frame.maxX + rightInset(in: space),
+                                          y: frame.minY - window.minY + space.safeAreaInsets.top,
+                                          width: frame.width, height: frame.height)
+                        } action: { viewport in
+                            if let viewport, !viewport.isEmpty { coverViewport = NSCoder.string(for: viewport) }
                         }
-                    }
-                    Button("About", systemImage: "info.circle") { showingAbout = true }
-                    Divider()
-                    Picker("Theme", selection: themeSelection) {
-                        ForEach(DailyTheme.allCases) { Text($0.title).tag($0) }
-                    }.pickerStyle(.inline)
-                } label: { Image(systemName: "paintpalette").frame(width: 44, height: 44) }
-                    .menuOrder(.fixed)
-                    .accessibilityLabel("Theme").accessibilityValue(theme.title)
-            }.padding(.horizontal, 22)
-            GeometryReader { space in
-                if textSize.isAccessibilitySize {
-                    AccessibleDay(sheet: store.top, theme: theme, calendarLayout: calendarLayout, today: store.today)
-                        .accessibilityAction(named: "Previous day") { store.step(-1) }
-                        .accessibilityAction(named: "Next day") { store.step(1) }
-                } else {
-                    let width = min(space.size.width - 32, (space.size.height - 18) * padSize.width / padSize.height, 640)
-                    if width >= 265 {
-                        paper(width: width).frame(width: space.size.width, height: space.size.height)
-                    } else {
-                        ScrollView { paper(width: min(space.size.width - 32, 390)).padding(.vertical, 12)
-                                .frame(maxWidth: .infinity) }
-                    }
                 }
             }
         }
+        .overlay {
+            if hingeStatus == .closed {
+                GeometryReader { display in
+                    if let center = coverPalettePosition(in: display) {
+                        paletteMenu
+                            .environment(\.layoutDirection, direction)
+                            .position(center)
+                    }
+                }
+                .onGeometryChange(for: CGPoint?.self) { display in
+                    coverPalettePosition(in: display)
+                } action: { coverPaletteCenter = $0 }
+                .environment(\.layoutDirection, .leftToRight)
+                .ignoresSafeArea(.container)
+                .onDisappear { coverPaletteCenter = nil }
+            }
+        }
+        .onHingeChange { _, context in hingeStatus = context.hinge?.status }
         .foregroundStyle(Color(red: 0.16, green: 0.19, blue: 0.16))
         .tint(Color(red: 0.08, green: 0.30, blue: 0.23))
         .background {
@@ -178,6 +174,184 @@ private struct AlmanacWindow: View {
         }
     }
 
+    private func rightInset(in space: GeometryProxy) -> CGFloat {
+        direction == .leftToRight ? space.safeAreaInsets.trailing : space.safeAreaInsets.leading
+    }
+
+    private func openDuoLayout(in space: GeometryProxy) -> some View {
+        let insets = space.safeAreaInsets
+        let fullWidth = space.size.width + insets.leading + insets.trailing
+        let fullHeight = space.size.height + insets.top + insets.bottom
+        let halfWidth = fullWidth / 2
+        let right = rightInset(in: space)
+        let left = insets.leading + insets.trailing - right
+        let cover = NSCoder.cgRect(for: coverViewport)
+        let hasCover = !cover.isEmpty
+        let width = hasCover ? min(cover.width, halfWidth) : halfWidth - right
+        let height = hasCover ? min(cover.height, fullHeight) : space.size.height
+        let centerFromRight = hasCover ? min(cover.minX + width / 2, halfWidth - width / 2) : halfWidth / 2
+        let centerFromTop = hasCover ? cover.minY + height / 2 : fullHeight / 2
+
+        return ZStack {
+            sidebar
+                .environment(\.layoutDirection, direction)
+                .frame(width: halfWidth - left)
+                .position(x: (halfWidth - left) / 2, y: space.size.height / 2)
+            calendarPane
+                .environment(\.layoutDirection, direction)
+                .frame(width: width, height: height)
+                .position(x: space.size.width + right - centerFromRight, y: centerFromTop - insets.top)
+        }
+        .environment(\.layoutDirection, .leftToRight)
+    }
+
+    private func coverPalettePosition(in display: GeometryProxy) -> CGPoint? {
+        let regions = display.reservedRegions(kind: .occlusion, layoutDirectionBehavior: .fixed).map(\.frame)
+        // The cover reports the indicator strip and the camera cutout within it.
+        guard let strip = regions.first(where: {
+            $0.minX > display.size.width / 2 && $0.maxX >= display.size.width - 1 &&
+            $0.minY <= 1 && $0.maxY + 44 <= display.size.height
+        }) else { return nil }
+        let cutout = regions.first { $0 != strip && strip.contains($0) }
+        return CGPoint(x: cutout?.midX ?? strip.midX, y: strip.maxY + 22)
+    }
+
+    private var toolbar: some View {
+        HStack {
+            Spacer()
+            if theme.original != nil {
+                button(layoutTitle, layoutIcon) { calendarLayout.toggle() }
+                    .accessibilityIdentifier("himekuri-layout")
+            }
+            if hingeStatus != .closed || coverPaletteCenter == nil {
+                paletteMenu
+            }
+        }
+        .frame(minHeight: 44)
+        .padding(.horizontal, 22)
+    }
+
+    private var paletteMenu: some View {
+        Menu {
+            menuActions
+            aboutButton
+            Divider()
+            Picker("Theme", selection: themeSelection) {
+                ForEach(DailyTheme.allCases) { Text($0.title).tag($0) }
+            }.pickerStyle(.inline)
+        } label: { Image(systemName: "paintbrush.pointed.fill").frame(width: 44, height: 44) }
+            .menuOrder(.fixed)
+            .accessibilityLabel("Theme").accessibilityValue(theme.title)
+    }
+
+    @ViewBuilder private var menuActions: some View {
+        Button("Go to Date…", systemImage: "calendar") { openPicker() }
+            .accessibilityIdentifier("go-to-date")
+        Toggle(isOn: Binding(get: { store.automaticallyUpdatesDate }, set: store.setAutomaticallyUpdatesDate)) {
+            Label("Auto Change Date", systemImage: "calendar.badge.clock")
+        }
+        if theme == .moon {
+            Toggle(isOn: Binding(get: { location.enabled }, set: location.setEnabled)) {
+                Label("Use Current Location", systemImage: "location")
+            }
+        }
+    }
+
+    private var aboutButton: some View {
+        Button("About", systemImage: "info.circle") { showingAbout = true }
+    }
+
+    private var layoutTitle: String { calendarLayout ? "Show Do and Don’t" : "Show Month Calendar" }
+    private var layoutIcon: String { calendarLayout ? "list.bullet" : "calendar" }
+
+    @ScaledMetric(relativeTo: .subheadline) private var sidebarWidth: CGFloat = 300
+
+    private var sidebarFont: Font {
+        switch theme {
+        case .fuji, .moon: .custom("HelveticaNeue", size: 15, relativeTo: .subheadline)
+        case .lichViet, .illyeok: .custom("Georgia", size: 15, relativeTo: .subheadline)
+        case .koyomi, .showa, .tongsheng, .huangli, .tsukigoyomi, .nihon, .kinun,
+             .editorialDay: .system(.subheadline, design: .serif)
+        case .celestialAlmanac: .system(.subheadline, design: .rounded)
+        case .tungShing, .twinPillars: .subheadline
+        }
+    }
+
+    private var sidebar: some View {
+        List {
+            Section {
+                menuActions
+                    .toggleStyle(SidebarCheckmarkStyle())
+                    .listRowSeparator(.hidden)
+                if theme.original != nil {
+                    Button(layoutTitle, systemImage: layoutIcon) { calendarLayout.toggle() }
+                        .accessibilityIdentifier("himekuri-layout")
+                        .listRowSeparator(.hidden)
+                }
+                aboutButton.listRowSeparator(.hidden)
+            }
+            .listRowInsets(.vertical, 4)
+            .listRowBackground(Color.clear)
+            .listSectionSeparator(.hidden, edges: .top)
+            .listSectionSeparator(.visible, edges: .bottom)
+            Section {
+                ForEach(DailyTheme.allCases) { item in
+                    Button {
+                        themeSelection.wrappedValue = item
+                    } label: {
+                        HStack {
+                            Text(item.title)
+                            Spacer()
+                            if item == theme {
+                                Image(systemName: "checkmark").imageScale(.small).accessibilityHidden(true)
+                            }
+                        }.contentShape(Rectangle())
+                    }
+                    .fontWeight(item == theme ? .semibold : .regular)
+                    .accessibilityAddTraits(item == theme ? .isSelected : [])
+                }
+                .listRowSeparator(.hidden)
+            } header: {
+                Text("Theme")
+                    .font(.caption.weight(.semibold)).textCase(.uppercase).tracking(1.2)
+                    .accessibilityAddTraits(.isHeader)
+            }
+            .listRowInsets(.vertical, 4)
+            .listRowBackground(Color.clear)
+            .listSectionSeparator(.hidden)
+        }
+        .environment(\.defaultMinListRowHeight, textSize.isAccessibilitySize ? 44 : 36)
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .font(sidebarFont)
+        .foregroundStyle(Color(red: 0.29, green: 0.29, blue: 0.28))
+        .tint(Color(red: 0.38, green: 0.39, blue: 0.37))
+        .contentMargins(.vertical, 8, for: .scrollContent)
+        .controlSize(.small)
+        .frame(maxWidth: sidebarWidth)
+        .padding(.horizontal, textSize.isAccessibilitySize ? 16 : 32)
+        .padding(.vertical, 64)
+        .accessibilityIdentifier("duo-menu")
+    }
+
+    private var calendarPane: some View {
+        GeometryReader { space in
+            if textSize.isAccessibilitySize {
+                AccessibleDay(sheet: store.top, theme: theme, calendarLayout: calendarLayout, today: store.today)
+                    .accessibilityAction(named: "Previous day") { store.step(-1) }
+                    .accessibilityAction(named: "Next day") { store.step(1) }
+            } else {
+                let width = min(space.size.width - 32, (space.size.height - 18) * padSize.width / padSize.height, 640)
+                if width >= 265 {
+                    paper(width: width).frame(width: space.size.width, height: space.size.height)
+                } else {
+                    ScrollView { paper(width: min(space.size.width - 32, 390)).padding(.vertical, 12)
+                            .frame(maxWidth: .infinity) }
+                }
+            }
+        }
+    }
+
     private func paper(width: CGFloat) -> some View {
         let scale = width / padSize.width
         return MobilePad(store: store, theme: theme, calendarLayout: calendarLayout,
@@ -205,6 +379,28 @@ private struct AlmanacWindow: View {
         return CivilDay.calendar().date(from: DateComponents(year: fields[0], month: fields[1], day: fields[2], hour: 12))
     }
     private func openPicker() { picked = civilDate(store.top.label) ?? .now; pickingDate = true }
+}
+
+private struct SidebarCheckmarkStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        Button {
+            configuration.isOn.toggle()
+        } label: {
+            HStack {
+                configuration.label
+                Spacer()
+                Image(systemName: configuration.isOn ? "checkmark.square" : "square")
+                    .font(.subheadline.weight(.regular))
+                    .opacity(configuration.isOn ? 0.9 : 0.75)
+                    .accessibilityHidden(true)
+            }
+            .contentShape(Rectangle())
+        }
+        .accessibilityRepresentation {
+            Toggle(isOn: configuration.$isOn) { configuration.label }
+                .toggleStyle(.switch)
+        }
+    }
 }
 
 private struct AccessibleDay: View {

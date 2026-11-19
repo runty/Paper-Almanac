@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Added a landscape layout for the fully and partially open iPhone Duo. The calendar keeps its outer-display size and position on the right, including across relaunches, with a compact menu on the left.
+- The Duo menu uses theme-matched typography, gray checkboxes, tighter row spacing, and a single divider below About. When closed, its theme button sits beneath the Wi-Fi indicator on the right.
+- Changed the iPhone and iPad theme menu icon to `paintbrush.pointed.fill`.
+
+## 0.3.0 · November 19, 2026
+
+- Fixed clipping on the right edge of the Tsukikage day number on iPhone and iPad.
 - Each Mac, iPhone, and iPad widget can follow the app’s theme or keep its own. New and existing widgets default to **Follow App Theme**.
 - Selecting **Do** or **Avoid** on a widget now opens the calendar page for the displayed date. Select either list inside the app to read it in full.
 

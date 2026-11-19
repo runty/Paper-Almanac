@@ -10,7 +10,13 @@ Paper Almanac works offline on Mac, iPhone, and iPad and opens to the local date
 
 Drag the sheet to lift it, or pull a bottom corner diagonally to tear it. Release an attached sheet to let it settle back. A completed tear advances one day. On iPhone and iPad, tap the date number to return to today, or choose **Today** in the **Go to Date…** calendar. On Mac, drag the binding strip to move the calendar, including up to the menu bar and screen edges. Switching themes keeps the visible top-left corner in place. With Kin’un or Tsukigoyomi, you can also grab the exposed backing board above, beside, or below the paper. Clicking the menu-bar calendar brings the pad forward. Use that menu to jump to a date, change themes, or resize the pad.
 
-Turn off **Auto Change Date** in the menu-bar calendar on Mac or the palette menu on iPhone and iPad to keep the pad on its current page. It stays there across midnight and app relaunches. A tear advances the held page by one day. Choose **Today** to hold the current date, or turn automatic updates back on to resume daily rollover.
+Turn off **Auto Change Date** in the menu-bar calendar on Mac or the paintbrush menu on iPhone and iPad to keep the pad on its current page. It stays there across midnight and app relaunches. A tear advances the held page by one day. Choose **Today** to hold the current date, or turn automatic updates back on to resume daily rollover.
+
+## iPhone Duo
+
+In landscape, opening the Duo fully or partway keeps the calendar on the right at the size and position recorded from the closed outer display. The app remembers this placement across relaunches. A scrollable menu on the left gives direct access to dates, settings, About, and all themes. Its compact type follows the selected theme, with gray checkboxes for settings and one divider below About.
+
+When the Duo is closed, the paintbrush button sits on the right beneath the Wi-Fi indicator. On iPhone and iPad, the theme menu uses the filled pointed paintbrush symbol (`paintbrush.pointed.fill`).
 
 ## Widgets
 
@@ -40,7 +46,7 @@ Lunar dates are calculated offline for 1901–2100 using the modern Vietnamese U
 
 ## Kin’un
 
-Kin’un (金運) pairs butter-yellow sheets with a saffron backing board. A single gilt octagonal mirror sits above the binding. The colors draw on the custom of hanging yellow on a west wall as a wish for prosperity. Choose **Kin’un** from the Mac menu bar or the palette menu on iPhone and iPad. [Print reference](https://www.nkcalendar.co.jp/products/calendar-naire/daily-calendar-naire/nk-553.html)
+Kin’un (金運) pairs butter-yellow sheets with a saffron backing board. A single gilt octagonal mirror sits above the binding. The colors draw on the custom of hanging yellow on a west wall as a wish for prosperity. Choose **Kin’un** from the Mac menu bar or the paintbrush menu on iPhone and iPad. [Print reference](https://www.nkcalendar.co.jp/products/calendar-naire/daily-calendar-naire/nk-553.html)
 
 The full page shows the Japanese weekday, old-calendar date, Rokuyō, daily mansion, lunar age, tide name, and a Japanese saying with its English reading. The blue square shows the Moon’s phase at noon in Japan. On 一粒万倍日 (“one grain, ten thousandfold”) days, vermilion gourds and rice sprigs flank the inscription. The app calculates these days offline from the Japanese solar month and the day’s zodiac branch. To see the ornaments, open **Go to Date…** and choose April 15, 2027. [Calendar rule](https://www.ndl.go.jp/koyomi/chapter3/s6.html)
 
@@ -52,7 +58,7 @@ Rekichū (暦注) takes its name from the traditional annotations printed beside
 
 ![Rekichū in 2027. Friday, February 19 is black, Saturday, February 20 is blue, and the spring equinox holiday on March 21 is vermilion.](docs/nihon-pages.png)
 
-Choose **Rekichū** in the Mac menu bar or the palette menu on iPhone and iPad. The full page pairs a Japanese saying and its English reading with the Japanese old-calendar date, Rokuyō (六曜), the day’s mansion in the 28-day cycle (二十八宿), and lunar age at noon in Japan. Small widgets and CarPlay show a shorter reading with the date, Rokuyō, tide name, and Japanese saying.
+Choose **Rekichū** in the Mac menu bar or the paintbrush menu on iPhone and iPad. The full page pairs a Japanese saying and its English reading with the Japanese old-calendar date, Rokuyō (六曜), the day’s mansion in the 28-day cycle (二十八宿), and lunar age at noon in Japan. Small widgets and CarPlay show a shorter reading with the date, Rokuyō, tide name, and Japanese saying.
 
 The 140 sayings rotate once per day, continuing across New Year. The collection includes the 16 original Himekuri sayings and 124 additional selections. [Sources and credits](THIRD_PARTY_NOTICES.md)
 
@@ -60,7 +66,7 @@ The tide name follows the traditional old-calendar day classification. Actual co
 
 ## Tsukikage
 
-Tsukikage (月影) means “moonlight.” Choose **Tsukikage** from the Mac menu-bar calendar or the palette menu on iPhone and iPad. The blue-gray lunar print shows the phase and illuminated fraction for the displayed date, calculated at noon UTC. Near new moon, a constellation chart appears on the dim disk. On selected spaceflight anniversaries, a spacecraft drawing and a historical note mark the event.
+Tsukikage (月影) means “moonlight.” Choose **Tsukikage** from the Mac menu-bar calendar or the paintbrush menu on iPhone and iPad. The blue-gray lunar print shows the phase and illuminated fraction for the displayed date, calculated at noon UTC. Near new moon, a constellation chart appears on the dim disk. On selected spaceflight anniversaries, a spacecraft drawing and a historical note mark the event.
 
 ![Three Tsukikage pages for 2027. January 18 shows a waxing gibbous Moon, January 7 traces Orion across the new moon, and July 20 marks the Apollo 11 landing.](docs/moon-pages.png)
 
@@ -72,7 +78,7 @@ Tsukigoyomi (月暦) places an ivory tear-off sheet on an indigo board with a si
 
 ![Tsukigoyomi pages for May 7, September 15 and November 8, 2027. The ivory sheets show the Moon above the seasonal readings on a deep indigo board.](docs/tsukigoyomi-pages.png)
 
-Choose **Tsukigoyomi** in the Mac menu bar or the palette menu on iPhone and iPad. For the November page shown above, open **Go to Date…** and select November 8, 2027. The page marks the start of winter (立冬) with “Sasanqua camellias open” (山茶始開).
+Choose **Tsukigoyomi** in the Mac menu bar or the paintbrush menu on iPhone and iPad. For the November page shown above, open **Go to Date…** and select November 8, 2027. The page marks the start of winter (立冬) with “Sasanqua camellias open” (山茶始開).
 
 Each of the 24 solar terms contains three microseasons. A new microseason begins on the Japanese civil date when the apparent Sun crosses the next five-degree division. The readings work offline from 1901 through 2100. Full-page widgets carry the printed footer, while smaller widgets and CarPlay show the date, moon phase, and seasonal reading. [Print reference](https://www.543life.com/i/1000000021001) · [Japanese calendar data](https://eco.mtk.nao.ac.jp/koyomi/yoko/)
 
