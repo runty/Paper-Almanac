@@ -4,11 +4,11 @@
 
 Paper Almanac is based on **Himekuri 日めくり**, Pluk’s original macOS tear-off calendar. It adapts Himekuri’s desktop pad and four of its print styles, Shōwa Print, Koyomi, Huangli, and Tong Sheng. Paper Almanac uses its own Metal paper physics engine to simulate how sheets lift, tear, and fall. [Original Himekuri source](https://github.com/pluk-inc/himekuri) · [Himekuri website](https://himekuri.app/)
 
-Paper Almanac works offline on Mac, iPhone, and iPad and opens to the local date. The default Yut Lik theme shows the lunar date, solar term, a weekly proverb, and the day's Do and Avoid activities. Tap or click an activity list to read it in full. Pick from fifteen themes, including Celestial Almanac, Fuji, Tsukikage, Tsukigoyomi, Rekichū, Kin’un, and Illyeok. Widgets follow your selected theme.
+Paper Almanac works offline on Mac, iPhone, and iPad and opens to the local date. The default Yut Lik theme shows the lunar date, solar term, a weekly proverb, and the day's Do and Avoid activities. Tap or click an activity list to read it in full. Pick from sixteen themes, including Celestial Almanac, Fuji, Tsukikage, Tsukigoyomi, Rekichū, Kin’un, Illyeok, and Lịch Việt. Widgets follow your selected theme.
 
 ![Ten of the Mac themes on November 18, 2026](docs/mac-themes.jpg)
 
-Drag the sheet to lift it, or pull a bottom corner diagonally to tear it. Release an attached sheet to let it settle back. A completed tear advances one day. On iPhone and iPad, tap the date number to return to today, or choose **Today** in the **Go to Date…** calendar. On Mac, drag the binding strip to move the calendar. With Kin’un or Tsukigoyomi, you can also grab the exposed backing board above, beside, or below the paper. Clicking the menu-bar calendar brings the pad forward. Use that menu to jump to a date, change themes, or resize the pad.
+Drag the sheet to lift it, or pull a bottom corner diagonally to tear it. Release an attached sheet to let it settle back. A completed tear advances one day. On iPhone and iPad, tap the date number to return to today, or choose **Today** in the **Go to Date…** calendar. On Mac, drag the binding strip to move the calendar, including up to the menu bar and screen edges. Switching themes keeps the visible top-left corner in place. With Kin’un or Tsukigoyomi, you can also grab the exposed backing board above, beside, or below the paper. Clicking the menu-bar calendar brings the pad forward. Use that menu to jump to a date, change themes, or resize the pad.
 
 Turn off **Auto Change Date** in the menu-bar calendar on Mac or the palette menu on iPhone and iPad to keep the pad on its current page. It stays there across midnight and app relaunches. A tear advances the held page by one day. Choose **Today** to hold the current date, or turn automatic updates back on to resume daily rollover.
 
@@ -19,6 +19,12 @@ The **Extra Large Portrait** widget displays one complete, borderless page in yo
 Illyeok draws on a Korean wall calendar with a mint-green binding, a miniature month grid, and patterned date numerals. The page gives the lunar date using the Korean Dangi calendar in Seoul time and the day’s sexagenary name. Saturdays print in blue, and Sundays and January 1 print in red. A striped taegeuk sits behind the New Year’s Day numeral.
 
 In the space the original pad set aside for handwritten notes, Illyeok prints a Korean proverb and an English reading. The 31 sayings rotate by civil date, including across New Year. The apps and widgets share the same offline collection. [Proverb credits](THIRD_PARTY_NOTICES.md)
+
+## Lịch Việt
+
+Lịch Việt pairs a red-and-gold blossom binding with green ruled daily pages inspired by Vietnamese tear-off calendars. The large Gregorian date sits above the Vietnamese lunar date, Can Chi day and year, and six traditional auspicious hours. A one-ink portrait beside the lunar day shows the animal of the day’s earthly branch. Sundays and lunar festivals print in red. On February 17, 2026, the page marks Tết Nguyên Đán and the start of Bính Ngọ, the Year of the Horse.
+
+Lunar dates are calculated offline for 1901–2100 using the modern Vietnamese UTC+7 convention throughout. The calendar marks leap months and uses the Vietnamese zodiac, including the cat and water buffalo. [Vietnamese calendar rules](https://www.xemamlich.uhm.vn/calrules_en.html)
 
 ## Kin’un
 

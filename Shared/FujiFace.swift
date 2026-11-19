@@ -83,7 +83,8 @@ struct FujiFace: View {
                 VStack(spacing: 1 * scale) {
                     Text(verbatim: String(reading.info.day))
                         .font(.custom("HelveticaNeue-Medium", fixedSize: (compact ? 126 : 150) * scale))
-                        .tracking(-4 * scale)
+                        .kerning(-4 * scale)
+                        .fixedSize().padding(.horizontal, 4 * scale)
                         .foregroundStyle(reading.redDate ? Self.red : Self.ink)
                         .dayNumberTarget()
                         .padding(.bottom, -7 * scale)

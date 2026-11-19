@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <path d="M16 25 Q10 20 9 10 Q18 12 23 17 Q32 13 41 17 Q47 11 56 10 Q57 21 49 27 Q58 43 47 51 Q34 61 19 53 Q6 48 12 33 Z" fill="none" stroke="#000" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M13 15 L22 20 L17 25 Z M51 15 L48 24 L43 20 Z M18 31 Q22 27 26 31 Q22 35 18 31 Z M38 30 Q42 26 46 30 Q42 34 38 30 Z M25 42 Q25 39 28 39 Q31 41 28 45 Q25 47 25 42 Z M35 42 Q35 39 38 39 Q41 41 38 45 Q35 46 35 42 Z"/>
+  <path d="M21 43 Q20 36 29 35 Q41 32 43 41 Q45 47 36 49 Q23 52 21 43 Z M28 53 Q34 55 39 51" fill="none" stroke="#000" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

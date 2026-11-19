@@ -20,6 +20,8 @@ struct SheetView: View {
                     }
                 } else if theme == .tsukigoyomi {
                     TsukigoyomiFace(reading: TsukigoyomiReading(page), widget: widgetSize != nil)
+                } else if theme == .lichViet {
+                    LichVietFace(reading: LichVietReading(page), widget: widgetSize != nil)
                 } else if theme == .illyeok {
                     IllyeokFace(reading: IllyeokReading(page), widget: widgetSize != nil)
                 } else if theme == .nihon || theme == .kinun {

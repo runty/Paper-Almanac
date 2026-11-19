@@ -33,6 +33,8 @@ struct WidgetFace: View {
         GeometryReader { box in
             if entry.theme == .tsukigoyomi, let page = entry.sheet.page {
                 TsukigoyomiFace(reading: TsukigoyomiReading(page), widget: true)
+            } else if entry.theme == .lichViet, let page = entry.sheet.page {
+                LichVietFace(reading: LichVietReading(page), widget: true)
             } else if entry.theme == .illyeok, let page = entry.sheet.page {
                 IllyeokFace(reading: IllyeokReading(page), widget: true)
             } else if (entry.theme == .nihon || entry.theme == .kinun), let page = entry.sheet.page {
@@ -349,6 +351,10 @@ struct DashboardAlmanac: View {
                 if let season = reading.season {
                     Text(verbatim: season.term + "  ·  " + season.microseason).font(Theme.mincho(compact ? 13 : 15))
                 }
+            } else if entry.theme == .lichViet {
+                let reading = LichVietReading(page)
+                Text(verbatim: reading.lunarLine)
+                Text(verbatim: reading.festival?.name ?? ("Năm " + reading.yearName))
             } else if entry.theme == .illyeok {
                 let proverb = KoreanProverb.on(page.date.dayID.value)
                 Text(verbatim: proverb.korean).font(.system(size: compact ? 12 : 14, weight: .semibold))
@@ -404,6 +410,8 @@ struct DashboardAlmanac: View {
         let inks: (Color, Color)
         if entry.theme == .tsukigoyomi {
             inks = (TsukigoyomiFace.ink, TsukigoyomiBoard.indigo)
+        } else if entry.theme == .lichViet {
+            inks = (LichVietReading(info.page).ink, LichVietFace.green)
         } else if entry.theme == .illyeok {
             inks = (IllyeokReading(info.page).ink, Color(red: 0.12, green: 0.39, blue: 0.25))
         } else if entry.theme == .kinun {
@@ -442,6 +450,14 @@ struct DashboardAlmanac: View {
                 HStack(spacing: 7) {
                     TungShingNumeral(day: info.day, size: size).foregroundStyle(dateInk)
                     captions
+                }
+            case .lichViet:
+                HStack(spacing: 6) {
+                    day.font(.custom("BodoniSvtyTwoITCTT-Bold", fixedSize: size)).foregroundStyle(dateInk)
+                    VStack(alignment: .leading, spacing: 0) {
+                        monthLabel
+                        Text(verbatim: LichVietReading(info.page).weekday)
+                    }
                 }
             case .illyeok:
                 HStack(spacing: 7) {

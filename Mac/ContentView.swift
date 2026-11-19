@@ -9,6 +9,14 @@ extension DailyTheme {
         default: nil
         }
     }
+    var desktopVisibleWidth: CGFloat {
+        if let board = desktopBoardSize { return board.width }
+        switch self {
+        case .showa, .koyomi, .tongsheng, .huangli, .almanacColumns: return Metrics.pageW + 10
+        default: return Metrics.pageW
+        }
+    }
+    var desktopVisibleTop: CGFloat { desktopBoardSize == nil ? blockTopPad : Self.desktopBoardTop }
     static let desktopBoardTop: CGFloat = 2
 }
 

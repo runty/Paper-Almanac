@@ -8,6 +8,13 @@
   "releaseAdmission": "Existing +08 pair retains its prior release admission; Japanese lunar context derives from admitted regional-lunar-calendars-1. Celestial daily nine-star is an explicitly named annotation variant. CelestialSky is a bounded approximate illustration, not a new accepted calendar/chart capability. CelestialHistory imports the finite source-reviewed 2026-11-18 corpus with GCAT CC BY 4.0 attribution; see each canonical research/import record. Celestial elapsed moon age is a bounded numerical annotation derived from the admitted calendar root inventory, not a new calendar or chart capability. FujiHolidays exposes the unchanged admitted OFFICIAL-HOLIDAYS-JP-1955-2027-v1 table through a shared narrow provider target.",
   "resources": [
     {
+      "file": "vietnamese-months.json",
+      "sha256": "7eb4d4b61b5c9e87c06b2c3fafbbf966dd3b7938636cd8ce04e8f8408722f2e7",
+      "source": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de440s.bsp",
+      "generator": "scripts/build_vietnamese_months.py",
+      "transformation": "Month starts in the modern Vietnamese calendar from apparent new moons and principal solar terms on UTC+7 civil dates, using Skyfield 1.55 and DE440s. Rows contain Unix day, lunar year, and month (negative for a leap month)."
+    },
+    {
       "file": "japanese-microseason-starts.json",
       "sha256": "77d2ff5138bb9d6e01980627ac9076083f77f55c54fd07f578f0d3ec2284ad78",
       "source": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de440s.bsp",

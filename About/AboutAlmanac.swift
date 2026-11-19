@@ -10,10 +10,10 @@ struct AboutAlmanac: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 Link(destination: URL(string: "https://wadscorp.com/")!) {
-                    HStack(spacing: 10) {
+                    HStack(spacing: 4) {
                         Image("Wadscorp")
                             .renderingMode(.template).resizable().scaledToFit()
-                            .frame(width: 40, height: 56).accessibilityHidden(true)
+                            .frame(width: 66, height: 56).accessibilityHidden(true)
                         Text("Wadscorp")
                             .font(.custom("TimesNewRomanPSMT", size: 23, relativeTo: .headline))
                     }
@@ -58,6 +58,9 @@ struct AboutAlmanac: View {
                     Text("The Yut Lik theme draws on the [Yut Lik calendar](https://ricefolk.com/back-on-the-boat-jason-soy-sally-fung-of-yutlik-calendar/) by Jason Soy and Sally Fung of Back On The Boat.")
                     Text("Celestial Almanac’s translucent numerals and astronomical diagrams draw on [NOTON’s Himekuri calendar](https://noton.info/product/nx015/), designed by Carsten Nicolai and nibo.")
                 }
+                credit(DailyTheme.lichViet.title) {
+                    Text("The green ruled pages and red-and-gold binding draw on Vietnamese tear-off calendars. Lunar dates follow the [Vietnamese calendar rules described by Hồ Ngọc Đức](https://www.xemamlich.uhm.vn/calrules_en.html), using new moons and solar terms from JPL’s DE440s ephemeris at UTC+7.")
+                }
                 credit("Illyeok · 일력") {
                     Text("The mint binding and patterned numerals draw on a Korean wall calendar. The Korean proverbs come from [English Wiktionary via Kaikki](https://kaikki.org/dictionary/Korean/pos-proverb/index.html), with English readings adapted for Paper Almanac under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).")
                 }
@@ -71,6 +74,7 @@ struct AboutAlmanac: View {
                 }
                 credit(DailyTheme.moon.title) {
                     Text("The printed layout draws on Shin Nippon Calendar’s Sora daily calendar. The lunar engraving adapts the [LRO near-side mosaic](https://science.nasa.gov/photojournal/nearside-spectacular/) by NASA, GSFC and Arizona State University. The Wadscorp engine supplies the daily illumination at noon UTC.")
+                    Text("Spaceflight anniversaries draw on NASA’s histories of [Apollo 11](https://www.nasa.gov/missions/apollo/apollo-11-mission-overview/), [Voyager 2](https://science.nasa.gov/mission/voyager/voyager-2/) and [Hubble and Sputnik](https://science.nasa.gov/mission/hubble/overview/hubble-timeline/hubble-history-timeline-full-text/).")
                 }
                 credit(DailyTheme.tsukigoyomi.title) {
                     Text("The indigo mount and lunar page draw on [Koyomi Seikatsu’s 月と暦 calendar](https://www.543life.com/i/1000000021001). The engine calculates the Japanese dates of the 24 solar terms and 72 microseasons from JPL’s DE440s ephemeris.")
@@ -82,7 +86,8 @@ struct AboutAlmanac: View {
                     Text("[Cabinet Office holiday tables](https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html)")
                 }
                 credit("Daily readings") {
-                    Text("The Wadscorp Tung Shing engine supplies the daily almanac. Celestial Almanac’s historical launch entries use [Jonathan McDowell’s General Catalog of Artificial Space Objects](https://planet4589.org/space/gcat/) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).")
+                    Text("The Wadscorp Tung Shing engine adapts almanac rules from OPN48’s cnlunar. [Engine credits and licenses](https://github.com/runty/Paper-Almanac/blob/main/Engine/Sources/TungShingDailyAlmanac/Resources/THIRD_PARTY_NOTICES.txt)")
+                    Text("Celestial Almanac’s historical launch entries use [Jonathan McDowell’s General Catalog of Artificial Space Objects](https://planet4589.org/space/gcat/) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).")
                 }
                 credit("Chinese proverbs") {
                     Text("Selected from English Wiktionary contributors via [Kaikki](https://kaikki.org/dictionary/Chinese/pos-proverb/index.html). Some English readings are abridged or reworded. The collection is shared under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).")

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Added **Lịch Việt**, a Vietnamese tear-off calendar with lunar dates, festivals, Can Chi, auspicious hours, and illustrated daily zodiac animals. It is available on Mac, iPhone, iPad, and widgets.
+- Updated the Wadscorp logo and source credits in About.
+- On Mac, the calendar can be dragged up to the menu bar and toward the screen edges. Switching themes keeps the visible top-left corner in place. Fixed clipped date numerals in Lịch Việt and Fuji.
+
 - Added **Kin’un**, a yellow Japanese tear-off calendar for Mac, iPhone, iPad, and widgets. A gilt octagonal mirror sits on the backing board. Vermilion gourds and rice sprigs mark 一粒万倍日 on the printed page.
 - On Mac, drag the exposed backing board of **Kin’un** or **Tsukigoyomi** to move the calendar. The binding strip also moves the window, and dragging the sheet lifts it for tearing.
 - Added **Tsukigoyomi**, an indigo-backed lunar calendar for Mac, iPhone, iPad and widgets. The page pairs the Moon at noon in Japan with the current solar term, a bilingual microseason reading, and the day’s Rokuyō. CarPlay shows a compact version.

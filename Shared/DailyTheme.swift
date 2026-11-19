@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum DailyTheme: String, CaseIterable, Identifiable {
-    case tungShing, celestialAlmanac, editorialDay, tongsheng, huangli, fuji, moon, tsukigoyomi, nihon, kinun, illyeok
+    case tungShing, celestialAlmanac, editorialDay, tongsheng, huangli, fuji, moon, tsukigoyomi, nihon, kinun, illyeok, lichViet
     case showa, koyomi, deskLedger = "deskBlock", almanacColumns
     var id: Self { self }
     static let calendarLayoutKey = "print.himekuriCalendar"
@@ -44,10 +44,11 @@ enum DailyTheme: String, CaseIterable, Identifiable {
 
     var blockTopPad: CGFloat { self == .kinun ? Kinun.headerHeight + 2 : Metrics.blockTopPad }
 
-    var offersActivityLists: Bool { self != .tsukigoyomi && self != .fuji && self != .moon && self != .kinun && self != .nihon && self != .illyeok }
+    var offersActivityLists: Bool { self != .tsukigoyomi && self != .fuji && self != .moon && self != .kinun && self != .nihon && self != .illyeok && self != .lichViet }
 
     var widgetPaper: Color {
         if self == .tsukigoyomi { return TsukigoyomiFace.paper }
+        if self == .lichViet { return LichVietFace.paper }
         if self == .illyeok { return IllyeokFace.paper }
         if self == .kinun { return Kinun.paper }
         if self == .nihon { return NihonFace.paper }
@@ -65,6 +66,7 @@ enum DailyTheme: String, CaseIterable, Identifiable {
         case .moon: "Tsukikage"
         case .kinun: "Kin’un"
         case .nihon: "Rekichū"
+        case .lichViet: "Lịch Việt"
         case .illyeok: "Illyeok"
         case .deskLedger: "Desk Ledger"
         case .almanacColumns: "Almanac Columns"
@@ -84,6 +86,7 @@ struct Sheet {
             return description + " Chinese proverb. " + proverb.english
         }
         if theme == .tsukigoyomi, let page { return TsukigoyomiReading(page).summary }
+        if theme == .lichViet, let page { return LichVietReading(page).summary }
         if theme == .illyeok, let page { return IllyeokReading(page).summary }
         if theme == .kinun, let page { return Kinun.summary(NihonReading(page)) }
         if theme == .nihon, let page { return NihonReading(page).summary }

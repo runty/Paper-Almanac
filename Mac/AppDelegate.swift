@@ -227,9 +227,16 @@ private enum CalendarSize: Int, CaseIterable {
         store.calendarLayout = theme.opensWithCalendar
         DailyTheme.defaults.set(store.calendarLayout, forKey: DailyTheme.calendarLayoutKey)
         DailyTheme.defaults.set(value, forKey: DailyTheme.key)
-        let movesPage = store.theme.blockTopPad != theme.blockTopPad
+        let scale = CalendarSize.saved.scale
+        let frame = pad.frame
+        let previousTheme = store.theme
+        let visibleLeft = frame.midX - previousTheme.desktopVisibleWidth * scale / 2
+        let visibleTop = frame.maxY - previousTheme.desktopVisibleTop * scale
         store.theme = theme
-        if movesPage { resizePad(to: .saved) }
+        resizePad(to: .saved)
+        let updated = pad.frame
+        pad.setFrameOrigin(NSPoint(x: visibleLeft - (updated.width - theme.desktopVisibleWidth * scale) / 2,
+                                   y: visibleTop + theme.desktopVisibleTop * scale - updated.height))
         if theme == .moon { MoonLocation.shared.refresh() }
         WidgetCenter.shared.reloadTimelines(ofKind: "TungShingDailyWidget")
     }

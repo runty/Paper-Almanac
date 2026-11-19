@@ -86,7 +86,7 @@ final class MobileUITests: XCTestCase {
         add(proof)
         let fuji = app.staticTexts["Fuji"]
         let credits = app.scrollViews["about-almanac"]
-        for _ in 0..<4 where !fuji.isHittable {
+        for _ in 0..<14 where !fuji.isHittable {
             let start = credits.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.75))
             let end = credits.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.45))
             start.press(forDuration: 0.1, thenDragTo: end, withVelocity: .slow, thenHoldForDuration: 0.15)

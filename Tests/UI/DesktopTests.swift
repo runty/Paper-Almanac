@@ -1,6 +1,56 @@
 import XCTest
+import AppKit
 
 final class DesktopTests: XCTestCase {
+    @MainActor func testAboutBranding() {
+        let app = XCUIApplication()
+        app.launch()
+        let status = app.statusItems["Paper Almanac"]
+        status.click()
+        status.menuItems["About"].click()
+        let about = app.windows["About"]
+        XCTAssertTrue(about.waitForExistence(timeout: 5))
+        XCTAssertTrue(about.descendants(matching: .any)["Wadscorp website"].firstMatch.isHittable)
+        let proof = XCTAttachment(screenshot: about.screenshot())
+        proof.name = "About"
+        proof.lifetime = .keepAlways
+        add(proof)
+    }
+
+    @MainActor func testThemeSwitchKeepsVisibleTopLeft() {
+        let app = XCUIApplication()
+        app.launchArguments = ["-print.theme", "lichViet", "-desktopCalendarSize", "100"]
+        app.launch()
+        let pad = app.windows["Paper Almanac"]
+        XCTAssertTrue(pad.waitForExistence(timeout: 8))
+        let start = pad.frame
+        let expectedX = start.midX - 150
+        let expectedY = start.minY + 26
+        let status = app.statusItems["Paper Almanac"]
+        for (title, width, top) in [("Kin’un", 316.0, 2.0), ("Tsukigoyomi", 324.0, 2.0), ("Lịch Việt", 300.0, 26.0)] {
+            status.click()
+            status.menuItems["Theme"].hover()
+            status.menuItems[title].click()
+            XCTAssertEqual(pad.frame.midX - width / 2, expectedX, accuracy: 1, title)
+            XCTAssertEqual(pad.frame.minY + top, expectedY, accuracy: 1, title)
+        }
+    }
+
+    @MainActor func testUnbackedCalendarReachesMenuBar() {
+        let app = XCUIApplication()
+        app.launchArguments = ["-print.theme", "lichViet", "-desktopCalendarSize", "100"]
+        app.launch()
+        let pad = app.windows["Paper Almanac"]
+        XCTAssertTrue(pad.waitForExistence(timeout: 8))
+        let start = pad.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0))
+            .withOffset(CGVector(dx: 0, dy: 38))
+        let target = start.withOffset(CGVector(dx: 0, dy: -pad.frame.minY - 36))
+        start.click(forDuration: 0.2, thenDragTo: target, withVelocity: .slow, thenHoldForDuration: 0.2)
+        let screen = NSScreen.main!
+        let menuBottom = screen.frame.maxY - screen.visibleFrame.maxY
+        XCTAssertEqual(pad.frame.minY + 26, menuBottom, accuracy: 3)
+    }
+
     @MainActor func testBackingBoardDragsMoveWindowAndPaperDragKeepsItInPlace() {
         let app = XCUIApplication()
         for (theme, percent) in [("kinun", 100), ("tsukigoyomi", 150)] {

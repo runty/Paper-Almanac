@@ -229,6 +229,11 @@ private struct AccessibleDay: View {
                         Text(verbatim: season.microseason).font(.headline)
                         Text(verbatim: season.microseasonEnglish)
                     }
+                } else if let day = sheet.page, theme == .lichViet {
+                    let reading = LichVietReading(day)
+                    Text(verbatim: reading.weekday + "  ·  " + reading.lunarLine)
+                    Text(verbatim: "Năm " + reading.yearName + "  ·  Ngày " + reading.dayName)
+                    if let festival = reading.festival { Text(verbatim: festival.name + "  ·  " + festival.english).font(.headline) }
                 } else if let day = sheet.page, theme == .illyeok {
                     let value = IllyeokReading(day)
                     Text(verbatim: value.weekday + "  ·  " + value.dateLine)
