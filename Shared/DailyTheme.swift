@@ -2,7 +2,18 @@ import SwiftUI
 
 enum DailyTheme: String, CaseIterable, Identifiable {
     case tungShing, celestialAlmanac, editorialDay, tongsheng, huangli, fuji, moon, tsukigoyomi, nihon, kinun, illyeok, lichViet
-    case showa, koyomi, deskLedger = "deskBlock", almanacColumns
+    case showa, koyomi, twinPillars = "deskBlock"
+
+    init?(rawValue: String) {
+        if rawValue == "almanacColumns" {
+            self = .twinPillars
+        } else if let theme = Self.allCases.first(where: { $0.rawValue == rawValue }) {
+            self = theme
+        } else {
+            return nil
+        }
+    }
+
     var id: Self { self }
     static let calendarLayoutKey = "print.himekuriCalendar"
     static var savedCalendarLayout: Bool { defaults.bool(forKey: calendarLayoutKey) }
@@ -32,13 +43,13 @@ enum DailyTheme: String, CaseIterable, Identifiable {
     }
     /// Apply the weekday ink to the first character of a Do/Avoid heading.
     func activityHeading(_ label: String, onDarkPaper: Bool = false) -> Text {
-        guard self == .deskLedger else { return Text(verbatim: label) }
+        guard self == .twinPillars else { return Text(verbatim: label) }
         var text = AttributedString(label)
-        text[..<text.characters.prefix(1).endIndex].foregroundColor = Self.ledgerInk(onDarkPaper: onDarkPaper)
+        text[..<text.characters.prefix(1).endIndex].foregroundColor = Self.pillarInk(onDarkPaper: onDarkPaper)
         return Text(text)
     }
 
-    static func ledgerInk(onDarkPaper: Bool = false) -> Color {
+    static func pillarInk(onDarkPaper: Bool = false) -> Color {
         onDarkPaper ? Color(red: 1, green: 0.65, blue: 0.56) : ResearchFace.vermilion
     }
 
@@ -68,8 +79,7 @@ enum DailyTheme: String, CaseIterable, Identifiable {
         case .nihon: "Rekichū"
         case .lichViet: "Lịch Việt"
         case .illyeok: "Illyeok"
-        case .deskLedger: "Desk Ledger"
-        case .almanacColumns: "Almanac Columns"
+        case .twinPillars: "Twin Pillars"
         case .editorialDay: "Editorial Day"
         default: original!.title
         }

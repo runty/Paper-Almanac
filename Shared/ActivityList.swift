@@ -72,7 +72,7 @@ private struct ActivityList: View {
                     dateNumber(info.day).foregroundStyle(dateInk)
                     VStack(alignment: .leading, spacing: 2) {
                         Text(verbatim: weekdayNamesEN[info.weekday])
-                            .foregroundColor(theme == .deskLedger ? ResearchFace.vermilion : nil)
+                            .foregroundColor(theme == .twinPillars ? ResearchFace.vermilion : nil)
                         Text(verbatim: monthNamesEN[info.month] + " " + String(info.year))
                     }
                     .font(.system(.caption, design: design, weight: .bold))

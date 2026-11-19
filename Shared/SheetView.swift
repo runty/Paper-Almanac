@@ -69,24 +69,21 @@ struct ResearchFace: View {
     var body: some View {
         VStack(spacing: 0) {
             switch theme {
-            case .deskLedger:
-                HStack { Text(String(info.year)); Spacer(); Text(monthNamesEN[info.month]) }.font(.headline)
-                Divider()
-                dayNumber(.serif, 144)
-                Text(weekdayNamesEN[info.weekday]).font(.headline).foregroundStyle(Self.vermilion)
-                Text(info.lunarCaption).font(.title3)
-                Spacer()
-                ActivityPanel(page: page, design: .serif, theme: theme).padding(.vertical, 12).border(ink)
-            case .almanacColumns:
+            case .twinPillars:
                 HStack(spacing: 8) {
-                    VerticalText(info.yearPillar, font: Theme.mincho(18), color: Self.vermilion, spacing: 3)
-                    Divider()
-                    VStack { Text(monthNamesEN[info.month]); dayNumber(.serif, 104); Text(info.lunarCaption) }
-                    Divider()
+                    VerticalText(info.yearPillar, font: Theme.mincho(18), color: ink, spacing: 3)
+                        .frame(width: 24)
+                    VStack(spacing: 2) {
+                        Text(verbatim: monthNamesEN[info.month] + " " + String(info.year)).font(.headline)
+                        dayNumber(.serif, 120).lineLimit(1).minimumScaleFactor(0.65)
+                        Text(verbatim: weekdayNamesEN[info.weekday]).font(.headline).foregroundStyle(Self.vermilion)
+                        Text(verbatim: info.lunarCaption).font(.title3)
+                    }.frame(maxWidth: .infinity)
                     VerticalText(info.report.dayPillar.label + "日", font: Theme.mincho(18), color: ink, spacing: 3)
-                }.frame(maxWidth: .infinity, maxHeight: .infinity).border(ink)
-                Text(weekdayNamesEN[info.weekday]).font(.caption.bold()).padding(6)
-                ActivityPanel(page: page, design: .serif).padding(9).border(ink)
+                        .frame(width: 24)
+                }.frame(maxHeight: .infinity)
+                Rectangle().fill(ink.opacity(0.45)).frame(height: 0.75)
+                ActivityPanel(page: page, design: .serif, theme: theme).padding(.vertical, 12)
             default:
                 VStack(alignment: .leading, spacing: 3) {
                     Text(monthNamesEN[info.month]).font(.headline).tracking(3)

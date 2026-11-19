@@ -362,13 +362,14 @@ final class PhaseOneTests: XCTestCase {
         let sheet = Sheet(label: page.date.label, page: page)
         var rendered = Set<Data>()
         XCTAssertEqual(DailyTheme(rawValue: "tungShing")?.title, "Yut Lik")
-        XCTAssertEqual(DailyTheme(rawValue: "deskBlock")?.title, "Desk Ledger")
+        XCTAssertEqual(DailyTheme(rawValue: "almanacColumns"), .twinPillars)
+        XCTAssertEqual(DailyTheme(rawValue: "deskBlock")?.title, "Twin Pillars")
         XCTAssertEqual(DailyTheme(rawValue: "moon")?.title, "Tsukikage")
         XCTAssertEqual(DailyTheme(rawValue: "nihon")?.title, "Rekichū")
         XCTAssertNil(DailyTheme(rawValue: "brutalist"))
         XCTAssertNil(DailyTheme(rawValue: "calendarPoster"))
         XCTAssertEqual(DailyTheme.allCases, [.tungShing, .celestialAlmanac, .editorialDay, .tongsheng, .huangli, .fuji, .moon, .tsukigoyomi, .nihon, .kinun, .illyeok, .lichViet,
-                                             .showa, .koyomi, .deskLedger, .almanacColumns])
+                                             .showa, .koyomi, .twinPillars])
         XCTAssertEqual(DailyTheme.allCases.filter(\.opensWithCalendar), [.showa, .koyomi])
         for example in pages {
             let exampleSheet = Sheet(label: example.date.label, page: example)
@@ -390,7 +391,7 @@ final class PhaseOneTests: XCTestCase {
                 }
             }
         }
-        XCTAssertEqual(rendered.count, 60)
+        XCTAssertEqual(rendered.count, 57)
         let leapDay = try await DayReader.load(["2024-02-29"])[0]
         let february = DayInfo(page: leapDay).grid
         XCTAssertEqual(february.first, [nil, nil, nil, nil, 1, 2, 3])

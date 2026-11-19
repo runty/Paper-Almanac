@@ -5,7 +5,7 @@ struct ThemeBinding: View {
     let theme: DailyTheme
 
     var body: some View {
-        if theme == .editorialDay || theme == .deskLedger || theme == .moon || theme == .kinun || theme == .nihon || theme == .illyeok || theme == .lichViet {
+        if theme == .editorialDay || theme == .twinPillars || theme == .moon || theme == .kinun || theme == .nihon || theme == .illyeok || theme == .lichViet {
             Group {
                 if theme == .editorialDay {
                     EditorialLinen()

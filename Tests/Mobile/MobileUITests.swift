@@ -124,7 +124,7 @@ final class MobileUITests: XCTestCase {
         }
         select("Shōwa Print")
         XCTAssertEqual(toggle.label, "Show Do and Don’t")
-        select("Desk Ledger")
+        select("Twin Pillars")
         XCTAssertFalse(toggle.exists)
         XCTAssertTrue(show("2026-11-11", in: app).label.contains("Extend grace"))
         select("Yut Lik")
@@ -138,7 +138,7 @@ final class MobileUITests: XCTestCase {
         defer {
             if let previous { palette.tap(); app.buttons[previous].tap() }
         }
-        for title in ["Yut Lik", "Editorial Day", "Desk Ledger"] {
+        for title in ["Yut Lik", "Editorial Day", "Twin Pillars"] {
             palette.tap()
             app.buttons[title].tap()
             XCTAssertEqual(palette.value as? String, title)
@@ -218,11 +218,11 @@ final class MobileUITests: XCTestCase {
         app.launch()
         let theme = app.buttons["Theme"]
         theme.tap()
-        app.buttons["Desk Ledger"].tap()
-        XCTAssertEqual(theme.value as? String, "Desk Ledger")
+        app.buttons["Twin Pillars"].tap()
+        XCTAssertEqual(theme.value as? String, "Twin Pillars")
         app.terminate()
         app.launch()
-        XCTAssertEqual(theme.value as? String, "Desk Ledger")
+        XCTAssertEqual(theme.value as? String, "Twin Pillars")
         theme.tap()
         app.buttons["Yut Lik"].tap()
         XCTAssertEqual(theme.value as? String, "Yut Lik")

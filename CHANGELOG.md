@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Combined Desk Ledger and Almanac Columns into **Twin Pillars**. A single fine line separates the three date columns from the Do and Avoid lists. Either previous theme selection opens Twin Pillars.
+
 - Added **Lịch Việt**, a Vietnamese tear-off calendar with lunar dates, festivals, Can Chi, auspicious hours, and illustrated daily zodiac animals. It is available on Mac, iPhone, iPad, and widgets.
 - Updated the Wadscorp logo and source credits in About.
 - On Mac, the calendar can be dragged up to the menu bar and toward the screen edges. Switching themes keeps the visible top-left corner in place. Fixed clipped date numerals in Lịch Việt and Fuji.

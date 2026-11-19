@@ -87,7 +87,7 @@ struct WidgetFace: View {
                     fittedPaper(in: CGSize(width: box.size.width * 0.43, height: box.size.height - 12))
                     VStack(alignment: .leading, spacing: 10) {
                         Text(verbatim: weekdayNamesEN[page.date.weekdaySunday0 + 1] + " · " + page.report.weekdayLabel)
-                            .font(.headline).foregroundStyle(entry.theme == .deskLedger ? ResearchFace.vermilion : ink)
+                            .font(.headline).foregroundStyle(entry.theme == .twinPillars ? ResearchFace.vermilion : ink)
                         Rectangle().fill(ink).frame(height: 1)
                         expandedList("宜  DO", .recommended, page.recommended)
                         expandedList("忌  AVOID", .avoided, page.avoided)
@@ -106,7 +106,7 @@ struct WidgetFace: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(verbatim: weekdayNamesEN[page.date.weekdaySunday0 + 1])
                             .font(.caption.weight(.black)).tracking(1)
-                            .foregroundColor(entry.theme == .deskLedger ? ResearchFace.vermilion : nil)
+                            .foregroundColor(entry.theme == .twinPillars ? ResearchFace.vermilion : nil)
                         Divider()
                         ViewThatFits(in: .vertical) {
                             mediumReadings(page, count: 2)
@@ -175,7 +175,8 @@ struct WidgetFace: View {
             Text(verbatim: String(page.date.day))
                 .font(.system(size: compact ? 40 : 59, weight: .black, design: widgetDesign))
                 .foregroundStyle(ink)
-            let weekday = Text(verbatim: page.report.weekdayLabel).foregroundColor(entry.theme == .deskLedger ? ResearchFace.vermilion : nil)
+            let weekdayLabel = entry.theme == .twinPillars ? weekdayNamesEN[page.date.weekdaySunday0 + 1] : page.report.weekdayLabel
+            let weekday = Text(verbatim: weekdayLabel).foregroundColor(entry.theme == .twinPillars ? ResearchFace.vermilion : nil)
             Text("\(weekday) · \(page.report.lunarDayLabel)").font(.caption.bold())
             if let line = page.recommended.lines.first { entry.theme.activityHeading("宜 " + line) }
             if let line = page.avoided.lines.first { entry.theme.activityHeading("忌 " + line) }
@@ -428,7 +429,7 @@ struct DashboardAlmanac: View {
             inks = (original.accent(for: info), entry.theme == .koyomi ? original.accentRed : original.ink)
         } else {
             let umber = Color(red: 0.16, green: 0.11, blue: 0.09)
-            inks = (umber, entry.theme == .deskLedger ? umber : Ink.vermilion)
+            inks = (umber, entry.theme == .twinPillars ? umber : Ink.vermilion)
         }
         func legible(_ ink: Color) -> Color {
             colorScheme == .dark ? ink.mix(with: .white, by: 0.76) : ink.mix(with: .black, by: 0.12)
@@ -530,22 +531,13 @@ struct DashboardAlmanac: View {
                         }
                     }.font(.system(size: 13, weight: .bold, design: .serif))
                 }
-            case .deskLedger:
-                HStack(spacing: 6) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        monthLabel
-                        weekday.foregroundStyle(DailyTheme.ledgerInk(onDarkPaper: colorScheme == .dark))
-                    }
+            case .twinPillars:
+                HStack(spacing: 4) {
+                    monthLabel
                     Spacer(minLength: 0)
                     serifDay
-                }
-            case .almanacColumns:
-                HStack(spacing: 5) {
-                    monthLabel
-                    Rectangle().fill(ruleInk).frame(width: 1, height: size * 0.6)
-                    serifDay
-                    Rectangle().fill(ruleInk).frame(width: 1, height: size * 0.6)
-                    weekday
+                    Spacer(minLength: 0)
+                    weekday.foregroundStyle(DailyTheme.pillarInk(onDarkPaper: colorScheme == .dark))
                 }.font(.system(size: 11, weight: .bold, design: .serif))
             }
         }
