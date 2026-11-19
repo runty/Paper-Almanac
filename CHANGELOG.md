@@ -3,6 +3,7 @@
 ## 0.2.3 · November 18, 2026
 
 - The new **Extra Large Portrait** widget fills a tall tile with one complete, borderless almanac page in your selected theme. Add it from the Home Screen on iPhone or from Today View on iPad.
+- About features the new Wadscorp dog engraving and a matching Times New Roman wordmark. The GitHub link sits beside the Paper Almanac title.
 
 ## 0.2.1 · November 18, 2026
 

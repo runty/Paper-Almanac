@@ -4,41 +4,43 @@ struct AboutAlmanac: View {
     private let paper = Color(red: 0.985, green: 0.977, blue: 0.945)
     private let ink = Color(red: 0.09, green: 0.23, blue: 0.18)
     private let redInk = Color(red: 0.60, green: 0.16, blue: 0.15)
+    private let wadscorpInk = Color(red: 67.0 / 255, green: 55.0 / 255, blue: 44.0 / 255)
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                HStack {
-                    Link(destination: URL(string: "https://wadscorp.com/")!) {
-                        HStack(spacing: 10) {
-                            Image("Wadscorp")
-                                .renderingMode(.original).resizable().scaledToFit()
-                                .frame(width: 42, height: 36).accessibilityHidden(true)
-                            Text("Wadscorp")
-                                .font(.system(.headline, design: .serif).weight(.semibold))
-                        }
-                        .contentShape(Rectangle())
+                Link(destination: URL(string: "https://wadscorp.com/")!) {
+                    HStack(spacing: 10) {
+                        Image("Wadscorp")
+                            .renderingMode(.template).resizable().scaledToFit()
+                            .frame(width: 40, height: 56).accessibilityHidden(true)
+                        Text("Wadscorp")
+                            .font(.custom("TimesNewRomanPSMT", size: 23, relativeTo: .headline))
                     }
-                    .accessibilityLabel("Wadscorp website")
-
-                    Spacer()
-
-                    Link(destination: URL(string: "https://github.com/runty/Paper-Almanac")!) {
-                        Image("GitHubMark")
-                            .renderingMode(.original)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 34, height: 34)
-                            .frame(width: 44, height: 44)
-                            .contentShape(Rectangle())
-                    }
-                    .accessibilityLabel("Paper Almanac on GitHub")
-                    .help("View Paper Almanac on GitHub")
+                    .foregroundStyle(wadscorpInk)
+                    .contentShape(Rectangle())
                 }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Wadscorp website")
+
                 VStack(alignment: .leading, spacing: 5) {
-                    Text(AppIdentity.name)
-                        .font(.system(.largeTitle, design: .serif).weight(.semibold))
-                        .accessibilityAddTraits(.isHeader)
+                    HStack(spacing: 12) {
+                        Text(AppIdentity.name)
+                            .font(.system(.largeTitle, design: .serif).weight(.semibold))
+                            .accessibilityAddTraits(.isHeader)
+                        Spacer(minLength: 0)
+                        Link(destination: URL(string: "https://github.com/runty/Paper-Almanac")!) {
+                            Image("GitHubMark")
+                                .renderingMode(.original)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 34, height: 34)
+                                .frame(width: 44, height: 44)
+                                .contentShape(Rectangle())
+                        }
+                        .accessibilityLabel("Paper Almanac on GitHub")
+                        .help("View Paper Almanac on GitHub")
+                    }
                     Text(AppIdentity.subtitle).font(.body)
                     if let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String,
                        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String {
@@ -75,7 +77,8 @@ struct AboutAlmanac: View {
                 }
             }
             .frame(maxWidth: 530, alignment: .leading)
-            .padding(24)
+            .padding([.horizontal, .bottom], 24)
+            .padding(.top, 12)
             .frame(maxWidth: .infinity)
         }
         .background(paper)
