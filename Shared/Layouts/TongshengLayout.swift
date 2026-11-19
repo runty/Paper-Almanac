@@ -186,12 +186,12 @@ struct TongshengLayout: View {
     private var adviceRow: some View {
         HStack(spacing: 0) {
             adviceColumn("宜", info.chineseActivities(info.page.recommended, empty: "無所宜"))
-                .activityLink(day: info.page.date.label, side: .recommended)
+                .activityLink(side: .recommended)
             vRule
             hours
             vRule
             adviceColumn("忌", info.chineseActivities(info.page.avoided, empty: info.report.trace.avoidsEverything ? "諸事皆忌" : "無所忌"))
-                .activityLink(day: info.page.date.label, side: .avoided)
+                .activityLink(side: .avoided)
         }
         .frame(height: 96)
     }

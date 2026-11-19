@@ -20,19 +20,21 @@ final class MobileUITests: XCTestCase {
         XCTAssertTrue(page.waitForExistence(timeout: 12))
         return page
     }
-    @MainActor func testPrintedOverflowAndWidgetActivityLink() {
+    @MainActor func testInAppActivityListAndWidgetDayLinks() {
         let app = XCUIApplication()
         let page = show("2026-10-31", in: app)
         page.coordinate(withNormalizedOffset: CGVector(dx: 0.661, dy: 0.76)).tap()
         XCTAssertTrue(app.staticTexts["忌 · Avoid"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["Arrange a burial"].exists)
-        app.buttons["Done"].tap()
-        app.open(URL(string: "tungshingdaily://day/2026-11-06?activities=do")!)
-        acceptOpen()
-        XCTAssertTrue(app.staticTexts["宜 · Do"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Clean your home"].waitForExistence(timeout: 5))
-        app.buttons["Done"].tap()
-        XCTAssertTrue(app.descendants(matching: .any)["daily-sheet-2026-11-06"].exists)
+        // A cached widget may still supply the former activity-specific URL.
+        for side in ["do", "avoid"] {
+            app.open(URL(string: "tungshingdaily://day/2026-11-06?activities=" + side)!)
+            acceptOpen()
+            XCTAssertTrue(app.descendants(matching: .any)["daily-sheet-2026-11-06"].waitForExistence(timeout: 5))
+            XCTAssertFalse(app.buttons["Done"].exists)
+        }
+        _ = show("2026-11-11", in: app)
+        XCTAssertFalse(app.buttons["Done"].exists)
     }
 
     @MainActor func testMoonUsesSeasonalSkyUntilLocationIsSelected() {

@@ -16,7 +16,8 @@ private struct FamilyFace: View {
         #endif
     }
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "TungShingDailyWidget", provider: DailyProvider()) { FamilyFace(entry: $0) }
+        AppIntentConfiguration(kind: "TungShingDailyWidget", intent: AlmanacWidgetConfiguration.self,
+                               provider: DailyProvider()) { FamilyFace(entry: $0) }
             .configurationDisplayName("Daily Almanac")
             .description(Text(verbatim: AppIdentity.subtitle))
             .supportedFamilies(families).contentMarginsDisabled()

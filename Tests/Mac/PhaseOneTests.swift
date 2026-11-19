@@ -86,7 +86,7 @@ final class PhaseOneTests: XCTestCase {
         // New York changes its clocks on March 8, 2026.
         let zone = try XCTUnwrap(TimeZone(identifier: "America/New_York"))
         let start = try XCTUnwrap(ISO8601DateFormatter().date(from: "2026-03-08T04:30:00Z"))
-        let entries = await DailyProvider().entries(starting: start, zone: zone, theme: .editorialDay)
+        let entries = await DailyProvider().entries(starting: start, zone: zone, choice: WidgetThemeChoice(fixedTheme: .editorialDay))
         XCTAssertEqual(entries.map(\.sheet.label), ["2026-03-07","2026-03-08","2026-03-09","2026-03-10","2026-03-11"])
         XCTAssertEqual(entries[2].date.timeIntervalSince(entries[1].date), 23 * 3600)
         for e in entries {

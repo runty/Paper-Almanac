@@ -295,6 +295,6 @@ private struct AccessibleDay: View {
             ForEach(reading.lines, id: \.self) { Text(verbatim: $0) }
             if reading.remaining > 0 { Text("+\(reading.remaining) more").font(.footnote) }
         }.frame(maxWidth: .infinity, alignment: .leading)
-            .activityLink(day: sheet.label, side: side)
+            .activityLink(side: side)
     }
 }

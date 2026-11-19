@@ -24,7 +24,6 @@ struct WidgetFace: View {
             #endif
         }
         .containerBackground(for: .widget) { entry.theme.widgetPaper }
-        .environment(\.widgetActivityLinks, true)
         .widgetURL(URL(string: "tungshingdaily://day/" + entry.sheet.label))
         .accessibilityElement(children: .combine)
     }
@@ -89,8 +88,8 @@ struct WidgetFace: View {
                         Text(verbatim: weekdayNamesEN[page.date.weekdaySunday0 + 1] + " · " + page.report.weekdayLabel)
                             .font(.headline).foregroundStyle(entry.theme == .twinPillars ? ResearchFace.vermilion : ink)
                         Rectangle().fill(ink).frame(height: 1)
-                        expandedList("宜  DO", .recommended, page.recommended)
-                        expandedList("忌  AVOID", .avoided, page.avoided)
+                        expandedList("宜  DO", page.recommended)
+                        expandedList("忌  AVOID", page.avoided)
                     }
                     .foregroundStyle(entry.theme == .tungShing && page.holiday != nil
                         ? Color(red: 0.025, green: 0.32, blue: 0.22) : ink)
@@ -231,7 +230,7 @@ struct WidgetFace: View {
         }
         return Color(red: 0.22, green: 0.12, blue: 0.10)
     }
-    private func expandedList(_ title: String, _ side: ActivityPreference.Side, _ reading: Reading) -> some View {
+    private func expandedList(_ title: String, _ reading: Reading) -> some View {
         VStack(alignment: .leading, spacing: 3) {
             entry.theme.activityHeading(title).font(.caption.weight(.black)).tracking(1)
             ForEach(reading.lines, id: \.self) { line in
@@ -239,14 +238,11 @@ struct WidgetFace: View {
             }
             if reading.remaining > 0 { Text("+\(reading.remaining) more").font(.caption2) }
         }.frame(maxWidth: .infinity, alignment: .leading)
-            .activityLink(day: entry.sheet.label, side: side)
     }
     private func mediumReadings(_ page: PrintedDay, count: Int) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             widgetList("宜  DO", page.recommended, count: count)
-                .activityLink(day: entry.sheet.label, side: .recommended)
             widgetList("忌  AVOID", page.avoided, count: count)
-                .activityLink(day: entry.sheet.label, side: .avoided)
         }
         .fixedSize(horizontal: false, vertical: true)
     }

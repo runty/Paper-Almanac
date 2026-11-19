@@ -4,7 +4,7 @@
 
 Paper Almanac is based on **Himekuri 日めくり**, Pluk’s original macOS tear-off calendar. It adapts Himekuri’s desktop pad and four of its print styles, Shōwa Print, Koyomi, Huangli, and Tong Sheng. Paper Almanac uses its own Metal paper physics engine to simulate how sheets lift, tear, and fall. [Original Himekuri source](https://github.com/pluk-inc/himekuri) · [Himekuri website](https://himekuri.app/)
 
-Paper Almanac works offline on Mac, iPhone, and iPad and opens to the local date. The default Yut Lik theme shows the lunar date, solar term, a weekly proverb, and the day's Do and Avoid activities. Tap or click an activity list to read it in full. Pick from fifteen themes, including Twin Pillars, Celestial Almanac, Fuji, Tsukikage, Tsukigoyomi, Rekichū, Kin’un, Illyeok, and Lịch Việt. Widgets follow your selected theme.
+Paper Almanac works offline on Mac, iPhone, and iPad and opens to the local date. The default Yut Lik theme shows the lunar date, solar term, a weekly proverb, and the day's Do and Avoid activities. In the app, tap or click an activity list to read it in full. Pick from fifteen themes, including Twin Pillars, Celestial Almanac, Fuji, Tsukikage, Tsukigoyomi, Rekichū, Kin’un, Illyeok, and Lịch Việt. Widgets follow the app’s theme by default.
 
 ![Twelve Mac themes, including Twin Pillars with its vertical year and day columns](docs/mac-themes.jpg)
 
@@ -12,13 +12,19 @@ Drag the sheet to lift it, or pull a bottom corner diagonally to tear it. Releas
 
 Turn off **Auto Change Date** in the menu-bar calendar on Mac or the palette menu on iPhone and iPad to keep the pad on its current page. It stays there across midnight and app relaunches. A tear advances the held page by one day. Choose **Today** to hold the current date, or turn automatic updates back on to resume daily rollover.
 
+## Widgets
+
+To give one widget its own theme, touch and hold it on iPhone or iPad, or Control-click it on Mac. Choose **Edit Widget**, open **Theme**, and select a theme by name. Choose **Follow App Theme** to make that widget track the app again. A widget with a named theme keeps that theme when you change the app’s theme.
+
+Tap or click **Do** or **Avoid** on a widget to open the calendar page for the date it shows. From that page, select either activity list to read it in full.
+
 The **Extra Large Portrait** widget displays one complete, borderless page in your selected theme. On iPhone, open the widget picker from the Home Screen. On iPad, swipe right from the first Home Screen page to open Today View, then open the picker there. Choose **Paper Almanac** and swipe to the tall preview.
 
 ## Twin Pillars
 
 Twin Pillars prints the traditional Chinese year and day names in two vertical columns. Between them sit the large date numeral, the English weekday in vermilion, and the lunar date. A fine horizontal line introduces the activity lists, where 宜 (Do) and 忌 (Avoid) pick up the weekday’s red ink.
 
-If you previously selected Desk Ledger or Almanac Columns, the app and its widgets automatically use Twin Pillars.
+If you previously selected Desk Ledger or Almanac Columns, the app and widgets set to **Follow App Theme** automatically use Twin Pillars.
 
 ## Illyeok · 일력
 

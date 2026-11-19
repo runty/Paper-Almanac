@@ -7,13 +7,10 @@ extension ActivityPreference.Side: Identifiable {
 
 extension EnvironmentValues {
     @Entry var activityListSelection: Binding<ActivityPreference.Side?>?
-    @Entry var widgetActivityLinks = false
 }
 
 private struct ActivityLink: ViewModifier {
     @Environment(\.activityListSelection) private var selection
-    @Environment(\.widgetActivityLinks) private var widget
-    let day: String
     let side: ActivityPreference.Side
 
     @ViewBuilder func body(content: Content) -> some View {
@@ -27,8 +24,6 @@ private struct ActivityLink: ViewModifier {
             .buttonStyle(.plain)
             #endif
             .accessibilityHint("Show all " + side.rawValue + " activities")
-        } else if widget, let url = URL(string: "tungshingdaily://day/" + day + "?activities=" + side.rawValue) {
-            Link(destination: url) { content.contentShape(Rectangle()) }.buttonStyle(.plain)
         } else {
             content
         }
@@ -48,7 +43,7 @@ private struct ActivityTapStyle: PrimitiveButtonStyle {
 #endif
 
 extension View {
-    func activityLink(day: String, side: ActivityPreference.Side) -> some View {
-        modifier(ActivityLink(day: day, side: side))
+    func activityLink(side: ActivityPreference.Side) -> some View {
+        modifier(ActivityLink(side: side))
     }
 }

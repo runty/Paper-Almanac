@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Each Mac, iPhone, and iPad widget can follow the app’s theme or keep its own. New and existing widgets default to **Follow App Theme**.
+- Selecting **Do** or **Avoid** on a widget now opens the calendar page for the displayed date. Select either list inside the app to read it in full.
+
 - Combined Desk Ledger and Almanac Columns into **Twin Pillars**. A single fine line separates the three date columns from the Do and Avoid lists. Either previous theme selection opens Twin Pillars.
 
 - Added **Lịch Việt**, a Vietnamese tear-off calendar with lunar dates, festivals, Can Chi, auspicious hours, and illustrated daily zodiac animals. It is available on Mac, iPhone, iPad, and widgets.

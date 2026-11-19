@@ -105,9 +105,43 @@ final class MobileWidgetTests: XCTestCase {
         }
     }
 
+    func testWidgetInstancesKeepIndependentThemes() async throws {
+        let query = WidgetThemeQuery()
+        let choices = try await query.suggestedEntities()
+        let restored = try await query.entities(for: choices.map(\.id))
+        XCTAssertEqual(restored.map(\.id), choices.map(\.id))
+        XCTAssertEqual(choices.compactMap(\.fixedTheme), DailyTheme.allCases)
+        let defaultChoice = await query.defaultResult()
+        let following = AlmanacWidgetConfiguration()
+        XCTAssertEqual(defaultChoice?.id, following.theme?.id)
+        XCTAssertNil(following.theme?.fixedTheme)
+
+        let unconfigured = AlmanacWidgetConfiguration()
+        unconfigured.theme = nil
+        XCTAssertEqual(unconfigured.selectedTheme.id, following.selectedTheme.id)
+
+        let pins: [DailyTheme] = [.twinPillars, .moon, .koyomi]
+        let widgets = pins.map { theme in
+            let configuration = AlmanacWidgetConfiguration()
+            configuration.theme = WidgetThemeChoice(fixedTheme: theme)
+            return configuration
+        } + [following]
+
+        let defaults = DailyTheme.defaults
+        let previousTheme = defaults.object(forKey: DailyTheme.key)
+        defer { defaults.set(previousTheme, forKey: DailyTheme.key) }
+        for appTheme in [DailyTheme.fuji, .kinun] {
+            defaults.set(appTheme.rawValue, forKey: DailyTheme.key)
+            for (widget, expected) in zip(widgets, pins + [appTheme]) {
+                let entries = await DailyProvider().entries(starting: .now, zone: .gmt, choice: widget.selectedTheme)
+                XCTAssertEqual(entries.map(\.theme), Array(repeating: expected, count: 5))
+            }
+        }
+    }
+
     @MainActor func testWidgetTimelineAndSupportedSizes() async throws {
         let day = ISO8601DateFormatter().date(from: "2026-11-11T12:00:00Z")!
-        let entries = await DailyProvider().entries(starting: day, zone: .gmt, theme: .tungShing)
+        let entries = await DailyProvider().entries(starting: day, zone: .gmt, choice: WidgetThemeChoice(fixedTheme: .tungShing))
         let first = try XCTUnwrap(entries.first)
         XCTAssertEqual(entries.map(\.sheet.label), (11...15).map { "2026-11-\($0)" })
         XCTAssertEqual(first.sheet.page?.holiday?.english, "Singles’ Day")

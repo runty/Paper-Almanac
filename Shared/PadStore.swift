@@ -55,9 +55,7 @@ final class PadStore: ObservableObject {
         guard url.scheme == "tungshingdaily", url.host == "day",
               CivilDay.step(url.lastPathComponent, 0) != nil else { return false }
         browse(url.lastPathComponent)
-        let side = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?
-            .first { $0.name == "activities" }?.value
-        activitySide = side.flatMap(ActivityPreference.Side.init(rawValue:))
+        activitySide = nil
         return true
     }
     func step(_ delta: Int) { if let day = CivilDay.step(dates.visible, delta) { browse(day) } }

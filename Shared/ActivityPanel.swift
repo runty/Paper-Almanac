@@ -17,6 +17,6 @@ struct ActivityPanel: View {
             Text(verbatim: reading.lines.joined(separator: " · ")).font(.system(size: isWidgetSheet ? 11 : 9, design: design))
                 .multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
         }.frame(maxWidth: .infinity)
-            .activityLink(day: page.date.label, side: side)
+            .activityLink(side: side)
     }
 }

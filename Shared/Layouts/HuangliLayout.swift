@@ -160,7 +160,7 @@ struct HuangliLayout: View {
     private var adviceBlock: some View {
         HStack(alignment: .center, spacing: 0) {
             column("宜", info.chineseActivities(info.page.recommended, empty: "無所宜").map(cn))
-                .activityLink(day: info.page.date.label, side: .recommended)
+                .activityLink(side: .recommended)
             Spacer(minLength: 0)
             VStack(spacing: 3) {
                 BaguaWheel(color: t.ink, size: 58)
@@ -168,7 +168,7 @@ struct HuangliLayout: View {
             }
             Spacer(minLength: 0)
             column("忌", info.chineseActivities(info.page.avoided, empty: info.report.trace.avoidsEverything ? "諸事皆忌" : "無所忌").map(cn))
-                .activityLink(day: info.page.date.label, side: .avoided)
+                .activityLink(side: .avoided)
         }
         .padding(.top, 8)
         .frame(height: 96)

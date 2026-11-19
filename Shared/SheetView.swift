@@ -103,6 +103,6 @@ struct ResearchFace: View {
         VStack { Divider(); HStack(alignment: .top) { Text(symbol).font(.title3.bold()).foregroundStyle(Self.vermilion)
             Text(reading.lines.joined(separator: " · ")).font(.system(size: 11)).frame(maxWidth: .infinity, alignment: .leading)
         }}.padding(.vertical, 4)
-            .activityLink(day: page.date.label, side: side)
+            .activityLink(side: side)
     }
 }

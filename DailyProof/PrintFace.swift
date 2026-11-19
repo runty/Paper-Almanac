@@ -140,7 +140,7 @@ struct PrintFace: View {
             }.padding(.horizontal, 4).frame(maxWidth: .infinity)
             if chinese == "忌" { seal(chinese, english) }
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
-            .activityLink(day: day.date.label, side: side)
+            .activityLink(side: side)
     }
 
     private func seal(_ chinese: String, _ english: String) -> some View {
