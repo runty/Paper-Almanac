@@ -55,6 +55,7 @@ private struct AlmanacWindow: View {
 
     private var padSize: CGSize {
         switch theme {
+        case .tsukigoyomi: CGSize(width: 332, height: 474)
         case .fuji: CGSize(width: 386, height: 510)
         case .celestialAlmanac: CGSize(width: 310, height: 418 + CelestialBinding.headroom)
         default: CGSize(width: 310, height: 418)
@@ -183,8 +184,12 @@ private struct AlmanacWindow: View {
             .padding(.top, theme == .fuji ? 66 : 0)
             .padding(.bottom, theme == .fuji ? 26 : 0)
             .padding(.top, theme == .celestialAlmanac ? CelestialBinding.headroom : 0)
+            .padding(.top, theme == .tsukigoyomi ? 38 : 0)
             .frame(width: padSize.width, height: padSize.height)
-            .background { if theme == .fuji { FujiCardboard() } }
+            .background {
+                if theme == .fuji { FujiCardboard() }
+                if theme == .tsukigoyomi { TsukigoyomiBoard() }
+            }
             .scaleEffect(scale).frame(width: width, height: padSize.height * scale)
     }
 
@@ -209,7 +214,19 @@ private struct AccessibleDay: View {
             VStack(alignment: .leading, spacing: 16) {
                 Button(action: today) { Text(verbatim: sheet.label).font(.title.bold()) }
                     .buttonStyle(.plain).accessibilityHint("Return to today")
-                if let day = sheet.page, theme == .illyeok {
+                if let day = sheet.page, theme == .tsukigoyomi {
+                    let value = TsukigoyomiReading(day)
+                    if let rokuyo = value.almanac.traditions.rokuyo {
+                        Text(verbatim: value.info.weekdayEN.uppercased() + "  ·  六曜 " + rokuyo)
+                    }
+                    Text(verbatim: [value.phase, value.almanac.oldDate].joined(separator: "  ·  "))
+                    Text(verbatim: "月齢  " + (value.almanac.age ?? "—") + "    潮名  " + value.almanac.tide)
+                    if let season = value.season {
+                        Text(verbatim: season.term + "  ·  " + season.termEnglish)
+                        Text(verbatim: season.microseason).font(.headline)
+                        Text(verbatim: season.microseasonEnglish)
+                    }
+                } else if let day = sheet.page, theme == .illyeok {
                     let value = IllyeokReading(day)
                     Text(verbatim: value.weekday + "  ·  " + value.dateLine)
                     Text(verbatim: value.proverb.korean).font(.headline)

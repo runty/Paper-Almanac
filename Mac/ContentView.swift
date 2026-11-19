@@ -45,7 +45,7 @@ struct ContentView: View {
                 .offset(x: 2 + 4 * remaining, y: Metrics.pageTopInset + 2 + 12 * remaining)
                 .blur(radius: 3 + 13 * remaining)
 
-            if store.theme == .fuji {
+            if store.theme == .fuji || store.theme == .tsukigoyomi {
                 FujiPaperStack(remainingFraction: remaining)
             } else {
                 PadStack(remainingFraction: remaining, theme: theme)
@@ -82,5 +82,11 @@ struct ContentView: View {
             height: Metrics.pageH + 60,
             alignment: .top
         )
+        .background(alignment: .top) {
+            if store.theme == .tsukigoyomi {
+                TsukigoyomiBoard().frame(width: Metrics.pageW + 24, height: Metrics.pageH + 56)
+                    .offset(y: -24)
+            }
+        }
     }
 }

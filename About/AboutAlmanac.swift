@@ -68,6 +68,9 @@ struct AboutAlmanac: View {
                 credit(DailyTheme.moon.title) {
                     Text("The printed layout draws on Shin Nippon Calendar’s Sora daily calendar. The lunar engraving adapts the [LRO near-side mosaic](https://science.nasa.gov/photojournal/nearside-spectacular/) by NASA, GSFC and Arizona State University. The Wadscorp engine supplies the daily illumination at noon UTC.")
                 }
+                credit(DailyTheme.tsukigoyomi.title) {
+                    Text("The indigo mount and lunar page draw on [Koyomi Seikatsu’s 月と暦 calendar](https://www.543life.com/i/1000000021001). The engine calculates the Japanese dates of the 24 solar terms and 72 microseasons from JPL’s DE440s ephemeris.")
+                }
                 credit("Fuji") {
                     Text("Fuji’s cardboard mount and spare layout draw on [MUJI’s 2027 tear-off calendar](https://www.muji.us/products/2027-tear-off-calendar-ne2bua6a). Its Japanese public holidays are adapted from Japan’s Cabinet Office.")
                     Text(verbatim: FujiReading.sourceNotes)

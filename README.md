@@ -4,7 +4,7 @@
 
 Paper Almanac is based on **Himekuri 日めくり**, Pluk’s original macOS tear-off calendar. It adapts Himekuri’s desktop pad and four of its print styles, Shōwa Print, Koyomi, Huangli, and Tong Sheng. Paper Almanac uses its own Metal paper physics engine to simulate how sheets lift, tear, and fall. [Original Himekuri source](https://github.com/pluk-inc/himekuri) · [Himekuri website](https://himekuri.app/)
 
-Paper Almanac works offline on Mac, iPhone, and iPad and opens to the local date. The default Yut Lik theme shows the lunar date, solar term, a weekly proverb, and the day's Do and Avoid activities. Tap or click an activity list to read it in full. Pick from thirteen themes, including Celestial Almanac, Fuji, Tsukikage, Rekichū, and Illyeok. Widgets follow your selected theme.
+Paper Almanac works offline on Mac, iPhone, and iPad and opens to the local date. The default Yut Lik theme shows the lunar date, solar term, a weekly proverb, and the day's Do and Avoid activities. Tap or click an activity list to read it in full. Pick from fourteen themes, including Celestial Almanac, Fuji, Tsukikage, Tsukigoyomi, Rekichū, and Illyeok. Widgets follow your selected theme.
 
 ![Ten of the Mac themes on November 18, 2026](docs/mac-themes.jpg)
 
@@ -39,6 +39,16 @@ Tsukikage (月影) means “moonlight.” Choose **Tsukikage** from the Mac menu
 ![Three Tsukikage pages for 2027. January 18 shows a waxing gibbous Moon, January 7 traces Orion across the new moon, and July 20 marks the Apollo 11 landing.](docs/moon-pages.png)
 
 The default sky notes use a northern mid-latitude viewpoint and require no location permission. To see where to look from your area, select **Use Current Location** in the same menu. Local notes give a guide star’s direction and approximate height above the horizon at 9 PM in your device’s time zone. The app rounds your coordinates to the nearest degree and shares them with its widgets on that device. Turning the option off clears the saved coordinates and restores the northern sky notes.
+
+## Tsukigoyomi
+
+Tsukigoyomi (月暦) places an ivory tear-off sheet on an indigo board with a silver clip and a row of gold moon phases. The large ink disk follows the Moon at noon in Japan. Its flanking columns carry the current solar term and old-calendar date. Beneath it, the page gives the lunar age, traditional tide name, and the current microseason in Japanese and English. The footer pairs the English weekday with the day’s Rokuyō (六曜).
+
+![Tsukigoyomi pages for May 7, September 15 and November 8, 2027. The ivory sheets show the Moon above the seasonal readings on a deep indigo board.](docs/tsukigoyomi-pages.png)
+
+Choose **Tsukigoyomi** in the Mac menu bar or the palette menu on iPhone and iPad. For the November page shown above, open **Go to Date…** and select November 8, 2027. The page marks the start of winter (立冬) with “Sasanqua camellias open” (山茶始開).
+
+Each of the 24 solar terms contains three microseasons. A new microseason begins on the Japanese civil date when the apparent Sun crosses the next five-degree division. The readings work offline from 1901 through 2100. Full-page widgets carry the printed footer, while smaller widgets and CarPlay show the date, moon phase, and seasonal reading. [Print reference](https://www.543life.com/i/1000000021001) · [Japanese calendar data](https://eco.mtk.nao.ac.jp/koyomi/yoko/)
 
 [Release notes](CHANGELOG.md)
 

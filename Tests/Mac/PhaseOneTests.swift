@@ -1,6 +1,7 @@
 import AppKit
 import SwiftUI
 import WidgetKit
+import TungShingDailyAlmanac
 import XCTest
 
 final class PhaseOneTests: XCTestCase {
@@ -199,6 +200,43 @@ final class PhaseOneTests: XCTestCase {
         XCTAssertEqual(rotation.first, Proverbs.on(dayID: count - 5).jp)
     }
 
+    @MainActor func testTsukigoyomiSeasonsAndPages() async throws {
+        // November 8 begins winter at 00:39 JST. January 5 changes at 23:10 JST.
+        let dates = ["1901-01-01", "2027-01-04", "2027-01-05", "2027-05-07", "2027-09-15", "2027-11-07", "2027-11-08", "2100-12-31"]
+        let pages = try await DayReader.load(dates)
+        let readings = pages.map(TsukigoyomiReading.init)
+        XCTAssertTrue(readings.allSatisfy { $0.season != nil && $0.sky != nil })
+        XCTAssertEqual(readings[1...6].map { $0.season?.number }, [66, 67, 19, 44, 54, 55])
+        XCTAssertEqual(readings[3].season?.microseason, "蛙始鳴")
+        XCTAssertEqual(readings[6].season?.term, "立冬")
+        XCTAssertTrue(readings[4].summary.contains("六曜 仏滅"))
+        XCTAssertTrue(readings[6].summary.contains("六曜 友引"))
+        XCTAssertLessThan(try XCTUnwrap(readings[3].sky?.moonIllumination), 0.05)
+        XCTAssertGreaterThan(try XCTUnwrap(readings[4].sky?.moonIllumination), 0.95)
+        let spring = try XCTUnwrap(pages[1].date.adding(days: 31))
+        let yearly = try (0..<365).compactMap { offset in
+            try JapaneseSeason(on: spring.adding(days: offset))
+        }
+        XCTAssertEqual(Set(yearly.map(\.microseason)).count, 72)
+        XCTAssertEqual(Set(yearly.map(\.term)).count, 24)
+        for reading in [readings[3], readings[4], readings[6]] {
+            let sample = ZStack(alignment: .top) {
+                TsukigoyomiBoard()
+                VStack(spacing: 0) {
+                    FujiClip(height: Metrics.bindingH)
+                    TsukigoyomiFace(reading: reading, widget: true).frame(width: 300, height: 370)
+                }.padding(.top, 36)
+            }.frame(width: 326, height: 457)
+            let renderer = ImageRenderer(content: sample)
+            renderer.scale = 2
+            let image = NSBitmapImageRep(cgImage: try XCTUnwrap(renderer.cgImage))
+            let proof = XCTAttachment(data: try XCTUnwrap(image.representation(using: .png, properties: [:])), uniformTypeIdentifier: "public.png")
+            proof.name = "Tsukigoyomi-" + reading.info.page.date.label
+            proof.lifetime = .keepAlways
+            add(proof)
+        }
+    }
+
     @MainActor func testNihonPrintedReferenceDates() async throws {
         let pages = try await DayReader.load(["2027-02-19", "2027-02-20", "2027-03-21"])
         let readings = pages.map(NihonReading.init)
@@ -287,7 +325,7 @@ final class PhaseOneTests: XCTestCase {
         XCTAssertEqual(DailyTheme(rawValue: "nihon")?.title, "Rekichū")
         XCTAssertNil(DailyTheme(rawValue: "brutalist"))
         XCTAssertNil(DailyTheme(rawValue: "calendarPoster"))
-        XCTAssertEqual(DailyTheme.allCases, [.tungShing, .celestialAlmanac, .editorialDay, .tongsheng, .huangli, .fuji, .moon, .nihon, .illyeok,
+        XCTAssertEqual(DailyTheme.allCases, [.tungShing, .celestialAlmanac, .editorialDay, .tongsheng, .huangli, .fuji, .moon, .tsukigoyomi, .nihon, .illyeok,
                                              .showa, .koyomi, .deskLedger, .almanacColumns])
         XCTAssertEqual(DailyTheme.allCases.filter(\.opensWithCalendar), [.showa, .koyomi])
         for example in pages {
@@ -310,7 +348,7 @@ final class PhaseOneTests: XCTestCase {
                 }
             }
         }
-        XCTAssertEqual(rendered.count, 51)
+        XCTAssertEqual(rendered.count, 54)
         let leapDay = try await DayReader.load(["2024-02-29"])[0]
         let february = DayInfo(page: leapDay).grid
         XCTAssertEqual(february.first, [nil, nil, nil, nil, 1, 2, 3])

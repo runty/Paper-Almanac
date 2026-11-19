@@ -20,7 +20,7 @@ struct MobilePad: View {
 
     var body: some View {
         ZStack(alignment: .top) {
-            if theme == .fuji {
+            if theme == .fuji || theme == .tsukigoyomi {
                 FujiPaperStack(remainingFraction: store.remainingFraction)
             } else {
                 PadStack(remainingFraction: store.remainingFraction, theme: theme.original ?? .tongsheng)

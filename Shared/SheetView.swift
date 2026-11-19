@@ -18,6 +18,8 @@ struct SheetView: View {
                         Color.clear.frame(height: 25)
                         PrintFace(day: page).scaleEffect(0.75).frame(width: 300, height: 375)
                     }
+                } else if theme == .tsukigoyomi {
+                    TsukigoyomiFace(reading: TsukigoyomiReading(page), widget: widgetSize != nil)
                 } else if theme == .illyeok {
                     IllyeokFace(reading: IllyeokReading(page), widget: widgetSize != nil)
                 } else if theme == .nihon {

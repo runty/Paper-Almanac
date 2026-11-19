@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added **Tsukigoyomi**, an indigo-backed lunar calendar for Mac, iPhone, iPad and widgets. The page pairs the Moon at noon in Japan with the current solar term, a bilingual microseason reading, and the day’s Rokuyō. CarPlay shows a compact version.
 - Added **Illyeok**, a Korean tear-off calendar with patterned date numerals, a lunar date, and 31 proverbs in Korean and English. The theme is available on Mac, iPhone, iPad, and their widgets, including CarPlay.
 - Added **Rekichū**, a Japanese tear-off theme for Mac, iPhone, iPad, and widgets including CarPlay. Its full page shows Rokuyō, the old-calendar date, the daily mansion, lunar age, and a traditional tide name.
 - Expanded the daily Japanese sayings from 16 to 140. Rekichū shows each saying with its English reading on the full page. Shōwa and Koyomi draw from the same rotation.

@@ -31,7 +31,9 @@ struct WidgetFace: View {
 
     private var paperFace: some View {
         GeometryReader { box in
-            if entry.theme == .illyeok, let page = entry.sheet.page {
+            if entry.theme == .tsukigoyomi, let page = entry.sheet.page {
+                TsukigoyomiFace(reading: TsukigoyomiReading(page), widget: true)
+            } else if entry.theme == .illyeok, let page = entry.sheet.page {
                 IllyeokFace(reading: IllyeokReading(page), widget: true)
             } else if entry.theme == .nihon, let page = entry.sheet.page {
                 NihonFace(reading: NihonReading(page), widget: true)
@@ -341,7 +343,13 @@ struct DashboardAlmanac: View {
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(Text(info.date, format: .dateTime.weekday(.wide).month(.wide).day().year()))
             Rectangle().fill(ruleInk).frame(height: 1.5).accessibilityHidden(true)
-            if entry.theme == .illyeok {
+            if entry.theme == .tsukigoyomi {
+                let reading = TsukigoyomiReading(page)
+                Text(verbatim: reading.phase)
+                if let season = reading.season {
+                    Text(verbatim: season.term + "  ·  " + season.microseason).font(Theme.mincho(compact ? 13 : 15))
+                }
+            } else if entry.theme == .illyeok {
                 let proverb = KoreanProverb.on(page.date.dayID.value)
                 Text(verbatim: proverb.korean).font(.system(size: compact ? 12 : 14, weight: .semibold))
                 Text(verbatim: proverb.english).font(.custom("Georgia", fixedSize: compact ? 10 : 12))
@@ -394,7 +402,9 @@ struct DashboardAlmanac: View {
         }
 
         let inks: (Color, Color)
-        if entry.theme == .illyeok {
+        if entry.theme == .tsukigoyomi {
+            inks = (TsukigoyomiFace.ink, TsukigoyomiBoard.indigo)
+        } else if entry.theme == .illyeok {
             inks = (IllyeokReading(info.page).ink, Color(red: 0.12, green: 0.39, blue: 0.25))
         } else if entry.theme == .nihon {
             inks = (NihonFace.ink(info.weekday - 1, holiday: NihonReading(info.page).holiday != nil), NihonFace.blue)
@@ -447,9 +457,9 @@ struct DashboardAlmanac: View {
                         Text(verbatim: String(info.weekdayKanji.prefix(2)))
                     }.font(Theme.kanji(13))
                 }
-            case .moon:
+            case .moon, .tsukigoyomi:
                 HStack(spacing: 6) {
-                    if let sky = MoonReading(info.page).sky {
+                    if let sky = entry.theme == .tsukigoyomi ? TsukigoyomiReading(info.page).sky : MoonReading(info.page).sky {
                         MoonDisc(sky: sky, ink: ruleInk, paper: colorScheme == .dark ? .black : .white)
                             .frame(width: size * 0.45, height: size * 0.45)
                     }

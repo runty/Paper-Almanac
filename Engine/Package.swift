@@ -17,6 +17,7 @@ let package = Package(
                 .copy("Resources/almanac-1901-2100-differences.json"),
                 .copy("Resources/celestial-japanese-context.json"),
                 .copy("Resources/celestial-conjunctions.json"),
+                .copy("Resources/japanese-microseason-starts.json"),
                 .copy("Resources/THIRD_PARTY_NOTICES.txt"),
                 .copy("Resources/PROVENANCE.json"),
             ]

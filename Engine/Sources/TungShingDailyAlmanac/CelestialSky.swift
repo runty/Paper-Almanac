@@ -6,7 +6,7 @@ public enum CelestialSkyError: Error, Sendable, Hashable {
 }
 
 /// An approximate, geocentric Sun/Moon reading and schematic heliocentric planet positions.
-/// Evaluated at 12:00 fixed UTC, independently of the device's location. Tokyo daylight uses
+/// Evaluated at noon UTC by default or noon JST for a Japanese lunar page. Tokyo daylight uses
 /// a separate local-midday declination sample. The base daily report keeps its own +08 noon.
 /// These illustrative calculations never determine lunar dates, solar terms or almanac rules.
 /// Method and precision: docs/design/CELESTIAL_SKY.md.
@@ -26,7 +26,7 @@ public struct CelestialSky: Sendable, Hashable {
     /// An estimate, NOT elapsed time since the preceding astronomical conjunction.
     public let moonAgeDays: Double
     /// Elapsed uniform TT days since the preceding modeled Sun–Moon conjunction, sampled at
-    /// 12:00 fixed UTC with frozen TT−clock=69.184s. Nil if the timestamp resource fails validation.
+    /// the selected hour with frozen TT−clock=69.184s. Nil if the timestamp resource fails validation.
     /// This is separate from the phase-equivalent `moonAgeDays` used for diagram geometry.
     public let elapsedMoonAgeDays: Double?
     /// Heliocentric ecliptic longitudes in degrees, J2000 frame; Mercury, Venus, Earth, Mars,
@@ -45,12 +45,21 @@ public struct CelestialSky: Sendable, Hashable {
     }
 
     public init(date: GregorianDate) throws(CelestialSkyError) {
+        try self.init(date: date, utcHour: Self.sampleUTCHour)
+    }
+
+    /// Sample the same lunar geometry at 12:00 Japan Standard Time.
+    public static func atJapaneseNoon(on date: GregorianDate) throws(CelestialSkyError) -> Self {
+        try Self(date: date, utcHour: 3)
+    }
+
+    private init(date: GregorianDate, utcHour: Int) throws(CelestialSkyError) {
         guard DailyAlmanacReader.firstDate <= date, date <= DailyAlmanacReader.lastDate else {
             throw .outsideSupportedDomain
         }
         self.date = date
-        elapsedMoonAgeDays = CelestialConjunctions.bundled?.elapsedDays(at: date)
-        let jd = Double(date.dayID.value) + 2_440_587.5 + Double(Self.sampleUTCHour) / 24
+        elapsedMoonAgeDays = CelestialConjunctions.bundled?.elapsedDays(at: date, utcHour: utcHour)
+        let jd = Double(date.dayID.value) + 2_440_587.5 + Double(utcHour) / 24
         let d = jd - 2_451_543.5 // Schlyter epoch: 1999-12-31 00:00 UT.
         let solarAnomaly = 356.0470 + 0.9856002585 * d
         let solarPerihelion = 282.9404 + 4.70935e-5 * d
@@ -58,7 +67,7 @@ public struct CelestialSky: Sendable, Hashable {
         sunLongitude = sun.longitude
         // Tokyo duration belongs to this Tokyo civil date; use 13:00 JST = 04:00 UTC
         // declination, independently of the edition's 12:00 UTC sky reading.
-        let daylightD = d - 8.0 / 24
+        let daylightD = d + Double(4 - utcHour) / 24
         let daylightSun = SkyMath.sun(d: daylightD)
         let obliquity = 23.4393 - 3.563e-7 * daylightD
         let declination = asin(SkyMath.sin(obliquity) * SkyMath.sin(daylightSun.longitude)) * 180 / .pi

@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum DailyTheme: String, CaseIterable, Identifiable {
-    case tungShing, celestialAlmanac, editorialDay, tongsheng, huangli, fuji, moon, nihon, illyeok
+    case tungShing, celestialAlmanac, editorialDay, tongsheng, huangli, fuji, moon, tsukigoyomi, nihon, illyeok
     case showa, koyomi, deskLedger = "deskBlock", almanacColumns
     var id: Self { self }
     static let calendarLayoutKey = "print.himekuriCalendar"
@@ -42,9 +42,10 @@ enum DailyTheme: String, CaseIterable, Identifiable {
         onDarkPaper ? Color(red: 1, green: 0.65, blue: 0.56) : ResearchFace.vermilion
     }
 
-    var offersActivityLists: Bool { self != .fuji && self != .moon && self != .nihon && self != .illyeok }
+    var offersActivityLists: Bool { self != .tsukigoyomi && self != .fuji && self != .moon && self != .nihon && self != .illyeok }
 
     var widgetPaper: Color {
+        if self == .tsukigoyomi { return TsukigoyomiFace.paper }
         if self == .illyeok { return IllyeokFace.paper }
         if self == .nihon { return NihonFace.paper }
         if self == .moon { return MoonFace.paper }
@@ -57,6 +58,7 @@ enum DailyTheme: String, CaseIterable, Identifiable {
         case .tungShing: "Yut Lik"
         case .celestialAlmanac: "Celestial Almanac"
         case .fuji: "Fuji"
+        case .tsukigoyomi: "Tsukigoyomi"
         case .moon: "Tsukikage"
         case .nihon: "Rekichū"
         case .illyeok: "Illyeok"
@@ -77,6 +79,7 @@ struct Sheet {
         if theme == .tungShing, let page, let proverb = ChineseProverb.on(page.date) {
             return description + " Chinese proverb. " + proverb.english
         }
+        if theme == .tsukigoyomi, let page { return TsukigoyomiReading(page).summary }
         if theme == .illyeok, let page { return IllyeokReading(page).summary }
         if theme == .nihon, let page { return NihonReading(page).summary }
         if theme == .moon, let page { return MoonReading(page, site: skySite).summary }

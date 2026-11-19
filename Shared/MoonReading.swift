@@ -24,7 +24,9 @@ struct MoonReading {
 
     var darkSky: Bool { (localSky?.darkEnough ?? true) && (sky.map { $0.moonIllumination <= 0.015 } ?? false) }
 
-    var phase: String {
+    var phase: String { Self.phase(of: sky) }
+
+    static func phase(of sky: CelestialSky?) -> String {
         guard let sky else { return "Moon phase unavailable" }
         let fraction = sky.moonAgeDays / CelestialSky.meanSynodicMonthDays
         // Reserve the principal phase names for the nearest daily sample.

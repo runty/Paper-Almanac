@@ -62,8 +62,8 @@ struct ThemeBinding: View {
                 #else
                 .allowsHitTesting(false)
                 #endif
-        } else if theme == .fuji {
-            FujiClip()
+        } else if theme == .fuji || theme == .tsukigoyomi {
+            FujiClip(height: theme == .tsukigoyomi ? Metrics.bindingH : Metrics.bindingH + 11)
                 #if os(macOS)
                 .windowDragHandle()
                 #endif

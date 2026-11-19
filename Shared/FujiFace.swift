@@ -122,13 +122,15 @@ struct FujiPaperStack: View {
 
 /// A folded metal clip spans the top of the sheet.
 struct FujiClip: View {
+    var height: CGFloat = Metrics.bindingH + 11
+
     var body: some View {
         UnevenRoundedRectangle(topLeadingRadius: 1, bottomLeadingRadius: 6,
                                bottomTrailingRadius: 6, topTrailingRadius: 1)
             .fill(LinearGradient(colors: [.white, Color(white: 0.86), Color(white: 0.82)],
                                  startPoint: .topLeading, endPoint: .bottomTrailing))
             .overlay(alignment: .top) { Rectangle().fill(.white.opacity(0.9)).frame(height: 1) }
-            .frame(width: Metrics.pageW, height: Metrics.bindingH + 11)
+            .frame(width: Metrics.pageW, height: height)
             .shadow(color: .black.opacity(0.23), radius: 0.8, y: 1)
     }
 }
