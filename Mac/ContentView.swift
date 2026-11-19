@@ -29,7 +29,7 @@ struct ContentView: View {
         .accessibilityValue(store.top.label)
         .accessibilityAction(named: "Tear to next day") { store.tear() }
         .accessibilityAction(named: "Today") { store.today() }
-        .activityListActions(store: store, enabled: store.theme != .fuji && store.theme != .moon)
+        .activityListActions(store: store, enabled: store.theme.offersActivityLists)
         .activityLists(store: store, theme: store.theme)
     }
 

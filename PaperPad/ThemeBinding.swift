@@ -5,10 +5,31 @@ struct ThemeBinding: View {
     let theme: DailyTheme
 
     var body: some View {
-        if theme == .editorialDay || theme == .deskLedger || theme == .moon {
+        if theme == .editorialDay || theme == .deskLedger || theme == .moon || theme == .nihon {
             Group {
                 if theme == .editorialDay {
                     EditorialLinen()
+                } else if theme == .nihon {
+                    ZStack {
+                        LinearGradient(colors: [Color(white: 0.92), Color(white: 0.82)], startPoint: .top, endPoint: .bottom)
+                        Canvas { ctx, size in
+                            let left = CGPoint(x: size.width * 0.18, y: size.height * 0.53)
+                            let right = CGPoint(x: size.width * 0.82, y: left.y)
+                            let knot = CGPoint(x: size.width * 0.52, y: left.y + 1)
+                            for hole in [left, right] {
+                                ctx.fill(Path(ellipseIn: CGRect(x: hole.x-2.8, y: hole.y-2.8, width: 5.6, height: 5.6)),
+                                         with: .color(Color(white: 0.24)))
+                            }
+                            var cord = Path()
+                            cord.move(to: left)
+                            cord.addQuadCurve(to: right, control: CGPoint(x: knot.x, y: knot.y + 2))
+                            cord.move(to: CGPoint(x: knot.x-14, y: knot.y+6))
+                            cord.addQuadCurve(to: knot, control: CGPoint(x: knot.x-8, y: knot.y+1))
+                            cord.addQuadCurve(to: CGPoint(x: knot.x+15, y: knot.y+6), control: CGPoint(x: knot.x+6, y: knot.y+2))
+                            ctx.stroke(cord, with: .color(NihonFace.blue), style: StrokeStyle(lineWidth: 2.7, lineCap: .round))
+                            ctx.stroke(cord, with: .color(.white.opacity(0.35)), style: StrokeStyle(lineWidth: 1, dash: [1, 2]))
+                        }
+                    }
                 } else if theme == .moon {
                     LinearGradient(colors: [Color(white: 0.54), MoonFace.blue], startPoint: .top, endPoint: .bottom)
                 } else {

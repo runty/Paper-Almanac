@@ -28,8 +28,8 @@ struct CelestialConjunctions: Sendable {
         timestamps = document.conjunctions
     }
 
-    func elapsedDays(at date: GregorianDate) -> Double? {
-        let sample = Self.sampleMilliseconds(date)
+    func elapsedDays(at date: GregorianDate, utcHour: Int = 12) -> Double? {
+        let sample = Self.sampleMilliseconds(date) + Int64(utcHour - 12) * 3_600_000
         guard let first = timestamps.first, let last = timestamps.last, first <= sample, sample < last else { return nil }
         var lower = 0, upper = timestamps.count
         while lower < upper {

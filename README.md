@@ -4,7 +4,7 @@
 
 Paper Almanac is based on **Himekuri 日めくり**, Pluk’s original macOS tear-off calendar. It adapts Himekuri’s desktop pad and four of its print styles, Shōwa Print, Koyomi, Huangli, and Tong Sheng. Paper Almanac uses its own Metal paper physics engine to simulate how sheets lift, tear, and fall. [Original Himekuri source](https://github.com/pluk-inc/himekuri) · [Himekuri website](https://himekuri.app/)
 
-Paper Almanac works offline on Mac, iPhone, and iPad and opens to the local date. The default Yut Lik theme shows the lunar date, solar term, a weekly proverb, and the day's Do and Avoid activities. Tap or click an activity list to read it in full. Pick from eleven themes, including Celestial Almanac, Fuji and Moon. Widgets follow your selected theme.
+Paper Almanac works offline on Mac, iPhone, and iPad and opens to the local date. The default Yut Lik theme shows the lunar date, solar term, a weekly proverb, and the day's Do and Avoid activities. Tap or click an activity list to read it in full. Pick from twelve themes, including Celestial Almanac, Fuji, Moon and Nihon. Widgets follow your selected theme.
 
 ![Ten of the Mac themes on November 18, 2026](docs/mac-themes.jpg)
 
@@ -13,6 +13,18 @@ Drag the sheet to lift it, or pull a bottom corner diagonally to tear it. Releas
 Turn off **Auto Change Date** in the menu-bar calendar on Mac or the palette menu on iPhone and iPad to keep the pad on its current page. It stays there across midnight and app relaunches. A tear advances the held page by one day. Choose **Today** to hold the current date, or turn automatic updates back on to resume daily rollover.
 
 The **Extra Large Portrait** widget displays one complete, borderless page in your selected theme. On iPhone, open the widget picker from the Home Screen. On iPad, swipe right from the first Home Screen page to open Today View, then open the picker there. Choose **Paper Almanac** and swipe to the tall preview.
+
+## Nihon
+
+Nihon draws on Shin Nippon Calendar’s small daily tear-off pad. Ordinary weekdays print in black, Saturdays in blue, and Sundays and Japanese public holidays in vermilion. The faint numeral beneath the date belongs to the next sheet.
+
+![Nihon in 2027. Friday, February 19 is black, Saturday, February 20 is blue, and the spring equinox holiday on March 21 is vermilion.](docs/nihon-pages.png)
+
+Choose **Nihon** in the Mac menu bar or the palette menu on iPhone and iPad. The full page pairs a Japanese saying and its English reading with the Japanese old-calendar date, Rokuyō (六曜), the day’s mansion in the 28-day cycle (二十八宿), and lunar age at noon in Japan. Small widgets and CarPlay show a shorter reading with the date, Rokuyō, tide name, and Japanese saying.
+
+The 140 sayings rotate once per day, continuing across New Year. The collection includes the 16 original Himekuri sayings and 124 additional selections. [Sources and credits](THIRD_PARTY_NOTICES.md)
+
+The tide name follows the traditional old-calendar day classification. Actual coastal tide heights and times depend on the location. [Japanese calendar mansions](https://eco.mtk.nao.ac.jp/koyomi/wiki/C6F3BDBDC8ACBDC9.html) · [Japan Coast Guard tide guide](https://www.kaiho.mlit.go.jp/07kanku/senzaki/03_oyakudachi/pdf/guidebook2026.pdf)
 
 ## Moon
 

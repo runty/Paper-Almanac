@@ -2,11 +2,14 @@
 //  Proverbs.swift
 //  himekuri
 //
-//  One proverb per day, indexed by day-of-year.
+//  The original Himekuri sayings and the expanded Japanese print edition.
 //
 
+import Foundation
+
 nonisolated enum Proverbs {
-    static let all: [(jp: String, en: String)] = [
+    private final class ResourceBundle {}
+    private static let originals: [(jp: String, en: String)] = [
         ("七転び八起き", "Fall seven times, rise eight."),
         ("塵も積もれば山となる", "Even dust, piled up, becomes a mountain."),
         ("継続は力なり", "Persistence is power."),
@@ -24,4 +27,20 @@ nonisolated enum Proverbs {
         ("雨降って地固まる", "After the rain, the earth hardens."),
         ("井の中の蛙大海を知らず", "A frog in a well knows not the ocean."),
     ]
+
+    static let all: [(jp: String, en: String)] = {
+        guard let url = Bundle(for: ResourceBundle.self).url(forResource: "JapaneseProverbs", withExtension: "tsv"),
+              let text = try? String(contentsOf: url, encoding: .utf8) else { return originals }
+        return originals + text.split(whereSeparator: \.isNewline).compactMap { line in
+            guard !line.hasPrefix("#") else { return nil }
+            let fields = line.split(separator: "\t")
+            guard fields.count == 2 else { return nil }
+            return (String(fields[0]), String(fields[1]))
+        }
+    }()
+
+    static func on(dayID: Int64) -> (jp: String, en: String) {
+        let count = Int64(all.count)
+        return all[Int((dayID % count + count) % count)]
+    }
 }

@@ -65,7 +65,7 @@ struct MobilePad: View {
         .accessibilityIdentifier("daily-sheet-" + store.top.label + (store.top.page == nil ? "-pending" : ""))
         .accessibilityHint("Activate to return to today. Use the Actions rotor to browse days.")
         .accessibilityAction { store.today() }
-        .activityListActions(store: store, enabled: theme != .fuji && theme != .moon)
+        .activityListActions(store: store, enabled: theme.offersActivityLists)
         .accessibilityAction(named: "Today") { store.today() }
         .accessibilityAction(named: "Previous day") { store.step(-1) }
         .accessibilityAction(named: "Next day") { store.step(1) }
@@ -93,7 +93,7 @@ struct MobilePad: View {
 
     private var accessibleReading: String {
         guard let page = store.top.page else { return store.top.description }
-        if theme == .fuji || theme == .moon { return store.top.description(for: theme, calendarLayout: calendarLayout) }
+        if !theme.offersActivityLists { return store.top.description(for: theme, calendarLayout: calendarLayout) }
         let term = page.report.termOnDate ?? page.report.nextTerm
         let prefix = page.report.termOnDate == nil ? "Next solar term" : "Solar term"
         return [page.report.weekdayLabel, page.report.lunarMonthLabel + page.report.lunarDayLabel,

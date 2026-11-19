@@ -16,6 +16,7 @@
 		0558AAED6BAA455889444E83 /* PadStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EFCECE220CA512C4161F1E /* PadStore.swift */; };
 		0599C725DEBF64A7B92C6372 /* PrintFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981BDB7E70C941B9B4FE96A5 /* PrintFace.swift */; };
 		06604E091B63941D715FDEA2 /* VerticalText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E06E1BB4E26547A7A6B4FF /* VerticalText.swift */; };
+		069B9E3FD4F0330B0876CA7F /* JapaneseProverbs.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 9EBFF07F1BFF6EBF9CCB9362 /* JapaneseProverbs.tsv */; };
 		07C632B35CC867638318180D /* ChineseProverb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9E5749065686956FCF83B1 /* ChineseProverb.swift */; };
 		08291CD451F50B5BB4DC582D /* LocalEveningSky.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02169B5C67DB6F1938FBE86 /* LocalEveningSky.swift */; };
 		093F712210ED120F7230AAFF /* CelestialDial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D80AD636047C43E07853F8B /* CelestialDial.swift */; };
@@ -26,6 +27,7 @@
 		0E26F3BED5FE2DAF7A452C5B /* ActivityList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D11CB8788BD8F881EAB32A6 /* ActivityList.swift */; };
 		0E9399FE32680601322F2212 /* BaguaWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EF66A0A0B1344A896756EA /* BaguaWheel.swift */; };
 		104C9297F1D3A885B9895359 /* Taviraj-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B5289648814F9123F547BC3C /* Taviraj-Medium.ttf */; };
+		110747AB7993D2F0BC3C7860 /* NihonFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F59C8806010A7D6EF42E44 /* NihonFace.swift */; };
 		1238453DA04018BE6E8EF973 /* ActivityGlosses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACD5957DC7EA8A35C66BC20 /* ActivityGlosses.swift */; };
 		1344775A747E974CBEC47815 /* ActivityGlosses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACD5957DC7EA8A35C66BC20 /* ActivityGlosses.swift */; };
 		13821DFFF30EEAD74398CAD9 /* ChineseProverbs.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 87583439F602625DA020F9A2 /* ChineseProverbs.tsv */; };
@@ -42,9 +44,11 @@
 		19F8E82843B6F3BC52281C46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815D323156D169F637AF1647 /* AppDelegate.swift */; };
 		1A3A1F00502AEDC06CCB158C /* PrintFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981BDB7E70C941B9B4FE96A5 /* PrintFace.swift */; };
 		1A4076F2B1DFBE65143C923C /* DayReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7F8DBA893CA6470EAC449D /* DayReader.swift */; };
+		1BA870529478AA0C3527D17D /* JapaneseProverbs.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 9EBFF07F1BFF6EBF9CCB9362 /* JapaneseProverbs.tsv */; };
 		1C31FE7EFC0919A31B6F71D3 /* MonthGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293B61C0C42C3DF7765B3E44 /* MonthGrid.swift */; };
 		1C516CEFD66DBE93AD80F3C3 /* MonthGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293B61C0C42C3DF7765B3E44 /* MonthGrid.swift */; };
 		1D2A5A87ED37D4A5D98AAF13 /* MoonDrawings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F699605C3BF5F367FF3FB6F7 /* MoonDrawings.swift */; };
+		1D3B6EAB78E21536BA8D1546 /* NihonFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F59C8806010A7D6EF42E44 /* NihonFace.swift */; };
 		1ECA1129E5B9E6AD277D1BB5 /* SeededRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD64144BB8D8B1E25FC8A6F /* SeededRandom.swift */; };
 		1EF23C6F224FFFCF30B88B3B /* MoonArtwork.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3DF532A74EFF3547F1752B2 /* MoonArtwork.xcassets */; };
 		1EFB96916BA951990287C8DF /* Taviraj-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B5289648814F9123F547BC3C /* Taviraj-Medium.ttf */; };
@@ -107,6 +111,7 @@
 		4DAFEF12A923F92ED97D19E1 /* KoyomiLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAF19D351A8C2EEEC05944E /* KoyomiLayout.swift */; };
 		4E24E7E43B43979F64D1E291 /* TungShingNumeral.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3C60CC8F58B3366E0E5383 /* TungShingNumeral.swift */; };
 		4E3E8F4211059107B5771EC4 /* PaperSheet.metal in Sources */ = {isa = PBXBuildFile; fileRef = A957033B7B7998C7EB382AB2 /* PaperSheet.metal */; };
+		4FF1AC3588DC686B10EB0CE3 /* NihonFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F59C8806010A7D6EF42E44 /* NihonFace.swift */; };
 		5004E9D08E363E62205A8F19 /* DailyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A582E6B3EE9E7E31E2968AF7 /* DailyProvider.swift */; };
 		500C8C7AC89B455AB9C44FDC /* WidgetFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F675FE4486C4377B5084391 /* WidgetFace.swift */; };
 		500DB5A44EE2D3AE6968AADA /* FujiCardboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C67466EC5002E0525398996 /* FujiCardboard.swift */; };
@@ -116,6 +121,7 @@
 		51DB66676E483238187BE55A /* LocalEveningSky.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02169B5C67DB6F1938FBE86 /* LocalEveningSky.swift */; };
 		5310AA53C27E7000EEE48AA2 /* AppIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACF7673A04AC18FE510C22E /* AppIdentity.swift */; };
 		53FDD86BF96F36E8701BEEE4 /* PrintFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981BDB7E70C941B9B4FE96A5 /* PrintFace.swift */; };
+		579177D9045F149BDA26A647 /* JapaneseProverbs.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 9EBFF07F1BFF6EBF9CCB9362 /* JapaneseProverbs.tsv */; };
 		597D1CEE5B1E2367E03CE789 /* Himekuri-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = C09C54848217CE834ECC9628 /* Himekuri-LICENSE.txt */; };
 		59CF8D0FC637404840A51399 /* MoonDrawings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F699605C3BF5F367FF3FB6F7 /* MoonDrawings.swift */; };
 		5B0CD3F41FC2DCE514AE26E3 /* FujiFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADB21FBC759CD014E0AC07F /* FujiFace.swift */; };
@@ -124,6 +130,7 @@
 		5DEF52288ACCE69D8688E106 /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3473E862415CBB63E4FD662 /* SheetView.swift */; };
 		5E48479EAD3F15268D479284 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4500F80FA22897E1D0BA56CC /* Snapshot.swift */; };
 		5F187F1669D0AD212654E8E6 /* FujiFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADB21FBC759CD014E0AC07F /* FujiFace.swift */; };
+		5F27DAA0C2FFF22BF9319741 /* NihonFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F59C8806010A7D6EF42E44 /* NihonFace.swift */; };
 		5F706ADF6E7160A7F51C6149 /* CelestialNumeral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A958BA7A94695245C22058C3 /* CelestialNumeral.swift */; };
 		606C36121AC6663876D37D23 /* LayoutSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F70F88DFAE173FEF32F2E3C /* LayoutSupport.swift */; };
 		60E42BC04636D03474EB64A0 /* PaperGrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD2BC280CCB89BCD487FF01D /* PaperGrain.swift */; };
@@ -142,10 +149,12 @@
 		68FDA638345EED0A999DC01A /* DailyTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBE611CA294A8D9168CB3CD /* DailyTheme.swift */; };
 		6965D3CF45FF1CEF1E6E9866 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266CBFA7DB22E6F963498A40 /* Metrics.swift */; };
 		69C18845535DE47ADB5FF65F /* ChineseProverbs.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 87583439F602625DA020F9A2 /* ChineseProverbs.tsv */; };
+		6AB29F0E074E686A45DDF3EE /* JapaneseProverbs.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 9EBFF07F1BFF6EBF9CCB9362 /* JapaneseProverbs.tsv */; };
 		6B4E00F20BC13756F27F5CDC /* PageTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C27861CC68146131FC4F5F /* PageTheme.swift */; };
 		6C03094C0AFA78A32E7788FA /* CivilDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13971B6E9930FA61E9C48EAA /* CivilDay.swift */; };
 		6C9300EE7DF12FC5C3E2BA79 /* ChineseProverbs.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 87583439F602625DA020F9A2 /* ChineseProverbs.tsv */; };
 		6D8BAF8DA24D789BA8D543D4 /* ActivityPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC1DF326B6909F0E407C8C7 /* ActivityPanel.swift */; };
+		6DE7D9DBFD0F41ED326981E1 /* JapaneseProverbs.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 9EBFF07F1BFF6EBF9CCB9362 /* JapaneseProverbs.tsv */; };
 		6F042D569F1FE1BA4A9E299E /* TongshengLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF3BA052D27AEE2587F215 /* TongshengLayout.swift */; };
 		700245BEEACD47EF212F7B98 /* ChineseScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BBBD49500B0BC21EFBA63C /* ChineseScript.swift */; };
 		702FDCFE00B8D2D7CFCD234F /* TungShingDailyAlmanac in Frameworks */ = {isa = PBXBuildFile; productRef = 7F0C1E5C38CF96E7439F907C /* TungShingDailyAlmanac */; };
@@ -215,6 +224,7 @@
 		9CC37CF7E6304295D7E185D0 /* ChineseProverb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9E5749065686956FCF83B1 /* ChineseProverb.swift */; };
 		9CF9C5B4FB8D30D9A8A6B8FD /* ActivityPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2632A666A8156C5A943B862 /* ActivityPreference.swift */; };
 		9D56B956642FB57C143FF966 /* DailyHomeWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7EAECB703A5CC02372622419 /* DailyHomeWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9D8685CE470B6A3BE012A77E /* JapaneseProverbs.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 9EBFF07F1BFF6EBF9CCB9362 /* JapaneseProverbs.tsv */; };
 		9DD46F39C12556D047C78F8B /* ShowaLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15C7EFE7FE8396E2B43656A /* ShowaLayout.swift */; };
 		9FEF3BC7A0D2BEDDB3BF1A50 /* DayReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7F8DBA893CA6470EAC449D /* DayReader.swift */; };
 		A03DCE53C40EFF01BE336B0C /* KoyomiLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAF19D351A8C2EEEC05944E /* KoyomiLayout.swift */; };
@@ -222,6 +232,7 @@
 		A366B26ED2004E03C771177E /* DayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFC0FF4B4269254E120D0C5 /* DayInfo.swift */; };
 		A3BACA270AEAC414ADEDFD12 /* PaperWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3BBAEBA29AE9D4B07608DD /* PaperWindow.swift */; };
 		A49CCCB13889E6D1E8325490 /* VerticalText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E06E1BB4E26547A7A6B4FF /* VerticalText.swift */; };
+		A4B0127242B0856B86E9B07B /* NihonFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F59C8806010A7D6EF42E44 /* NihonFace.swift */; };
 		A4C4E49C5702A86D924F31B5 /* HuangliLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 717F1EC52F1CE67D259C282F /* HuangliLayout.swift */; };
 		A608CD956D184AEAEDFC536B /* TungShingDailyAlmanac in Frameworks */ = {isa = PBXBuildFile; productRef = 4B11F0E50EB3E5E1419790D6 /* TungShingDailyAlmanac */; };
 		A6643B6E230F3F936B108424 /* DailyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A582E6B3EE9E7E31E2968AF7 /* DailyProvider.swift */; };
@@ -320,6 +331,7 @@
 		F214ADEAD5E2B2DEB83649CE /* DailyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A582E6B3EE9E7E31E2968AF7 /* DailyProvider.swift */; };
 		F24931AC5FB40FD7E8857635 /* AppIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACF7673A04AC18FE510C22E /* AppIdentity.swift */; };
 		F276B7F4821AECCE5D154700 /* ActivityPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC1DF326B6909F0E407C8C7 /* ActivityPanel.swift */; };
+		F2ED0A81C9B829BA673E0443 /* NihonFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F59C8806010A7D6EF42E44 /* NihonFace.swift */; };
 		F3876415A671E54B2978ADF4 /* ActivityGlosses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACD5957DC7EA8A35C66BC20 /* ActivityGlosses.swift */; };
 		F5B024B7485A1892BFBF8862 /* MonthGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293B61C0C42C3DF7765B3E44 /* MonthGrid.swift */; };
 		F6C17896EAAF98347704F6EA /* CelestialFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA08D183DD8B36CE86EB3296 /* CelestialFace.swift */; };
@@ -399,6 +411,7 @@
 		293B61C0C42C3DF7765B3E44 /* MonthGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthGrid.swift; sourceTree = "<group>"; };
 		2EC1DF326B6909F0E407C8C7 /* ActivityPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPanel.swift; sourceTree = "<group>"; };
 		2F675FE4486C4377B5084391 /* WidgetFace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetFace.swift; sourceTree = "<group>"; };
+		33F59C8806010A7D6EF42E44 /* NihonFace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NihonFace.swift; sourceTree = "<group>"; };
 		346CC5D789FA1B80B56EF036 /* MoonLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonLocation.swift; sourceTree = "<group>"; };
 		37F9F30E21DA75BEC1F5BF07 /* DesktopTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopTests.swift; sourceTree = "<group>"; };
 		3C67466EC5002E0525398996 /* FujiCardboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FujiCardboard.swift; sourceTree = "<group>"; };
@@ -440,6 +453,7 @@
 		9574B106C5FF17D8D1C766A5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		981BDB7E70C941B9B4FE96A5 /* PrintFace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintFace.swift; sourceTree = "<group>"; };
 		9D9E5749065686956FCF83B1 /* ChineseProverb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChineseProverb.swift; sourceTree = "<group>"; };
+		9EBFF07F1BFF6EBF9CCB9362 /* JapaneseProverbs.tsv */ = {isa = PBXFileReference; path = JapaneseProverbs.tsv; sourceTree = "<group>"; };
 		9EF1D4AA513F14DFE66ECD96 /* DayNumberTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayNumberTarget.swift; sourceTree = "<group>"; };
 		A582E6B3EE9E7E31E2968AF7 /* DailyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyProvider.swift; sourceTree = "<group>"; };
 		A957033B7B7998C7EB382AB2 /* PaperSheet.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = PaperSheet.metal; sourceTree = "<group>"; };
@@ -610,6 +624,7 @@
 				F699605C3BF5F367FF3FB6F7 /* MoonDrawings.swift */,
 				66223EDE4C012AD3BABC04E5 /* MoonFace.swift */,
 				D91656055C695C7493AC3B97 /* MoonReading.swift */,
+				33F59C8806010A7D6EF42E44 /* NihonFace.swift */,
 				B6EFCECE220CA512C4161F1E /* PadStore.swift */,
 				5BD64144BB8D8B1E25FC8A6F /* SeededRandom.swift */,
 				C3473E862415CBB63E4FD662 /* SheetView.swift */,
@@ -747,6 +762,7 @@
 			isa = PBXGroup;
 			children = (
 				87583439F602625DA020F9A2 /* ChineseProverbs.tsv */,
+				9EBFF07F1BFF6EBF9CCB9362 /* JapaneseProverbs.tsv */,
 			);
 			name = Proverbs;
 			path = DailyProof/Proverbs;
@@ -990,6 +1006,7 @@
 				39FBA9D5C77C8836F9336A57 /* Assets.xcassets in Resources */,
 				2EFF1B9894AB5A4F888EF06C /* ChineseProverbs.tsv in Resources */,
 				B5A1C587F73DC2384264B5D2 /* Himekuri-LICENSE.txt in Resources */,
+				579177D9045F149BDA26A647 /* JapaneseProverbs.tsv in Resources */,
 				45235685544D9F68A9F28E46 /* MoonArtwork.xcassets in Resources */,
 				713B0EFC7A00B633D1EBC0F8 /* Taviraj-LICENSE.txt in Resources */,
 				DA8D008D73FF29AFC414839D /* Taviraj-Medium.ttf in Resources */,
@@ -1002,6 +1019,7 @@
 			files = (
 				13821DFFF30EEAD74398CAD9 /* ChineseProverbs.tsv in Resources */,
 				376152754067784E78E510A7 /* Himekuri-LICENSE.txt in Resources */,
+				6AB29F0E074E686A45DDF3EE /* JapaneseProverbs.tsv in Resources */,
 				1EF23C6F224FFFCF30B88B3B /* MoonArtwork.xcassets in Resources */,
 				E0DB12E85A1728F83F42EA4C /* Taviraj-LICENSE.txt in Resources */,
 				1EFB96916BA951990287C8DF /* Taviraj-Medium.ttf in Resources */,
@@ -1014,6 +1032,7 @@
 			files = (
 				7E7E6463F620337634FC312F /* ChineseProverbs.tsv in Resources */,
 				909DC23CEE3808110E93CB33 /* Himekuri-LICENSE.txt in Resources */,
+				1BA870529478AA0C3527D17D /* JapaneseProverbs.tsv in Resources */,
 				7E5C887EF096C048224775D4 /* MoonArtwork.xcassets in Resources */,
 				18EEFA54246DB9C54F4DD895 /* Taviraj-LICENSE.txt in Resources */,
 				104C9297F1D3A885B9895359 /* Taviraj-Medium.ttf in Resources */,
@@ -1028,6 +1047,7 @@
 				7DCFA081B938B7CF5EDD8A46 /* Artwork.xcassets in Resources */,
 				2A762F1CBA743C658E8D2E12 /* ChineseProverbs.tsv in Resources */,
 				F1085E0B4C4208885E0FB748 /* Himekuri-LICENSE.txt in Resources */,
+				6DE7D9DBFD0F41ED326981E1 /* JapaneseProverbs.tsv in Resources */,
 				8A089A60E96E35850A936E2D /* MoonArtwork.xcassets in Resources */,
 				D38FAF0BA8C2B4B88902822B /* Taviraj-LICENSE.txt in Resources */,
 				DFFCCA281F229E04D991E0CD /* Taviraj-Medium.ttf in Resources */,
@@ -1040,6 +1060,7 @@
 			files = (
 				69C18845535DE47ADB5FF65F /* ChineseProverbs.tsv in Resources */,
 				E4FBBA2B5531FA9F12B311D3 /* Himekuri-LICENSE.txt in Resources */,
+				069B9E3FD4F0330B0876CA7F /* JapaneseProverbs.tsv in Resources */,
 				67A692AEF208CF028D0DF5E7 /* MoonArtwork.xcassets in Resources */,
 				0A7E227C2D6F555603E9F4BB /* Taviraj-LICENSE.txt in Resources */,
 				42A5AABB10D41B7B84590BDB /* Taviraj-Medium.ttf in Resources */,
@@ -1052,6 +1073,7 @@
 			files = (
 				6C9300EE7DF12FC5C3E2BA79 /* ChineseProverbs.tsv in Resources */,
 				597D1CEE5B1E2367E03CE789 /* Himekuri-LICENSE.txt in Resources */,
+				9D8685CE470B6A3BE012A77E /* JapaneseProverbs.tsv in Resources */,
 				C41E26BCB321146C93BC3163 /* MoonArtwork.xcassets in Resources */,
 				728CDB2274D719054C4C3A9B /* Taviraj-LICENSE.txt in Resources */,
 				66AB113F4F339EBEC93837C0 /* Taviraj-Medium.ttf in Resources */,
@@ -1103,6 +1125,7 @@
 				A80DA654B4E53791E01BB4ED /* MoonDrawings.swift in Sources */,
 				F70983207275F0761A081BAC /* MoonFace.swift in Sources */,
 				3A0A781ACE63A47378FC8DB9 /* MoonReading.swift in Sources */,
+				5F27DAA0C2FFF22BF9319741 /* NihonFace.swift in Sources */,
 				3EC2322365613C3A70F0D3FF /* PadStore.swift in Sources */,
 				D1C5F6C6B2E27E340F5EE934 /* PageTheme.swift in Sources */,
 				60E42BC04636D03474EB64A0 /* PaperGrain.swift in Sources */,
@@ -1158,6 +1181,7 @@
 				CD0DAEF148938842660526D3 /* MoonFace.swift in Sources */,
 				50C76A2E2F4F5E005684A4D9 /* MoonLocation.swift in Sources */,
 				7C53793ED09AF16AA393847E /* MoonReading.swift in Sources */,
+				A4B0127242B0856B86E9B07B /* NihonFace.swift in Sources */,
 				0AEBA1C0EB29A11F36A5AB47 /* PadBinding.swift in Sources */,
 				0108E799AF96A6E707626FDA /* PadStack.swift in Sources */,
 				B67592BE2C25C2E5F6D647DD /* PadStore.swift in Sources */,
@@ -1214,6 +1238,7 @@
 				1D2A5A87ED37D4A5D98AAF13 /* MoonDrawings.swift in Sources */,
 				2F6D21D94FFFB038D1DB5F97 /* MoonFace.swift in Sources */,
 				FBD9E3C9316CB02AC91B574C /* MoonReading.swift in Sources */,
+				4FF1AC3588DC686B10EB0CE3 /* NihonFace.swift in Sources */,
 				782AFCAE302D7FA5A5BD3E46 /* PadStore.swift in Sources */,
 				E6B042AFF9614265BD14C209 /* PageTheme.swift in Sources */,
 				E70E65CF604297E3A12321C2 /* PaperGrain.swift in Sources */,
@@ -1262,6 +1287,7 @@
 				392536258DAB75E9A7BD2993 /* MoonDrawings.swift in Sources */,
 				E4587EF6014F9B97F1C81D97 /* MoonFace.swift in Sources */,
 				22878983BC4B26BE8F9C2F33 /* MoonReading.swift in Sources */,
+				110747AB7993D2F0BC3C7860 /* NihonFace.swift in Sources */,
 				0558AAED6BAA455889444E83 /* PadStore.swift in Sources */,
 				C72D5A0228932AF4B244DE60 /* PageTheme.swift in Sources */,
 				708BDBD9F58B9B578E46DCD2 /* PaperGrain.swift in Sources */,
@@ -1318,6 +1344,7 @@
 				3DF7001CA4FC51D938B71178 /* MoonFace.swift in Sources */,
 				3691251CC86D847FC0C188A3 /* MoonLocation.swift in Sources */,
 				E9D1410DDCAB00A0AB68F9DD /* MoonReading.swift in Sources */,
+				F2ED0A81C9B829BA673E0443 /* NihonFace.swift in Sources */,
 				186422B3297DF1E1675C7C9A /* PadBinding.swift in Sources */,
 				C60F7DAF874E567B29372C11 /* PadStack.swift in Sources */,
 				858B5D535721E455333F38B6 /* PadStore.swift in Sources */,
@@ -1376,6 +1403,7 @@
 				59CF8D0FC637404840A51399 /* MoonDrawings.swift in Sources */,
 				93CECA3458FFD8DD49FC68DE /* MoonFace.swift in Sources */,
 				E7533C1DFBAF8C9A7128042F /* MoonReading.swift in Sources */,
+				1D3B6EAB78E21536BA8D1546 /* NihonFace.swift in Sources */,
 				EA2D8F7839DDD859D0FA2F8E /* PadStore.swift in Sources */,
 				E542683F7E77E4C97E13BAB2 /* PageTheme.swift in Sources */,
 				D5AA48A28BB79A05B6DD15B1 /* PaperGrain.swift in Sources */,

@@ -209,7 +209,15 @@ private struct AccessibleDay: View {
             VStack(alignment: .leading, spacing: 16) {
                 Button(action: today) { Text(verbatim: sheet.label).font(.title.bold()) }
                     .buttonStyle(.plain).accessibilityHint("Return to today")
-                if let day = sheet.page, theme == .moon {
+                if let day = sheet.page, theme == .nihon {
+                    let value = NihonReading(day)
+                    Text(verbatim: [value.weekday, value.holiday, value.oldDate].compactMap { $0 }.joined(separator: "  ·  "))
+                    Text(verbatim: "六曜  " + value.rokuyo + "  " + (value.traditions.rokuyoRomanized ?? ""))
+                    Text(verbatim: "二十八宿  " + value.mansion + "宿")
+                    Text(verbatim: "月齢  " + (value.age ?? "—") + "    潮名  " + value.tide)
+                    Text(verbatim: value.info.proverb.jp).font(.headline)
+                    Text(verbatim: value.info.proverb.en)
+                } else if let day = sheet.page, theme == .moon {
                     let reading = MoonReading(day, site: sheet.skySite)
                     Text(verbatim: [reading.phase, reading.illumination].compactMap { $0 }.joined(separator: " · "))
                     Text(verbatim: reading.caption).font(.headline)

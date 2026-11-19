@@ -38,6 +38,12 @@ public struct CelestialSky: Sendable, Hashable {
     /// Rounded minutes, using declination at 13:00 JST; not a local sunrise/set time service.
     public let tokyoDaylightMinutes: Int
 
+    /// Days since conjunction at noon JST (03:00 UTC) for Japanese printed calendars.
+    public static func lunarAgeAtJapaneseNoon(on date: GregorianDate) -> Double? {
+        guard DailyAlmanacReader.firstDate <= date, date <= DailyAlmanacReader.lastDate else { return nil }
+        return CelestialConjunctions.bundled?.elapsedDays(at: date, utcHour: 3)
+    }
+
     public init(date: GregorianDate) throws(CelestialSkyError) {
         guard DailyAlmanacReader.firstDate <= date, date <= DailyAlmanacReader.lastDate else {
             throw .outsideSupportedDomain

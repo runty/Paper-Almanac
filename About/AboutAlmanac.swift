@@ -58,6 +58,10 @@ struct AboutAlmanac: View {
                     Text("The Yut Lik theme draws on the [Yut Lik calendar](https://ricefolk.com/back-on-the-boat-jason-soy-sally-fung-of-yutlik-calendar/) by Jason Soy and Sally Fung of Back On The Boat.")
                     Text("Celestial Almanac’s translucent numerals and astronomical diagrams draw on [NOTON’s Himekuri calendar](https://noton.info/product/nx015/), designed by Carsten Nicolai and nibo.")
                 }
+                credit("Nihon") {
+                    Text("The page draws on Shin Nippon Calendar’s small daily tear-off calendar. The Wadscorp engine supplies the Japanese old-calendar date and Rokuyō.")
+                    Text("The original 16 Himekuri sayings are joined by a selection from [English Wiktionary via Kaikki](https://kaikki.org/dictionary/Japanese/pos-proverb/index.html), with English readings adapted for the page. The additional collection is shared under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).")
+                }
                 credit("Moon") {
                     Text("The printed layout draws on Shin Nippon Calendar’s Sora daily calendar. The lunar engraving adapts the [LRO near-side mosaic](https://science.nasa.gov/photojournal/nearside-spectacular/) by NASA, GSFC and Arizona State University. The Wadscorp engine supplies the daily illumination at noon UTC.")
                 }

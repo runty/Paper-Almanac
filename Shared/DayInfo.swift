@@ -17,7 +17,7 @@ struct DayInfo {
         }
     }
 
-    var proverb: (jp: String, en: String) { Proverbs.all[dayOfYear % Proverbs.all.count] }
+    var proverb: (jp: String, en: String) { Proverbs.on(dayID: page.date.dayID.value) }
     func calendarProverb(for theme: PageTheme) -> String? {
         switch theme {
         case .showa: proverb.jp + " · " + proverb.en

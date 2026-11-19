@@ -33,6 +33,8 @@ targetTemplates:
       - DailyProof/ChineseProverb.swift
       - path: DailyProof/Proverbs/ChineseProverbs.tsv
         buildPhase: resources
+      - path: DailyProof/Proverbs/JapaneseProverbs.tsv
+        buildPhase: resources
       - DailyProof/DayNumberTarget.swift
       - DailyProof/ActivityLink.swift
       - DailyProof/ActivityGlosses.swift

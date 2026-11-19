@@ -25,6 +25,20 @@ public struct CelestialTraditions: Sendable, Hashable {
     /// Original full Chinese label from the existing report, e.g. 胃土雉.
     public let mansion: String
     public let mansionEnglish: String
+    /// Japanese character forms for the daily 28-mansion cycle.
+    public let nijuhasshuku: String?
+    /// Traditional tide class based on the Japanese old-calendar day.
+    public var tideName: String? {
+        guard let day = kyureki?.day else { return nil }
+        switch Int(day) {
+        case 1...2, 14...17, 29...30: return "大潮"
+        case 3...6, 12...13, 18...21, 27...28: return "中潮"
+        case 7...9, 22...24: return "小潮"
+        case 10, 25: return "長潮"
+        case 11, 26: return "若潮"
+        default: return nil
+        }
+    }
 
     public init(report: AlmanacDayReport) {
         let japanese = JapaneseAlmanacContext.bundled?.values(on: report.gregorian)
@@ -44,10 +58,13 @@ public struct CelestialTraditions: Sendable, Hashable {
         dayAnimal = ["Rat", "Ox", "Tiger", "Rabbit", "Dragon", "Snake", "Horse", "Goat", "Monkey", "Rooster", "Dog", "Pig"][report.dayPillar.branchIndex]
         mansion = report.mansion
         let index = UpstreamTables.mansions.firstIndex(of: report.mansion)
+        nijuhasshuku = index.map { String(Self.japaneseMansions[$0]) }
         mansionEnglish = index.map { Self.mansionNames[$0] } ?? report.mansion
         // Table order is east, north, west, south: 角…箕 / 斗…壁 / 奎…參 / 井…軫.
         guardian = index.map { ["Azure Dragon", "Black Tortoise", "White Tiger", "Vermilion Bird"][$0 / 7] } ?? ""
     }
+
+    private static let japaneseMansions = Array("角亢氐房心尾箕斗牛女虚危室壁奎婁胃昴畢觜参井鬼柳星張翼軫")
 
     private static let mansionNames = [
         "Horn", "Neck", "Root", "Room", "Heart", "Tail", "Winnowing Basket",

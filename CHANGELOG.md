@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Added **Nihon**, a Japanese tear-off theme for Mac, iPhone, iPad, and widgets including CarPlay. Its full page shows Rokuyō, the old-calendar date, the daily mansion, lunar age, and a traditional tide name.
+- Expanded the daily Japanese sayings from 16 to 140. Nihon shows each saying with its English reading on the full page. Shōwa and Koyomi draw from the same rotation.
+
 - Added **Moon** to the Mac, iPhone, and iPad apps and their widgets. Its stippled lunar disk follows the daily phase. Dark-sky dates feature constellation drawings, and selected spaceflight anniversaries feature illustrated mission notes.
 - Moon opens with northern mid-latitude sky notes. Enable **Use Current Location** in the app for a local evening guide. Turning it off clears the saved location.
 

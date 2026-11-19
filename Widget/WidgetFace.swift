@@ -31,7 +31,9 @@ struct WidgetFace: View {
 
     private var paperFace: some View {
         GeometryReader { box in
-            if entry.theme == .moon, let page = entry.sheet.page {
+            if entry.theme == .nihon, let page = entry.sheet.page {
+                NihonFace(reading: NihonReading(page), widget: true)
+            } else if entry.theme == .moon, let page = entry.sheet.page {
                 MoonFace(reading: MoonReading(page, site: entry.sheet.skySite), widget: true)
             } else if entry.theme == .fuji, let page = entry.sheet.page {
                 FujiFace(reading: FujiReading(page), widget: true)
@@ -337,7 +339,11 @@ struct DashboardAlmanac: View {
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(Text(info.date, format: .dateTime.weekday(.wide).month(.wide).day().year()))
             Rectangle().fill(ruleInk).frame(height: 1.5).accessibilityHidden(true)
-            if entry.theme == .moon {
+            if entry.theme == .nihon {
+                let reading = NihonReading(page)
+                Text(verbatim: reading.rokuyo + "  ·  " + reading.tide)
+                Text(verbatim: reading.info.proverb.jp).font(Theme.mincho(compact ? 12 : 14)).lineLimit(2)
+            } else if entry.theme == .moon {
                 let moon = MoonReading(page, site: entry.sheet.skySite)
                 Text(verbatim: moon.phase)
                 Text(verbatim: moon.milestone?.name ?? moon.constellation.rawValue)
@@ -382,7 +388,9 @@ struct DashboardAlmanac: View {
         }
 
         let inks: (Color, Color)
-        if entry.theme == .moon {
+        if entry.theme == .nihon {
+            inks = (NihonFace.ink(info.weekday - 1, holiday: NihonReading(info.page).holiday != nil), NihonFace.blue)
+        } else if entry.theme == .moon {
             inks = (MoonFace.ink, MoonFace.blue)
         } else if entry.theme == .fuji {
             inks = (FujiReading(info.page).redDate ? FujiFace.red : FujiFace.ink, FujiFace.ink)
@@ -414,6 +422,14 @@ struct DashboardAlmanac: View {
                 HStack(spacing: 7) {
                     TungShingNumeral(day: info.day, size: size).foregroundStyle(dateInk)
                     captions
+                }
+            case .nihon:
+                HStack(spacing: 5) {
+                    NihonNumber(day: info.day).fill(dateInk).frame(width: size * 0.95, height: size * 0.78)
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(verbatim: String(info.month) + "月")
+                        Text(verbatim: String(info.weekdayKanji.prefix(2)))
+                    }.font(Theme.kanji(13))
                 }
             case .moon:
                 HStack(spacing: 6) {
