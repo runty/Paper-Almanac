@@ -9,37 +9,40 @@ final class PadStore: ObservableObject {
     @Published var activitySide: ActivityPreference.Side?
     @Published var calendarLayout = DailyTheme.savedCalendarLayout
     @Published var theme = DailyTheme.current
-    private var dates: PadDates
+    @Published private var dates: PadDates
     private var fetching: Task<Void, Never>?
     private var midnight: Timer?
     private var cache: [String: PrintedDay] = [:]
     static let advanceKey = "pad.advancedCivilDay"
+    static let heldDayKey = "pad.heldCivilDay"
     private let defaults: UserDefaults
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
-        let state = PadDates(today: CivilDay.label(), advance: defaults.string(forKey: Self.advanceKey))
+        let state = PadDates(today: CivilDay.label(), advance: defaults.string(forKey: Self.advanceKey),
+                             heldDay: defaults.string(forKey: Self.heldDayKey))
         dates = state
         top = Sheet(label: state.visible, loading: true)
         next = Sheet(label: state.visible, loading: true)
         show()
         scheduleMidnight()
     }
+    var automaticallyUpdatesDate: Bool { dates.automaticallyUpdatesDate }
     var canTear: Bool { CivilDay.step(top.label, 1) == next.label && next.page != nil && top.page != nil }
     var remainingFraction: Double {
         CivilDay.remainingPaper(on: top.label)
     }
     func refreshToday() {
         let previous = dates.visible
-        dates.refresh(CivilDay.label(), persistedAdvance: defaults.string(forKey: Self.advanceKey))
+        readDates()
         if dates.visible != previous || (!top.loading && top.page == nil) { show() }
-        saveAdvance()
+        saveDates()
         scheduleMidnight()
     }
     func tear() {
         guard canTear else { return }
         tornCount += 1
         dates.tear()
-        saveAdvance()
+        saveDates()
         show()
     }
     func browse(_ label: String) { dates.browse(label); show() }
@@ -53,14 +56,40 @@ final class PadStore: ObservableObject {
         return true
     }
     func step(_ delta: Int) { if let day = CivilDay.step(dates.visible, delta) { browse(day) } }
-    func today() { dates.refresh(CivilDay.label()); dates.returnToToday(); saveAdvance(); show() }
-    private func saveAdvance() {
+    func today() {
+        readDates()
+        dates.returnToToday()
+        saveDates()
+        show()
+    }
+
+    func setAutomaticallyUpdatesDate(_ enabled: Bool) {
+        let previous = dates.visible
+        readDates()
+        dates.setAutomaticallyUpdatesDate(enabled)
+        saveDates()
+        scheduleMidnight()
+        if dates.visible != previous { show() }
+    }
+
+    private func readDates() {
+        dates.refresh(CivilDay.label(), persistedAdvance: defaults.string(forKey: Self.advanceKey),
+                      persistedHeldDay: defaults.string(forKey: Self.heldDayKey))
+    }
+
+    private func saveDates() {
         if defaults.string(forKey: Self.advanceKey) != dates.advance {
             defaults.set(dates.advance, forKey: Self.advanceKey)
         }
+        if defaults.string(forKey: Self.heldDayKey) != dates.heldDay {
+            defaults.set(dates.heldDay, forKey: Self.heldDayKey)
+        }
     }
+
     private func scheduleMidnight() {
         midnight?.invalidate()
+        midnight = nil
+        guard automaticallyUpdatesDate else { return }
         let timer = Timer(fire: CivilDay.nextMidnight(after: .now), interval: 0, repeats: false) { [weak self] _ in
             Task { @MainActor in self?.refreshToday() }
         }

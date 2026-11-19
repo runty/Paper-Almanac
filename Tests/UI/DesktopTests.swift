@@ -84,7 +84,7 @@ final class DesktopTests: XCTestCase {
         XCTAssertTrue(app.descendants(matching: .any)["daily-sheet-2026-11-01"].waitForExistence(timeout: 5))
     }
 
-    @MainActor func testBrowseTearAndReturnToToday() throws {
+    @MainActor func testMenuTearAndReturnToToday() {
         let app = XCUIApplication()
         app.launch()
         let pad = app.windows["Paper Almanac"]
@@ -92,21 +92,30 @@ final class DesktopTests: XCTestCase {
         app.typeKey("t", modifierFlags: .command)
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = .current
-        func sheet(_ days: Int) -> XCUIElement {
+        func label(_ days: Int) -> String {
             let c = calendar.dateComponents([.year,.month,.day], from: calendar.date(byAdding: .day, value: days, to: .now)!)
-            let label = String(format: "%04d-%02d-%02d", c.year!, c.month!, c.day!)
-            return app.descendants(matching: .any)["daily-sheet-" + label]
+            return String(format: "%04d-%02d-%02d", c.year!, c.month!, c.day!)
+        }
+        func sheet(_ days: Int) -> XCUIElement {
+            app.descendants(matching: .any)["daily-sheet-" + label(days)]
         }
         XCTAssertTrue(sheet(0).waitForExistence(timeout: 8))
-        app.typeKey("]", modifierFlags: .command)
-        XCTAssertTrue(sheet(1).waitForExistence(timeout: 5))
         let status = app.statusItems["Paper Almanac"]
         status.click()
-        status.menuItems["Today"].click()
-        XCTAssertTrue(sheet(0).waitForExistence(timeout: 5))
+        let autoChange = status.menuItems["Auto Change Date"]
+        XCTAssertTrue(autoChange.isHittable)
+        XCTAssertLessThan(status.menuItems["Calendar Size"].frame.midY, autoChange.frame.midY)
+        XCTAssertTrue(status.menuItems["Quit"].exists)
+        XCTAssertFalse(status.menuItems["Show Daily Almanac"].exists)
+        XCTAssertFalse(status.menuItems["Previous Day"].exists)
+        XCTAssertFalse(status.menuItems["Next Day"].exists)
+        XCTAssertTrue(status.menuItems["Today"].isHittable)
+        app.typeKey(XCUIKeyboardKey.escape.rawValue, modifierFlags: [])
         let origin = pad.coordinate(withNormalizedOffset: CGVector(dx: 0.604, dy: 0.51))
         origin.click(forDuration: 0.2, thenDragTo: origin.withOffset(CGVector(dx: 12, dy: 220)), withVelocity: .slow, thenHoldForDuration: 0.25)
         XCTAssertTrue(sheet(1).waitForExistence(timeout: 5))
-        app.typeKey("t", modifierFlags: .command)
+        status.click()
+        status.menuItems["Today"].click()
+        XCTAssertTrue(sheet(0).waitForExistence(timeout: 5))
     }
 }

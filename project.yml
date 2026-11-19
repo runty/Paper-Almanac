@@ -14,8 +14,8 @@ settings:
     PAPER_ALMANAC_APP_GROUP: group.org.paperalmanac.dev
     CODE_SIGN_STYLE: Manual
     CODE_SIGN_IDENTITY: "-"
-    CURRENT_PROJECT_VERSION: 4
-    MARKETING_VERSION: 0.2.0
+    CURRENT_PROJECT_VERSION: 10
+    MARKETING_VERSION: 0.2.1
     ENABLE_HARDENED_RUNTIME: YES
     CODE_SIGN_ENTITLEMENTS: Shared/Daily.entitlements
     ENABLE_USER_SCRIPT_SANDBOXING: YES
@@ -42,7 +42,7 @@ targetTemplates:
   MobileSettings:
     platform: iOS
     settings:
-      CURRENT_PROJECT_VERSION: 5
+      CURRENT_PROJECT_VERSION: 10
       TARGETED_DEVICE_FAMILY: "1,2"
       CODE_SIGN_STYLE: Automatic
       CODE_SIGN_ENTITLEMENTS: Config/Mobile.entitlements
@@ -160,7 +160,7 @@ targets:
       - target: TungShingMobile
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: $(PAPER_ALMANAC_BUNDLE_ID).mobile.uitests
-      CURRENT_PROJECT_VERSION: 5
+      CURRENT_PROJECT_VERSION: 10
       TARGETED_DEVICE_FAMILY: "1,2"
       TEST_TARGET_NAME: TungShingMobile
       CODE_SIGN_STYLE: Automatic

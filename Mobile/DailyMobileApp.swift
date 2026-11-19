@@ -36,6 +36,7 @@ private struct AlmanacWindow: View {
     @StateObject private var store = PadStore()
     @AppStorage(DailyTheme.key, store: DailyTheme.defaults) private var theme: DailyTheme = .tungShing
     @AppStorage(PadStore.advanceKey) private var liveAdvance: String?
+    @AppStorage(PadStore.heldDayKey) private var heldDay: String?
     @AppStorage(DailyTheme.calendarLayoutKey, store: DailyTheme.defaults) private var calendarLayout = false
     @Environment(\.scenePhase) private var phase
     @Environment(\.dynamicTypeSize) private var textSize
@@ -71,12 +72,17 @@ private struct AlmanacWindow: View {
                 Menu {
                     Button("Go to Date…", systemImage: "calendar") { openPicker() }
                         .accessibilityIdentifier("go-to-date")
+                    Toggle(isOn: Binding(
+                        get: { store.automaticallyUpdatesDate },
+                        set: { store.setAutomaticallyUpdatesDate($0) }
+                    )) {
+                        Label("Auto Change Date", systemImage: "calendar.badge.clock")
+                    }
+                    Button("About", systemImage: "info.circle") { showingAbout = true }
                     Divider()
                     Picker("Theme", selection: themeSelection) {
                         ForEach(DailyTheme.allCases) { Text($0.title).tag($0) }
                     }.pickerStyle(.inline)
-                    Divider()
-                    Button("About", systemImage: "info.circle") { showingAbout = true }
                 } label: { Image(systemName: "paintpalette").frame(width: 44, height: 44) }
                     .menuOrder(.fixed)
                     .accessibilityLabel("Theme").accessibilityValue(theme.title)
@@ -116,6 +122,7 @@ private struct AlmanacWindow: View {
         .onChange(of: calendarLayout) { WidgetCenter.shared.reloadTimelines(ofKind: "TungShingDailyWidget") }
         .onChange(of: theme) { WidgetCenter.shared.reloadTimelines(ofKind: "TungShingDailyWidget") }
         .onChange(of: liveAdvance) { store.refreshToday() }
+        .onChange(of: heldDay) { store.refreshToday() }
         .onChange(of: phase) {
             if phase == .active {
                 store.refreshToday()
@@ -145,7 +152,8 @@ private struct AlmanacWindow: View {
                     .navigationTitle("Go to Date").navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) { Button("Cancel") { pickingDate = false } }
-                        ToolbarItem(placement: .confirmationAction) {
+                        ToolbarItemGroup(placement: .confirmationAction) {
+                            Button("Today") { store.today(); pickingDate = false }
                             Button("Show") { store.browse(CivilDay.label(picked)); pickingDate = false }
                         }
                     }

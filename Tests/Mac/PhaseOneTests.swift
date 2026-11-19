@@ -33,6 +33,47 @@ final class PhaseOneTests: XCTestCase {
         reopened.returnToToday()
         XCTAssertEqual(reopened.visible, "2026-11-14")
     }
+    func testHeldPadKeepsTornDateAcrossMidnightAndRelaunch() {
+        var pad = PadDates(today: "2026-11-06", advance: "2026-11-07")
+        pad.setAutomaticallyUpdatesDate(false)
+        pad.refresh("2026-11-10")
+        XCTAssertEqual(pad.visible, "2026-11-07")
+        pad.tear()
+        XCTAssertEqual(pad.heldDay, "2026-11-08")
+
+        var reopened = PadDates(today: "2026-11-11", advance: nil, heldDay: pad.heldDay)
+        XCTAssertFalse(reopened.automaticallyUpdatesDate)
+        XCTAssertEqual(reopened.visible, "2026-11-08")
+
+        reopened.browse("2026-10-31")
+        XCTAssertEqual(reopened.heldDay, "2026-11-08")
+        reopened.tear()
+        XCTAssertEqual(reopened.heldDay, "2026-11-01")
+        reopened.returnToToday()
+        XCTAssertEqual(reopened.visible, "2026-11-11")
+        reopened.refresh("2026-11-12")
+        XCTAssertEqual(reopened.visible, "2026-11-11")
+
+        reopened.setAutomaticallyUpdatesDate(true)
+        XCTAssertTrue(reopened.automaticallyUpdatesDate)
+        XCTAssertEqual(reopened.visible, "2026-11-12")
+        reopened.refresh("2026-11-13")
+        XCTAssertEqual(reopened.visible, "2026-11-13")
+    }
+
+    func testEnablingAutomaticUpdatesKeepsAFuturePageUntilTodayCatchesUp() {
+        var pad = PadDates(today: "2026-11-06", advance: nil)
+        pad.browse("2026-11-10")
+        pad.setAutomaticallyUpdatesDate(false)
+        XCTAssertEqual(pad.heldDay, "2026-11-10")
+        pad.setAutomaticallyUpdatesDate(true)
+        XCTAssertEqual(pad.advance, "2026-11-10")
+        pad.refresh("2026-11-10")
+        XCTAssertNil(pad.advance)
+        pad.refresh("2026-11-11")
+        XCTAssertEqual(pad.visible, "2026-11-11")
+    }
+
     func testRangeAndInvalidNavigation() {
         XCTAssertNil(CivilDay.step("1901-01-01", -1))
         XCTAssertNil(CivilDay.step("2100-12-31", 1))
@@ -155,6 +196,7 @@ final class PhaseOneTests: XCTestCase {
         let page = pages[2]
         let sheet = Sheet(label: page.date.label, page: page)
         var rendered = Set<Data>()
+        XCTAssertEqual(DailyTheme(rawValue: "tungShing")?.title, "Yut Lik")
         XCTAssertEqual(DailyTheme(rawValue: "deskBlock")?.title, "Desk Ledger")
         XCTAssertNil(DailyTheme(rawValue: "brutalist"))
         XCTAssertNil(DailyTheme(rawValue: "calendarPoster"))

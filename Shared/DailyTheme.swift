@@ -49,7 +49,7 @@ enum DailyTheme: String, CaseIterable, Identifiable {
     }
     var title: String {
         switch self {
-        case .tungShing: "Tung Shing"
+        case .tungShing: "Yut Lik"
         case .celestialAlmanac: "Celestial Almanac"
         case .fuji: "Fuji"
         case .deskLedger: "Desk Ledger"

@@ -8,17 +8,33 @@ struct AboutAlmanac: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                Link(destination: URL(string: "https://wadscorp.com/")!) {
-                    HStack(spacing: 10) {
-                        Image("Wadscorp")
-                            .renderingMode(.original).resizable().scaledToFit()
-                            .frame(width: 42, height: 36).accessibilityHidden(true)
-                        Text("Wadscorp")
-                            .font(.system(.headline, design: .serif).weight(.semibold))
+                HStack {
+                    Link(destination: URL(string: "https://wadscorp.com/")!) {
+                        HStack(spacing: 10) {
+                            Image("Wadscorp")
+                                .renderingMode(.original).resizable().scaledToFit()
+                                .frame(width: 42, height: 36).accessibilityHidden(true)
+                            Text("Wadscorp")
+                                .font(.system(.headline, design: .serif).weight(.semibold))
+                        }
+                        .contentShape(Rectangle())
                     }
-                    .contentShape(Rectangle())
+                    .accessibilityLabel("Wadscorp website")
+
+                    Spacer()
+
+                    Link(destination: URL(string: "https://github.com/runty/Paper-Almanac")!) {
+                        Image("GitHubMark")
+                            .renderingMode(.original)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 34, height: 34)
+                            .frame(width: 44, height: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .accessibilityLabel("Paper Almanac on GitHub")
+                    .help("View Paper Almanac on GitHub")
                 }
-                .accessibilityLabel("Wadscorp website")
                 VStack(alignment: .leading, spacing: 5) {
                     Text(AppIdentity.name)
                         .font(.system(.largeTitle, design: .serif).weight(.semibold))
@@ -37,7 +53,7 @@ struct AboutAlmanac: View {
                 }
                 Divider()
                 credit("Print references") {
-                    Text("The Tung Shing face draws on the [YutLik calendar](https://ricefolk.com/back-on-the-boat-jason-soy-sally-fung-of-yutlik-calendar/) by Jason Soy and Sally Fung of Back On The Boat.")
+                    Text("The Yut Lik theme draws on the [Yut Lik calendar](https://ricefolk.com/back-on-the-boat-jason-soy-sally-fung-of-yutlik-calendar/) by Jason Soy and Sally Fung of Back On The Boat.")
                     Text("Celestial Almanac’s translucent numerals and astronomical diagrams draw on [NOTON’s Himekuri calendar](https://noton.info/product/nx015/), designed by Carsten Nicolai and nibo.")
                 }
                 credit("Fuji") {
@@ -53,7 +69,7 @@ struct AboutAlmanac: View {
                     Text("Selected from English Wiktionary contributors via [Kaikki](https://kaikki.org/dictionary/Chinese/pos-proverb/index.html). Some English readings are abridged or reworded. The collection is shared under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).")
                 }
                 credit("Type & sound") {
-                    Text("Taviraj Medium, designed by Cadson Demak, gives the Tung Shing date its distinctive numerals.")
+                    Text("Taviraj Medium, designed by Cadson Demak, gives the Yut Lik theme its distinctive date numerals.")
                     license("SIL Open Font License 1.1", resource: "Taviraj-LICENSE")
                     Text("Paper tearing sounds are synthesized by the app.")
                 }

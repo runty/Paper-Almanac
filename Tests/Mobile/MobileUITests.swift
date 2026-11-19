@@ -39,8 +39,13 @@ final class MobileUITests: XCTestCase {
         app.launch()
         let palette = app.buttons["Theme"]
         palette.tap()
-        app.buttons["About"].tap()
+        let about = app.buttons["About"]
+        let autoChange = app.descendants(matching: .any)["Auto Change Date"].firstMatch
+        XCTAssertTrue(autoChange.isHittable)
+        XCTAssertLessThan(autoChange.frame.midY, about.frame.midY)
+        about.tap()
         XCTAssertTrue(app.staticTexts["Himekuri 日めくり"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.descendants(matching: .any)["Paper Almanac on GitHub"].firstMatch.isHittable)
         let proof = XCTAttachment(screenshot: app.screenshot())
         proof.name = "About"
         proof.lifetime = .keepAlways
@@ -67,7 +72,7 @@ final class MobileUITests: XCTestCase {
             app.buttons[title].tap()
         }
 
-        select("Tung Shing")
+        select("Yut Lik")
         select("Shōwa Print")
         let page = show("2026-11-11", in: app)
         XCTAssertTrue(page.label.contains("Month calendar"))
@@ -88,7 +93,7 @@ final class MobileUITests: XCTestCase {
         select("Desk Ledger")
         XCTAssertFalse(toggle.exists)
         XCTAssertTrue(show("2026-11-11", in: app).label.contains("Extend grace"))
-        select("Tung Shing")
+        select("Yut Lik")
     }
 
     @MainActor func testMaterialBindings() {
@@ -99,7 +104,7 @@ final class MobileUITests: XCTestCase {
         defer {
             if let previous { palette.tap(); app.buttons[previous].tap() }
         }
-        for title in ["Tung Shing", "Editorial Day", "Desk Ledger"] {
+        for title in ["Yut Lik", "Editorial Day", "Desk Ledger"] {
             palette.tap()
             app.buttons[title].tap()
             XCTAssertEqual(palette.value as? String, title)
@@ -163,9 +168,9 @@ final class MobileUITests: XCTestCase {
             app.launchArguments = ["-print.theme", storedTheme]
             app.launch()
             let theme = app.buttons["Theme"]
-            XCTAssertEqual(theme.value as? String, "Tung Shing")
+            XCTAssertEqual(theme.value as? String, "Yut Lik")
             theme.tap()
-            XCTAssertTrue(app.buttons["Tung Shing"].exists)
+            XCTAssertTrue(app.buttons["Yut Lik"].exists)
             XCTAssertFalse(app.buttons["Minimal Swiss"].exists)
             XCTAssertFalse(app.buttons["Retro Office"].exists)
             XCTAssertFalse(app.buttons["Brutalist"].exists)
@@ -185,8 +190,8 @@ final class MobileUITests: XCTestCase {
         app.launch()
         XCTAssertEqual(theme.value as? String, "Desk Ledger")
         theme.tap()
-        app.buttons["Tung Shing"].tap()
-        XCTAssertEqual(theme.value as? String, "Tung Shing")
+        app.buttons["Yut Lik"].tap()
+        XCTAssertEqual(theme.value as? String, "Yut Lik")
     }
 
     @MainActor func testLeftAlignedNumeralAndLowerEdgeSwipe() {
@@ -205,7 +210,7 @@ final class MobileUITests: XCTestCase {
         page.staticTexts["29"].firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
         XCTAssertTrue(app.descendants(matching: .any)[todaySheetID].waitForExistence(timeout: 8))
         theme.tap()
-        app.buttons["Tung Shing"].tap()
+        app.buttons["Yut Lik"].tap()
     }
 
     @MainActor func testDownwardPullFromDate() {
@@ -248,6 +253,39 @@ final class MobileUITests: XCTestCase {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd"
         return "daily-sheet-" + formatter.string(from: Date())
+    }
+
+    @MainActor func testHoldingATornPageAndReturningToToday() {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        let page = show("2026-11-06", in: app)
+        let menu = app.buttons["Theme"]
+        menu.tap()
+        let automatic = app.descendants(matching: .any)["Auto Change Date"].firstMatch
+        XCTAssertTrue(automatic.waitForExistence(timeout: 5))
+        automatic.tap()
+        defer {
+            menu.tap()
+            if automatic.waitForExistence(timeout: 5) { automatic.tap() }
+        }
+
+        let corner = page.coordinate(withNormalizedOffset: CGVector(dx: 0.10, dy: 0.90))
+        let across = page.coordinate(withNormalizedOffset: CGVector(dx: 0.88, dy: 0.56))
+        corner.press(forDuration: 0.1, thenDragTo: across, withVelocity: .slow, thenHoldForDuration: 0.35)
+        let held = app.descendants(matching: .any)["daily-sheet-2026-11-07"]
+        XCTAssertTrue(held.waitForExistence(timeout: 5))
+        app.terminate()
+        app.launch()
+        XCTAssertTrue(held.waitForExistence(timeout: 8))
+
+        menu.tap()
+        XCTAssertFalse(app.buttons["Today"].exists)
+        app.buttons["go-to-date"].tap()
+        let today = app.buttons["Today"]
+        XCTAssertTrue(today.waitForExistence(timeout: 5))
+        today.tap()
+        XCTAssertTrue(today.waitForNonExistence(timeout: 5))
+        XCTAssertTrue(app.descendants(matching: .any)[todaySheetID].waitForExistence(timeout: 8))
     }
 
     @MainActor func testAccessibilityReadingReflows() {

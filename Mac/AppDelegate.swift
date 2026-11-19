@@ -80,10 +80,7 @@ private enum CalendarSize: Int, CaseIterable {
         func action(_ name: String, _ selector: Selector, _ key: String = "") {
             menu.addItem(withTitle: name, action: selector, keyEquivalent: key).target = self
         }
-        action("Show Daily Almanac", #selector(showPad))
         action("Today", #selector(today), "t")
-        action("Previous Day", #selector(previous), "[")
-        action("Next Day", #selector(nextDay), "]")
         action("Go to Date…", #selector(jump), "l")
         let themes = NSMenu(title: "Theme")
         themes.delegate = self
@@ -102,16 +99,23 @@ private enum CalendarSize: Int, CaseIterable {
             option.target = self
         }
         menu.addItem(withTitle: "Calendar Size", action: nil, keyEquivalent: "").submenu = sizes
+        action("Auto Change Date", #selector(toggleAutomaticDate))
         action("Show Month Calendar", #selector(toggleLayout))
         menu.delegate = self
         menu.addItem(.separator())
         action("About", #selector(aboutApp))
-        action("Quit Paper Almanac", #selector(quit), "q")
+        action("Quit", #selector(quit), "q")
         return menu
     }
+    func menuWillOpen(_ menu: NSMenu) {
+        if menu === item?.menu { pad?.orderFrontRegardless() }
+    }
+
     func menuNeedsUpdate(_ menu: NSMenu) {
         for option in menu.items {
-            if option.action == #selector(toggleLayout) {
+            if option.action == #selector(toggleAutomaticDate) {
+                option.state = store.automaticallyUpdatesDate ? .on : .off
+            } else if option.action == #selector(toggleLayout) {
                 option.isHidden = store.theme.original == nil
                 option.title = store.calendarLayout ? "Show Do and Don’t" : "Show Month Calendar"
                 option.image = NSImage(systemSymbolName: store.calendarLayout ? "list.bullet" : "calendar",
@@ -183,10 +187,11 @@ private enum CalendarSize: Int, CaseIterable {
         refresh()
         WidgetCenter.shared.reloadTimelines(ofKind: "TungShingDailyWidget")
     }
-    @objc private func showPad() { pad?.makeKeyAndOrderFront(nil); NSApp.activate() }
+    private func showPad() { pad?.makeKeyAndOrderFront(nil); NSApp.activate() }
+    @objc private func toggleAutomaticDate() {
+        store.setAutomaticallyUpdatesDate(!store.automaticallyUpdatesDate)
+    }
     @objc private func today() { store.today(); showPad() }
-    @objc private func previous() { store.step(-1); showPad() }
-    @objc private func nextDay() { store.step(1); showPad() }
     @objc private func aboutApp() {
         if aboutWindow == nil {
             let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 470, height: 570),

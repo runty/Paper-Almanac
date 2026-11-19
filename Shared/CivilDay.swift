@@ -33,33 +33,65 @@ enum CivilDay {
     }
 }
 
-/// The persisted state is just an intentional advance. A preview belongs to this session.
+/// The live page follows the clock or stays on a held day. Browsing is local to each window.
 struct PadDates {
     private(set) var today: String
     private(set) var advance: String?
+    private(set) var heldDay: String?
     private(set) var preview: String?
-    var live: String { advance ?? today }
+    var automaticallyUpdatesDate: Bool { heldDay == nil }
+    var live: String { heldDay ?? advance ?? today }
     var visible: String { preview ?? live }
-    init(today: String, advance: String?) {
+
+    init(today: String, advance: String?, heldDay: String? = nil) {
         self.today = today
-        self.advance = advance
-        refresh(today)
+        refresh(today, persistedAdvance: advance, persistedHeldDay: heldDay)
     }
+
     mutating func refresh(_ localDay: String) {
         today = localDay
-        if let advance, advance <= today || !CivilDay.range.contains(advance) { self.advance = nil }
+        if let advance, advance <= today || CivilDay.step(advance, 0) == nil { self.advance = nil }
     }
-    mutating func refresh(_ localDay: String, persistedAdvance: String?) {
-        advance = persistedAdvance
+
+    mutating func refresh(_ localDay: String, persistedAdvance: String?, persistedHeldDay: String? = nil) {
+        heldDay = persistedHeldDay
+        advance = heldDay == nil ? persistedAdvance : nil
         refresh(localDay)
     }
+
+    mutating func setAutomaticallyUpdatesDate(_ enabled: Bool) {
+        guard enabled != automaticallyUpdatesDate else { return }
+        if enabled {
+            advance = heldDay
+            heldDay = nil
+            refresh(today)
+        } else {
+            heldDay = visible
+            advance = nil
+            preview = nil
+        }
+    }
+
     mutating func browse(_ label: String) {
-        guard CivilDay.range.contains(label), (try? GregorianDate(label: label)) != nil else { return }
+        guard CivilDay.step(label, 0) != nil else { return }
         preview = label == live ? nil : label
     }
-    mutating func returnToToday() { preview = nil; advance = nil }
+
+    mutating func returnToToday() {
+        preview = nil
+        advance = nil
+        if heldDay != nil { heldDay = today }
+    }
+
     mutating func tear() {
         guard let next = CivilDay.step(visible, 1) else { return }
-        if preview != nil { browse(next) } else { advance = next }
+        if heldDay != nil {
+            heldDay = next
+            preview = nil
+        } else if preview != nil {
+            browse(next)
+        } else {
+            advance = next
+        }
     }
 }
