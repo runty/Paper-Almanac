@@ -54,7 +54,7 @@ struct DesktopTearSheet: View {
                     held = true
                     if !reducedMotion, let image = Snapshot.cgImage(of: face, scale: 2 * scale) {
                         scene = MetalPaperScene(image: image, seed: tearSeed(for: store.tornCount),
-                                                grab: value.startLocation, scale: scale, retainedBonds: retainedBonds)
+                                                grab: value.startLocation, scale: scale, theme: store.theme, retainedBonds: retainedBonds)
                     }
                     NSCursor.closedHand.set()
                 }
@@ -99,14 +99,14 @@ struct DesktopTearSheet: View {
 }
 
 @MainActor private extension MetalPaperScene {
-    convenience init?(image: CGImage, seed: UInt64, grab: CGPoint, scale: CGFloat, retainedBonds: [UInt32]?) {
+    convenience init?(image: CGImage, seed: UInt64, grab: CGPoint, scale: CGFloat, theme: DailyTheme, retainedBonds: [UInt32]?) {
         guard let pad = NSApp.windows.first(where: { $0 is PaperWindow }), let screen = pad.screen else { return nil }
         let canvas = NSRect(x: pad.frame.midX - 570*scale, y: screen.frame.minY,
                             width: 1140*scale, height: screen.frame.height).intersection(screen.frame)
         let origin = CGPoint(x: pad.frame.midX - Metrics.pageW*scale/2 - canvas.minX,
-                             y: canvas.maxY - pad.frame.maxY + (Metrics.blockTopPad + Metrics.pageTopInset)*scale)
+                             y: canvas.maxY - pad.frame.maxY + (theme.blockTopPad + Metrics.pageTopInset)*scale)
         self.init(image: image, seed: seed, grab: grab, scale: scale, retainedBonds: retainedBonds,
-                  canvas: canvas.size, sheetOrigin: origin)
+                  canvas: canvas.size, sheetOrigin: origin, theme: theme)
         let window = NSWindow(contentRect: canvas, styleMask: [.borderless], backing: .buffered, defer: false)
         window.isOpaque = false
         window.backgroundColor = .clear

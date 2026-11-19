@@ -11,7 +11,7 @@ struct SheetView: View {
     var widgetSize: CGSize?
     var body: some View {
         ZStack {
-            (theme.original?.paper ?? Color(red: 1, green: 0.994, blue: 0.98))
+            (theme == .kinun ? Kinun.paper : theme.original?.paper ?? Color(red: 1, green: 0.994, blue: 0.98))
             if let page = sheet.page {
                 if theme == .tungShing {
                     VStack(spacing: 0) {
@@ -22,8 +22,8 @@ struct SheetView: View {
                     TsukigoyomiFace(reading: TsukigoyomiReading(page), widget: widgetSize != nil)
                 } else if theme == .illyeok {
                     IllyeokFace(reading: IllyeokReading(page), widget: widgetSize != nil)
-                } else if theme == .nihon {
-                    NihonFace(reading: NihonReading(page), widget: widgetSize != nil)
+                } else if theme == .nihon || theme == .kinun {
+                    NihonFace(reading: NihonReading(page), widget: widgetSize != nil, goldFortune: theme == .kinun)
                 } else if theme == .moon {
                     MoonFace(reading: MoonReading(page, site: sheet.skySite), widget: widgetSize != nil)
                 } else if theme == .fuji {

@@ -54,7 +54,6 @@ struct TsukigoyomiBoard: View {
             .clipShape(RoundedRectangle(cornerRadius: 4))
         }
         .accessibilityHidden(true)
-        .allowsHitTesting(false)
     }
 }
 

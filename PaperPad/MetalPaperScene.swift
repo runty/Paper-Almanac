@@ -76,6 +76,7 @@ private typealias TransparentPaperView = MTKView
     private let joints: MTLBuffer
     private let indices: MTLBuffer
     private let indexCount: Int
+    private var paperBack: SIMD3<Float>
     private let ink: MTLTexture
     let view: MTKView
     private var dismissSurface: (() -> Void)?
@@ -110,10 +111,11 @@ private typealias TransparentPaperView = MTKView
     }
 
     init?(image: CGImage, seed: UInt64, grab: CGPoint, scale: CGFloat, retainedBonds: [UInt32]?,
-          canvas: CGSize, sheetOrigin: CGPoint) {
+          canvas: CGSize, sheetOrigin: CGPoint, theme: DailyTheme) {
         guard let metal = PaperPipelines.shared else { return nil }
         guard let ink = Self.printTexture(image, device: metal.device) else { return nil }
         self.metal = metal
+        paperBack = theme == .kinun ? Kinun.paperRGB : SIMD3(0.97, 0.96, 0.93)
         self.ink = ink
         let width = Self.columns, height = Self.rows
         let edge = tearEdgePoints(seed: seed, width: Metrics.pageW)
@@ -315,6 +317,7 @@ private typealias TransparentPaperView = MTKView
             draw.setVertexBuffer(positions, offset: 0, index: 0)
             draw.setVertexBuffer(rest, offset: 0, index: 1)
             draw.setVertexBytes(&frame, length: MemoryLayout<PaperFrame>.stride, index: 2)
+            draw.setFragmentBytes(&paperBack, length: MemoryLayout<SIMD3<Float>>.stride, index: 1)
             draw.setFragmentTexture(ink, index: 0)
             for value: UInt32 in [1,0] {
                 var shadow = value

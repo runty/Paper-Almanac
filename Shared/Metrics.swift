@@ -21,7 +21,7 @@ nonisolated enum Metrics {
     /// Minimum tension for a tear when the Metal renderer is bypassed.
     static let tearThreshold: CGFloat = 118
     /// Fraction of the page (from the bottom) that responds to the tear gesture —
-    /// everything below the binding; only the binding itself moves the window.
+    /// everything below the binding; the binding and exposed backing board move the Mac window.
     static let tearZone: CGFloat = 0.93
     /// Side margin around the pad in the Mac window.
     static let overhangX: CGFloat = 70

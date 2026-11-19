@@ -39,6 +39,8 @@ struct NihonReading {
 struct NihonFace: View {
     let reading: NihonReading
     var widget = false
+    var goldFortune = false
+    private var stock: Color { goldFortune ? Kinun.paper : Self.paper }
     static let paper = Color(red: 0.994, green: 0.989, blue: 0.967)
     static let black = Color(red: 0.115, green: 0.112, blue: 0.106)
     static let blue = Color(red: 0.12, green: 0.32, blue: 0.62)
@@ -55,8 +57,9 @@ struct NihonFace: View {
             let compact = widget && size.height < 220
             let u = min(size.width / 300, size.height / 400)
             ZStack {
-                Self.paper
+                stock
                 PaperGrain(seed: reading.info.dayOfYear, strength: 0.75)
+                let marked = goldFortune && Kinun.isGrainDay(reading.info.page)
                 if wide {
                     let k = min(size.width / 320, size.height / 155)
                     HStack(spacing: 13 * k) {
@@ -69,6 +72,7 @@ struct NihonFace: View {
                             Text(verbatim: reading.oldDate).font(Theme.mincho(12 * k)).foregroundStyle(Self.red)
                             readings(k)
                             saying(k)
+                            if marked { grainSeal(k) }
                         }
                     }.padding(.horizontal, 12 * k)
                 } else if compact {
@@ -79,7 +83,7 @@ struct NihonFace: View {
                         number.frame(width: 96 * k, height: 66 * k)
                         Text(verbatim: reading.rokuyo + "  ·  " + reading.tide)
                             .font(Theme.mincho(12 * k))
-                        Text(verbatim: reading.info.proverb.jp).font(Theme.mincho(10 * k))
+                        if marked { grainSeal(k) } else { Text(verbatim: reading.info.proverb.jp).font(Theme.mincho(10 * k)) }
                     }
                 } else {
                     VStack(spacing: 0) {
@@ -96,6 +100,7 @@ struct NihonFace: View {
                         Rectangle().fill(Self.black).frame(height: u).padding(.vertical, 5 * u)
                         readings(u)
                         saying(u).padding(.top, 4 * u)
+                        if marked { grainSeal(u).padding(.top, 3 * u) }
                     }
                     .padding(.horizontal, max(12, 14 * u))
                     .padding(.top, (widget ? 13 : 32) * u)
@@ -104,7 +109,19 @@ struct NihonFace: View {
             }.foregroundStyle(Self.black)
         }
         .environment(\.locale, Locale(identifier: "ja_JP"))
-        .accessibilityElement(children: .ignore).accessibilityLabel(reading.summary)
+        .accessibilityElement(children: .ignore).accessibilityLabel(goldFortune ? Kinun.summary(reading) : reading.summary)
+    }
+
+    private func grainSeal(_ u: CGFloat) -> some View {
+        let ornament = KinunHarvestMark()
+            .stroke(style: StrokeStyle(lineWidth: u, lineCap: .round, lineJoin: .round))
+            .frame(width: 34 * u, height: 17 * u)
+            .accessibilityHidden(true)
+        return HStack(spacing: 5 * u) {
+            ornament
+            Text(verbatim: Kinun.grainDay).font(Theme.kanji(13 * u))
+            ornament.scaleEffect(x: -1, y: 1)
+        }.foregroundStyle(Kinun.seal)
     }
 
     private func weekday(_ size: CGFloat) -> some View {
@@ -115,8 +132,8 @@ struct NihonFace: View {
     }
 
     private func header(_ u: CGFloat) -> some View {
-        ZStack {
-            HStack(alignment: .top) {
+        ZStack(alignment: Alignment(horizontal: .center, vertical: goldFortune ? .firstTextBaseline : .center)) {
+            HStack(alignment: goldFortune ? .firstTextBaseline : .top) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(verbatim: String(reading.info.year)).font(.system(size: 17 * u, weight: .bold, design: .serif))
                     Text(verbatim: reading.monthName).font(Theme.mincho(13 * u)).foregroundStyle(Self.blue)
@@ -140,11 +157,19 @@ struct NihonFace: View {
     }
 
     private func readings(_ u: CGFloat) -> some View {
-        HStack(spacing: 6 * u) {
+        let mansionLabel = Text("二十八宿").font(Theme.mincho((goldFortune ? 10 : 8) * u))
+        return HStack(alignment: goldFortune ? .top : .center, spacing: 6 * u) {
             VStack(spacing: u) {
-                Text("二十八宿").font(Theme.mincho(8 * u))
-                Text(verbatim: reading.mansion).font(Theme.mincho(22 * u))
-                    .padding(.horizontal, 4 * u).border(Self.black, width: 0.8 * u)
+                if goldFortune {
+                    Text(verbatim: reading.mansion).font(Theme.mincho(19 * u))
+                        .frame(width: 23 * u, height: 23 * u)
+                        .border(Self.black, width: 0.8 * u)
+                    mansionLabel
+                } else {
+                    mansionLabel
+                    Text(verbatim: reading.mansion).font(Theme.mincho(22 * u))
+                        .padding(.horizontal, 4 * u).border(Self.black, width: 0.8 * u)
+                }
             }
             Spacer(minLength: 0)
             VStack(alignment: .leading, spacing: 1) {
@@ -155,8 +180,14 @@ struct NihonFace: View {
             VStack(spacing: u) {
                 ZStack {
                     Rectangle().fill(Self.blue)
-                    Circle().fill(Self.paper).padding(2 * u)
-                    Image(systemName: "water.waves").font(.system(size: 13 * u, weight: .medium)).foregroundStyle(Self.blue)
+                    if goldFortune, let sky = try? CelestialSky.atJapaneseNoon(on: reading.info.page.date) {
+                        MoonDisc(sky: sky, ink: Self.blue, paper: stock)
+                            .overlay { Circle().strokeBorder(stock, lineWidth: 0.8 * u) }
+                            .padding(u)
+                    } else {
+                        Circle().fill(stock).padding(2 * u)
+                        Image(systemName: "water.waves").font(.system(size: 13 * u, weight: .medium)).foregroundStyle(Self.blue)
+                    }
                 }.frame(width: 23 * u, height: 23 * u)
                 Text(verbatim: reading.tide).font(Theme.mincho(10 * u))
             }

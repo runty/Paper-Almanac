@@ -103,6 +103,8 @@ struct FujiFace: View {
 /// The aligned cut edges of the remaining sheets sit just below the top page.
 struct FujiPaperStack: View {
     let remainingFraction: Double
+    var paper = FujiFace.paper
+    var edge = Color.gray
     var body: some View {
         #if os(macOS)
         let depth = 16 * remainingFraction
@@ -112,7 +114,7 @@ struct FujiPaperStack: View {
         ZStack {
             ForEach([1.0, 0.68, 0.36], id: \.self) { fraction in
                 RoundedRectangle(cornerRadius: 1)
-                    .fill(FujiFace.paper.mix(with: .gray, by: 0.16 + 0.3 * fraction))
+                    .fill(paper.mix(with: edge, by: 0.16 + 0.3 * fraction))
                     .offset(y: Metrics.pageTopInset + depth * fraction)
             }
         }.frame(width: Metrics.pageW - 1, height: Metrics.pageH)

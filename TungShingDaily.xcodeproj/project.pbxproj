@@ -97,6 +97,7 @@
 		3E6A91BB08EEA89815067B09 /* LayoutSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F70F88DFAE173FEF32F2E3C /* LayoutSupport.swift */; };
 		3EC2322365613C3A70F0D3FF /* PadStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EFCECE220CA512C4161F1E /* PadStore.swift */; };
 		3F9F29F6044472479894421C /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3473E862415CBB63E4FD662 /* SheetView.swift */; };
+		40706EF2B94A161FF3CC5C81 /* Kinun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D692BED6772F2591B17C367 /* Kinun.swift */; };
 		4171F7521A5C67ED2D56E245 /* DailyWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818A39DC6235BD837556744A /* DailyWidget.swift */; };
 		41E1004409AA65BA2F13A0D3 /* DailyTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBE611CA294A8D9168CB3CD /* DailyTheme.swift */; };
 		4277D8EC66637E15EFF2BDF3 /* DayNumberTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF1D4AA513F14DFE66ECD96 /* DayNumberTarget.swift */; };
@@ -173,6 +174,7 @@
 		713B0EFC7A00B633D1EBC0F8 /* Taviraj-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D3B246C82CED4DF7DA049725 /* Taviraj-LICENSE.txt */; };
 		728CDB2274D719054C4C3A9B /* Taviraj-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D3B246C82CED4DF7DA049725 /* Taviraj-LICENSE.txt */; };
 		737418E6575408321A928712 /* DesktopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F9F30E21DA75BEC1F5BF07 /* DesktopTests.swift */; };
+		7385ED127D00FABDE1503D32 /* Kinun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D692BED6772F2591B17C367 /* Kinun.swift */; };
 		74A115A659C9EA81E9E31DDE /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3473E862415CBB63E4FD662 /* SheetView.swift */; };
 		74C9DCC37DB126538C930BA4 /* ActivityPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2632A666A8156C5A943B862 /* ActivityPreference.swift */; };
 		751577D55336E28E6A2AA705 /* TungShingDailyAlmanac in Frameworks */ = {isa = PBXBuildFile; productRef = 81AEFFE8E2F5D3C9647AA7FE /* TungShingDailyAlmanac */; };
@@ -198,6 +200,7 @@
 		82E39761032FA71C37E955E5 /* CivilDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13971B6E9930FA61E9C48EAA /* CivilDay.swift */; };
 		8300D62F3C6A9A824673505B /* ActivityLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF483D0CDBF3E1B1656F816 /* ActivityLink.swift */; };
 		8399F543190F4568603A67CB /* ChineseScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BBBD49500B0BC21EFBA63C /* ChineseScript.swift */; };
+		83EA95AD2EEDC1AF17765B43 /* Kinun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D692BED6772F2591B17C367 /* Kinun.swift */; };
 		83F8747B308938282E52DB14 /* KoyomiLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAF19D351A8C2EEEC05944E /* KoyomiLayout.swift */; };
 		8548E96744A5837E2FE5F7A2 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266CBFA7DB22E6F963498A40 /* Metrics.swift */; };
 		858B5D535721E455333F38B6 /* PadStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EFCECE220CA512C4161F1E /* PadStore.swift */; };
@@ -244,6 +247,7 @@
 		9F227B53110F0CD81ABB59F9 /* BesleyNarrow-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1EBF921D60E88FFFBB08F1CE /* BesleyNarrow-ExtraBold.otf */; };
 		9FEF3BC7A0D2BEDDB3BF1A50 /* DayReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7F8DBA893CA6470EAC449D /* DayReader.swift */; };
 		A03DCE53C40EFF01BE336B0C /* KoyomiLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAF19D351A8C2EEEC05944E /* KoyomiLayout.swift */; };
+		A045BA56EE3643AE0A4DCEB7 /* Kinun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D692BED6772F2591B17C367 /* Kinun.swift */; };
 		A265D04A32C3F6B36DD28F2F /* MonthGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293B61C0C42C3DF7765B3E44 /* MonthGrid.swift */; };
 		A366B26ED2004E03C771177E /* DayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFC0FF4B4269254E120D0C5 /* DayInfo.swift */; };
 		A3BACA270AEAC414ADEDFD12 /* PaperWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3BBAEBA29AE9D4B07608DD /* PaperWindow.swift */; };
@@ -290,6 +294,7 @@
 		C36DE613DDE41E3D4DDFD09F /* TearSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D038006DB03D68020146A0E /* TearSound.swift */; };
 		C41E26BCB321146C93BC3163 /* MoonArtwork.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3DF532A74EFF3547F1752B2 /* MoonArtwork.xcassets */; };
 		C5B35C55C8C414E7B48B1372 /* BesleyNarrow-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1EBF921D60E88FFFBB08F1CE /* BesleyNarrow-ExtraBold.otf */; };
+		C6012A9187004981D95B46DD /* Kinun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D692BED6772F2591B17C367 /* Kinun.swift */; };
 		C60F7DAF874E567B29372C11 /* PadStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB834F758E3FC36C2D8E8FC /* PadStack.swift */; };
 		C72D5A0228932AF4B244DE60 /* PageTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C27861CC68146131FC4F5F /* PageTheme.swift */; };
 		C72DD559576565C1F1C5851E /* ChineseScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BBBD49500B0BC21EFBA63C /* ChineseScript.swift */; };
@@ -315,6 +320,7 @@
 		D38FAF0BA8C2B4B88902822B /* Taviraj-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D3B246C82CED4DF7DA049725 /* Taviraj-LICENSE.txt */; };
 		D5AA48A28BB79A05B6DD15B1 /* PaperGrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD2BC280CCB89BCD487FF01D /* PaperGrain.swift */; };
 		D5E5DD9D406F7262EB3134B6 /* MonthGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293B61C0C42C3DF7765B3E44 /* MonthGrid.swift */; };
+		D63F1BF9DE66AEE0BCC3A0A6 /* Kinun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D692BED6772F2591B17C367 /* Kinun.swift */; };
 		D699D863D0DA80D1876A4B55 /* WidgetFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F675FE4486C4377B5084391 /* WidgetFace.swift */; };
 		D7569235AA6ED9F927A56BCA /* ActivityPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2632A666A8156C5A943B862 /* ActivityPreference.swift */; };
 		D7585F3779C1C43C9E3CEC09 /* MonthGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293B61C0C42C3DF7765B3E44 /* MonthGrid.swift */; };
@@ -436,6 +442,7 @@
 		13971B6E9930FA61E9C48EAA /* CivilDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivilDay.swift; sourceTree = "<group>"; };
 		197DF44AD7783891D7F3A034 /* DailyMobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyMobileApp.swift; sourceTree = "<group>"; };
 		1BA574CBE8AC8F758B94A405 /* MobileUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MobileUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D692BED6772F2591B17C367 /* Kinun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kinun.swift; sourceTree = "<group>"; };
 		1EBF921D60E88FFFBB08F1CE /* BesleyNarrow-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BesleyNarrow-ExtraBold.otf"; sourceTree = "<group>"; };
 		1EC2CA70BA7455E4F687186C /* TsukigoyomiFace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TsukigoyomiFace.swift; sourceTree = "<group>"; };
 		222D3615C83026EF07108467 /* Ink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ink.swift; sourceTree = "<group>"; };
@@ -654,6 +661,7 @@
 				C09C54848217CE834ECC9628 /* Himekuri-LICENSE.txt */,
 				C21746ACA11FBC7F72892D5B /* IllyeokFace.swift */,
 				222D3615C83026EF07108467 /* Ink.swift */,
+				1D692BED6772F2591B17C367 /* Kinun.swift */,
 				B02169B5C67DB6F1938FBE86 /* LocalEveningSky.swift */,
 				266CBFA7DB22E6F963498A40 /* Metrics.swift */,
 				E3DF532A74EFF3547F1752B2 /* MoonArtwork.xcassets */,
@@ -1176,6 +1184,7 @@
 				A4C4E49C5702A86D924F31B5 /* HuangliLayout.swift in Sources */,
 				398E353E3285D7BCEBE1B428 /* IllyeokFace.swift in Sources */,
 				0B6E1130914D8899F2BEA49B /* Ink.swift in Sources */,
+				40706EF2B94A161FF3CC5C81 /* Kinun.swift in Sources */,
 				8DB0B94D323C5596872156C9 /* KoyomiLayout.swift in Sources */,
 				DFECF514CEF88C5AEEE3C57D /* LayoutSupport.swift in Sources */,
 				51DB66676E483238187BE55A /* LocalEveningSky.swift in Sources */,
@@ -1231,6 +1240,7 @@
 				0B514CE06DFA107340031FC0 /* HuangliLayout.swift in Sources */,
 				344E2C9C67BC0AF4D3C4D466 /* IllyeokFace.swift in Sources */,
 				6836B67D7488DD9461AD2AAB /* Ink.swift in Sources */,
+				D63F1BF9DE66AEE0BCC3A0A6 /* Kinun.swift in Sources */,
 				FA12C4078452863DCA389FD1 /* KoyomiLayout.swift in Sources */,
 				AEE399AB727BC00140F78138 /* LayoutSupport.swift in Sources */,
 				C286BA83C21DF0301D019A62 /* LocalEveningSky.swift in Sources */,
@@ -1293,6 +1303,7 @@
 				0505C3B13083F54717B48FE0 /* HuangliLayout.swift in Sources */,
 				EF3D026E7557EB67BA1169FE /* IllyeokFace.swift in Sources */,
 				30752A2C9C846B66CD8B8EC7 /* Ink.swift in Sources */,
+				C6012A9187004981D95B46DD /* Kinun.swift in Sources */,
 				6260A3364B28B241A2806668 /* KoyomiLayout.swift in Sources */,
 				8C57757065C0EFC4D3EBFC70 /* LayoutSupport.swift in Sources */,
 				2499898793BAA4AB9D5B635E /* LocalEveningSky.swift in Sources */,
@@ -1344,6 +1355,7 @@
 				E823DE0774385969F4C57764 /* HuangliLayout.swift in Sources */,
 				7761E15B0FD1604940AED504 /* IllyeokFace.swift in Sources */,
 				3D7B4975160B0EF9848ED895 /* Ink.swift in Sources */,
+				83EA95AD2EEDC1AF17765B43 /* Kinun.swift in Sources */,
 				83F8747B308938282E52DB14 /* KoyomiLayout.swift in Sources */,
 				606C36121AC6663876D37D23 /* LayoutSupport.swift in Sources */,
 				8F759AB54A61C3D729DF9479 /* LocalEveningSky.swift in Sources */,
@@ -1401,6 +1413,7 @@
 				87B7A3AF465F9A49DF667265 /* HuangliLayout.swift in Sources */,
 				B0A1957CCD8349F4167FE516 /* IllyeokFace.swift in Sources */,
 				80D4162D5EA91391671B20C8 /* Ink.swift in Sources */,
+				A045BA56EE3643AE0A4DCEB7 /* Kinun.swift in Sources */,
 				4DAFEF12A923F92ED97D19E1 /* KoyomiLayout.swift in Sources */,
 				D1FD966CAF063BA6D1381FC2 /* LayoutSupport.swift in Sources */,
 				CDCB5C64FB7BFE0ADEB6A1B0 /* LocalEveningSky.swift in Sources */,
@@ -1463,6 +1476,7 @@
 				68472CF6B92BAE4C54352E39 /* HuangliLayout.swift in Sources */,
 				F75A200C5C7BB274D10CF793 /* IllyeokFace.swift in Sources */,
 				8B898B368D38AE86266F3B23 /* Ink.swift in Sources */,
+				7385ED127D00FABDE1503D32 /* Kinun.swift in Sources */,
 				A03DCE53C40EFF01BE336B0C /* KoyomiLayout.swift in Sources */,
 				3E6A91BB08EEA89815067B09 /* LayoutSupport.swift in Sources */,
 				08291CD451F50B5BB4DC582D /* LocalEveningSky.swift in Sources */,

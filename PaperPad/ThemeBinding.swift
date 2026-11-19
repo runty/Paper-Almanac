@@ -5,12 +5,14 @@ struct ThemeBinding: View {
     let theme: DailyTheme
 
     var body: some View {
-        if theme == .editorialDay || theme == .deskLedger || theme == .moon || theme == .nihon || theme == .illyeok {
+        if theme == .editorialDay || theme == .deskLedger || theme == .moon || theme == .kinun || theme == .nihon || theme == .illyeok {
             Group {
                 if theme == .editorialDay {
                     EditorialLinen()
                 } else if theme == .illyeok {
                     IllyeokBinding()
+                } else if theme == .kinun {
+                    LinearGradient(colors: [Color(red: 0.93, green: 0.77, blue: 0.43), Color(red: 0.83, green: 0.66, blue: 0.35)], startPoint: .top, endPoint: .bottom)
                 } else if theme == .nihon {
                     ZStack {
                         LinearGradient(colors: [Color(white: 0.92), Color(white: 0.82)], startPoint: .top, endPoint: .bottom)

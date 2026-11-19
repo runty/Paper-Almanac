@@ -229,7 +229,8 @@ vertex Surface paperVertex(uint i [[vertex_id]], device const float4 *pos [[buff
     return {float4(clip*w,depth*w,w),normalAt(pos,ij,f),rest[i].xy/f.page.xy,p.z};
 }
 fragment half4 paperFragment(Surface s [[stage_in]], bool front [[front_facing]],
-                             texture2d<float> print [[texture(0)]], constant uint &shadow [[buffer(0)]]) {
+                             texture2d<float> print [[texture(0)]], constant uint &shadow [[buffer(0)]],
+                             constant float3 &stock [[buffer(1)]]) {
     if (shadow) {
         half alpha=half(.065+.105*exp(-s.height/55.));
         return half4(0,0,0,alpha);
@@ -239,6 +240,6 @@ fragment half4 paperFragment(Surface s [[stage_in]], bool front [[front_facing]]
     float3 n=normalize(front ? s.normal : -s.normal);
     float diffuse=dot(n,normalize(float3(-.38,-.48,.79)));
     float light=clamp(.72+.35*diffuse,.50,1.04);
-    float3 paper=front ? ink : mix(float3(.97,.96,.93),ink,.075);
+    float3 paper=front ? ink : mix(stock,ink,.075);
     return half4(half3(paper*light),1);
 }

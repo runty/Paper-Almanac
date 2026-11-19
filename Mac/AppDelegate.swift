@@ -151,7 +151,7 @@ private enum CalendarSize: Int, CaseIterable {
         }
         host.rootView = ContentView(store: store, pageScale: scale)
         host.interactiveRect = CGRect(x: (width - Metrics.pageW * scale) / 2 - 12 * scale,
-                                      y: (Metrics.blockTopPad - 8) * scale,
+                                      y: (store.theme.blockTopPad - 8) * scale,
                                       width: (Metrics.pageW + 24) * scale, height: (Metrics.pageH + 54) * scale)
         pad.setFrame(frame, display: true)
     }
@@ -227,7 +227,9 @@ private enum CalendarSize: Int, CaseIterable {
         store.calendarLayout = theme.opensWithCalendar
         DailyTheme.defaults.set(store.calendarLayout, forKey: DailyTheme.calendarLayoutKey)
         DailyTheme.defaults.set(value, forKey: DailyTheme.key)
+        let movesPage = store.theme.blockTopPad != theme.blockTopPad
         store.theme = theme
+        if movesPage { resizePad(to: .saved) }
         if theme == .moon { MoonLocation.shared.refresh() }
         WidgetCenter.shared.reloadTimelines(ofKind: "TungShingDailyWidget")
     }

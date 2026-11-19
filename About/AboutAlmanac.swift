@@ -61,6 +61,10 @@ struct AboutAlmanac: View {
                 credit("Illyeok · 일력") {
                     Text("The mint binding and patterned numerals draw on a Korean wall calendar. The Korean proverbs come from [English Wiktionary via Kaikki](https://kaikki.org/dictionary/Korean/pos-proverb/index.html), with English readings adapted for Paper Almanac under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).")
                 }
+                credit(DailyTheme.kinun.title) {
+                    Text("The golden board and sheets draw on [Shin Nippon Calendar’s 金運日めくり](https://www.nkcalendar.co.jp/products/calendar-naire/daily-calendar-naire/nk-553.html) and the feng shui custom of placing yellow on the west wall as a wish for prosperity.")
+                    Text("The 一粒万倍日 seal follows the solar-month and day-branch table in the [National Diet Library’s Japanese calendar exhibit](https://www.ndl.go.jp/koyomi/chapter3/s6.html).")
+                }
                 credit(DailyTheme.nihon.title) {
                     Text("The page draws on Shin Nippon Calendar’s small daily tear-off calendar. The Wadscorp engine supplies the Japanese old-calendar date and Rokuyō.")
                     Text("The original 16 Himekuri sayings are joined by a selection from [English Wiktionary via Kaikki](https://kaikki.org/dictionary/Japanese/pos-proverb/index.html), with English readings adapted for the page. The additional collection is shared under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).")

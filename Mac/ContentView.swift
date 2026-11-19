@@ -1,5 +1,17 @@
 import SwiftUI
 
+extension DailyTheme {
+    /// Size of the mounted board in the unscaled Mac pad. Both boards begin two points below the window top.
+    var desktopBoardSize: CGSize? {
+        switch self {
+        case .kinun: CGSize(width: Kinun.boardWidth, height: Metrics.pageH + Kinun.headerHeight + 26)
+        case .tsukigoyomi: CGSize(width: Metrics.pageW + 24, height: Metrics.pageH + 56)
+        default: nil
+        }
+    }
+    static let desktopBoardTop: CGFloat = 2
+}
+
 struct ContentView: View {
     @ObservedObject var store = PadStore.shared
     @ObservedObject private var location = MoonLocation.shared
@@ -12,7 +24,6 @@ struct ContentView: View {
         ZStack(alignment: .top) {
             padBlock
                 .scaleEffect(pageScale, anchor: .top)
-                .padding(.top, Metrics.blockTopPad * pageScale)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onAppear {
@@ -44,8 +55,11 @@ struct ContentView: View {
                 .frame(width: Metrics.pageW, height: Metrics.pageH)
                 .offset(x: 2 + 4 * remaining, y: Metrics.pageTopInset + 2 + 12 * remaining)
                 .blur(radius: 3 + 13 * remaining)
+                .allowsHitTesting(false)
 
-            if store.theme == .fuji || store.theme == .tsukigoyomi {
+            if store.theme == .kinun {
+                FujiPaperStack(remainingFraction: remaining, paper: Kinun.paper, edge: Kinun.gold)
+            } else if store.theme == .fuji || store.theme == .tsukigoyomi {
                 FujiPaperStack(remainingFraction: remaining)
             } else {
                 PadStack(remainingFraction: remaining, theme: theme)
@@ -71,7 +85,7 @@ struct ContentView: View {
                 .padding(.top, Metrics.pageTopInset)
 
             if store.tornCount > 0 {
-                PadStubs(tornCount: store.tornCount, theme: theme)
+                PadStubs(tornCount: store.tornCount, theme: theme, stock: store.theme == .kinun ? Kinun.paper : nil)
                     .padding(.top, Metrics.pageTopInset)
             }
 
@@ -82,10 +96,16 @@ struct ContentView: View {
             height: Metrics.pageH + 60,
             alignment: .top
         )
+        .padding(.top, store.theme.blockTopPad)
         .background(alignment: .top) {
-            if store.theme == .tsukigoyomi {
-                TsukigoyomiBoard().frame(width: Metrics.pageW + 24, height: Metrics.pageH + 56)
-                    .offset(y: -24)
+            if let size = store.theme.desktopBoardSize {
+                Group {
+                    if store.theme == .kinun { KinunBoard() } else { TsukigoyomiBoard() }
+                }
+                .frame(width: size.width, height: size.height)
+                .contentShape(Rectangle())
+                .windowDragHandle()
+                .padding(.top, DailyTheme.desktopBoardTop)
             }
         }
     }

@@ -200,6 +200,12 @@ final class PhaseOneTests: XCTestCase {
         XCTAssertEqual(rotation.first, Proverbs.on(dayID: count - 5).jp)
     }
 
+    func testKinunGrainDays() async throws {
+        let dates = ["2027-03-03", "2027-04-06", "2027-04-15", "2027-04-16", "2027-04-18"]
+        let pages = try await DayReader.load(dates)
+        XCTAssertEqual(pages.map(Kinun.isGrainDay), [false, true, true, false, true])
+    }
+
     @MainActor func testTsukigoyomiSeasonsAndPages() async throws {
         // November 8 begins winter at 00:39 JST. January 5 changes at 23:10 JST.
         let dates = ["1901-01-01", "2027-01-04", "2027-01-05", "2027-05-07", "2027-09-15", "2027-11-07", "2027-11-08", "2100-12-31"]
@@ -325,7 +331,7 @@ final class PhaseOneTests: XCTestCase {
         XCTAssertEqual(DailyTheme(rawValue: "nihon")?.title, "Rekichū")
         XCTAssertNil(DailyTheme(rawValue: "brutalist"))
         XCTAssertNil(DailyTheme(rawValue: "calendarPoster"))
-        XCTAssertEqual(DailyTheme.allCases, [.tungShing, .celestialAlmanac, .editorialDay, .tongsheng, .huangli, .fuji, .moon, .tsukigoyomi, .nihon, .illyeok,
+        XCTAssertEqual(DailyTheme.allCases, [.tungShing, .celestialAlmanac, .editorialDay, .tongsheng, .huangli, .fuji, .moon, .tsukigoyomi, .nihon, .kinun, .illyeok,
                                              .showa, .koyomi, .deskLedger, .almanacColumns])
         XCTAssertEqual(DailyTheme.allCases.filter(\.opensWithCalendar), [.showa, .koyomi])
         for example in pages {
@@ -348,7 +354,7 @@ final class PhaseOneTests: XCTestCase {
                 }
             }
         }
-        XCTAssertEqual(rendered.count, 54)
+        XCTAssertEqual(rendered.count, 57)
         let leapDay = try await DayReader.load(["2024-02-29"])[0]
         let february = DayInfo(page: leapDay).grid
         XCTAssertEqual(february.first, [nil, nil, nil, nil, 1, 2, 3])

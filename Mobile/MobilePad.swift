@@ -20,7 +20,9 @@ struct MobilePad: View {
 
     var body: some View {
         ZStack(alignment: .top) {
-            if theme == .fuji || theme == .tsukigoyomi {
+            if theme == .kinun {
+                FujiPaperStack(remainingFraction: store.remainingFraction, paper: Kinun.paper, edge: Kinun.gold)
+            } else if theme == .fuji || theme == .tsukigoyomi {
                 FujiPaperStack(remainingFraction: store.remainingFraction)
             } else {
                 PadStack(remainingFraction: store.remainingFraction, theme: theme.original ?? .tongsheng)
@@ -53,7 +55,7 @@ struct MobilePad: View {
                 }
                 .offset(y: Metrics.pageTopInset)
             if store.tornCount > 0 {
-                PadStubs(tornCount: store.tornCount, theme: theme.original ?? .tongsheng)
+                PadStubs(tornCount: store.tornCount, theme: theme.original ?? .tongsheng, stock: theme == .kinun ? Kinun.paper : nil)
                     .offset(y: Metrics.pageTopInset)
             }
         }
@@ -126,7 +128,7 @@ struct MobilePad: View {
                     clearFallingSheet()
                     if !reducedMotion, let image = Snapshot.cgImage(of: face, scale: displayScale * pageScale) {
                         paper = anchor.begin(image: image, seed: tearSeed(for: store.tornCount),
-                                             grab: sheetPoint(start), retainedBonds: retainedBonds)
+                                             grab: sheetPoint(start), theme: theme, retainedBonds: retainedBonds)
                     }
                 }
                 if intent == .tear { paper?.pull(delta, loadsBinding: loadsBinding(delta)) }
@@ -197,12 +199,12 @@ struct MobilePad: View {
 @MainActor private final class MobilePaperAnchor {
     weak var marker: UIView?
 
-    func begin(image: CGImage, seed: UInt64, grab: CGPoint, retainedBonds: [UInt32]?) -> MetalPaperScene? {
+    func begin(image: CGImage, seed: UInt64, grab: CGPoint, theme: DailyTheme, retainedBonds: [UInt32]?) -> MetalPaperScene? {
         guard let marker, let window = marker.window else { return nil }
         let rect = marker.convert(marker.bounds, to: window)
         guard rect.width > 0, let scene = MetalPaperScene(image: image, seed: seed, grab: grab,
                 scale: rect.width / Metrics.pageW, retainedBonds: retainedBonds,
-                canvas: window.bounds.size, sheetOrigin: rect.origin) else { return nil }
+                canvas: window.bounds.size, sheetOrigin: rect.origin, theme: theme) else { return nil }
         let view = scene.view
         view.frame = window.bounds
         view.accessibilityElementsHidden = true

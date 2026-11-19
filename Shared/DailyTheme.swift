@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum DailyTheme: String, CaseIterable, Identifiable {
-    case tungShing, celestialAlmanac, editorialDay, tongsheng, huangli, fuji, moon, tsukigoyomi, nihon, illyeok
+    case tungShing, celestialAlmanac, editorialDay, tongsheng, huangli, fuji, moon, tsukigoyomi, nihon, kinun, illyeok
     case showa, koyomi, deskLedger = "deskBlock", almanacColumns
     var id: Self { self }
     static let calendarLayoutKey = "print.himekuriCalendar"
@@ -42,11 +42,14 @@ enum DailyTheme: String, CaseIterable, Identifiable {
         onDarkPaper ? Color(red: 1, green: 0.65, blue: 0.56) : ResearchFace.vermilion
     }
 
-    var offersActivityLists: Bool { self != .tsukigoyomi && self != .fuji && self != .moon && self != .nihon && self != .illyeok }
+    var blockTopPad: CGFloat { self == .kinun ? Kinun.headerHeight + 2 : Metrics.blockTopPad }
+
+    var offersActivityLists: Bool { self != .tsukigoyomi && self != .fuji && self != .moon && self != .kinun && self != .nihon && self != .illyeok }
 
     var widgetPaper: Color {
         if self == .tsukigoyomi { return TsukigoyomiFace.paper }
         if self == .illyeok { return IllyeokFace.paper }
+        if self == .kinun { return Kinun.paper }
         if self == .nihon { return NihonFace.paper }
         if self == .moon { return MoonFace.paper }
         if self == .fuji { return FujiFace.paper }
@@ -60,6 +63,7 @@ enum DailyTheme: String, CaseIterable, Identifiable {
         case .fuji: "Fuji"
         case .tsukigoyomi: "Tsukigoyomi"
         case .moon: "Tsukikage"
+        case .kinun: "Kin’un"
         case .nihon: "Rekichū"
         case .illyeok: "Illyeok"
         case .deskLedger: "Desk Ledger"
@@ -81,6 +85,7 @@ struct Sheet {
         }
         if theme == .tsukigoyomi, let page { return TsukigoyomiReading(page).summary }
         if theme == .illyeok, let page { return IllyeokReading(page).summary }
+        if theme == .kinun, let page { return Kinun.summary(NihonReading(page)) }
         if theme == .nihon, let page { return NihonReading(page).summary }
         if theme == .moon, let page { return MoonReading(page, site: skySite).summary }
         if theme == .fuji, let page { return FujiReading(page).summary }

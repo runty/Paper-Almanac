@@ -27,9 +27,17 @@ final class PassThroughHostingView: NSHostingView<ContentView> {
     }
 
     override func hitTest(_ point: NSPoint) -> NSView? {
-        let p = convert(point, from: superview)
-        let topLeft = isFlipped ? p : NSPoint(x: p.x, y: bounds.height - p.y)
-        guard interactiveRect.contains(topLeft) else { return nil }
+        let local = convert(point, from: superview)
+        let topLeft = isFlipped ? local : NSPoint(x: local.x, y: bounds.height - local.y)
+        if let board = rootView.store.theme.desktopBoardSize {
+            let scale = rootView.pageScale
+            let boardRect = CGRect(x: bounds.midX - board.width * scale / 2,
+                                   y: DailyTheme.desktopBoardTop * scale,
+                                   width: board.width * scale, height: board.height * scale)
+            guard boardRect.contains(topLeft) else { return nil }
+        } else if !interactiveRect.contains(topLeft) {
+            return nil
+        }
         return super.hitTest(point)
     }
 

@@ -4,11 +4,11 @@
 
 Paper Almanac is based on **Himekuri 日めくり**, Pluk’s original macOS tear-off calendar. It adapts Himekuri’s desktop pad and four of its print styles, Shōwa Print, Koyomi, Huangli, and Tong Sheng. Paper Almanac uses its own Metal paper physics engine to simulate how sheets lift, tear, and fall. [Original Himekuri source](https://github.com/pluk-inc/himekuri) · [Himekuri website](https://himekuri.app/)
 
-Paper Almanac works offline on Mac, iPhone, and iPad and opens to the local date. The default Yut Lik theme shows the lunar date, solar term, a weekly proverb, and the day's Do and Avoid activities. Tap or click an activity list to read it in full. Pick from fourteen themes, including Celestial Almanac, Fuji, Tsukikage, Tsukigoyomi, Rekichū, and Illyeok. Widgets follow your selected theme.
+Paper Almanac works offline on Mac, iPhone, and iPad and opens to the local date. The default Yut Lik theme shows the lunar date, solar term, a weekly proverb, and the day's Do and Avoid activities. Tap or click an activity list to read it in full. Pick from fifteen themes, including Celestial Almanac, Fuji, Tsukikage, Tsukigoyomi, Rekichū, Kin’un, and Illyeok. Widgets follow your selected theme.
 
 ![Ten of the Mac themes on November 18, 2026](docs/mac-themes.jpg)
 
-Drag the sheet to lift it, or pull a bottom corner diagonally to tear it. Release an attached sheet to let it settle back. A completed tear advances one day. On iPhone and iPad, tap the date number to return to today, or choose **Today** in the **Go to Date…** calendar. On Mac, clicking the menu-bar calendar brings the pad forward. Use that menu to jump to a date, change themes, or resize the pad.
+Drag the sheet to lift it, or pull a bottom corner diagonally to tear it. Release an attached sheet to let it settle back. A completed tear advances one day. On iPhone and iPad, tap the date number to return to today, or choose **Today** in the **Go to Date…** calendar. On Mac, drag the binding strip to move the calendar. With Kin’un or Tsukigoyomi, you can also grab the exposed backing board above, beside, or below the paper. Clicking the menu-bar calendar brings the pad forward. Use that menu to jump to a date, change themes, or resize the pad.
 
 Turn off **Auto Change Date** in the menu-bar calendar on Mac or the palette menu on iPhone and iPad to keep the pad on its current page. It stays there across midnight and app relaunches. A tear advances the held page by one day. Choose **Today** to hold the current date, or turn automatic updates back on to resume daily rollover.
 
@@ -19,6 +19,14 @@ The **Extra Large Portrait** widget displays one complete, borderless page in yo
 Illyeok draws on a Korean wall calendar with a mint-green binding, a miniature month grid, and patterned date numerals. The page gives the lunar date using the Korean Dangi calendar in Seoul time and the day’s sexagenary name. Saturdays print in blue, and Sundays and January 1 print in red. A striped taegeuk sits behind the New Year’s Day numeral.
 
 In the space the original pad set aside for handwritten notes, Illyeok prints a Korean proverb and an English reading. The 31 sayings rotate by civil date, including across New Year. The apps and widgets share the same offline collection. [Proverb credits](THIRD_PARTY_NOTICES.md)
+
+## Kin’un
+
+Kin’un (金運) pairs butter-yellow sheets with a saffron backing board. A single gilt octagonal mirror sits above the binding. The colors draw on the custom of hanging yellow on a west wall as a wish for prosperity. Choose **Kin’un** from the Mac menu bar or the palette menu on iPhone and iPad. [Print reference](https://www.nkcalendar.co.jp/products/calendar-naire/daily-calendar-naire/nk-553.html)
+
+The full page shows the Japanese weekday, old-calendar date, Rokuyō, daily mansion, lunar age, tide name, and a Japanese saying with its English reading. The blue square shows the Moon’s phase at noon in Japan. On 一粒万倍日 (“one grain, ten thousandfold”) days, vermilion gourds and rice sprigs flank the inscription. The app calculates these days offline from the Japanese solar month and the day’s zodiac branch. To see the ornaments, open **Go to Date…** and choose April 15, 2027. [Calendar rule](https://www.ndl.go.jp/koyomi/chapter3/s6.html)
+
+![Kin’un on March 3 and April 15, 2027. Gourds and rice sprigs frame the 一粒万倍日 inscription on the April page.](docs/kinun-pages.png)
 
 ## Rekichū
 

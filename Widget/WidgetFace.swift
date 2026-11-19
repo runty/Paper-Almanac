@@ -35,8 +35,8 @@ struct WidgetFace: View {
                 TsukigoyomiFace(reading: TsukigoyomiReading(page), widget: true)
             } else if entry.theme == .illyeok, let page = entry.sheet.page {
                 IllyeokFace(reading: IllyeokReading(page), widget: true)
-            } else if entry.theme == .nihon, let page = entry.sheet.page {
-                NihonFace(reading: NihonReading(page), widget: true)
+            } else if (entry.theme == .nihon || entry.theme == .kinun), let page = entry.sheet.page {
+                NihonFace(reading: NihonReading(page), widget: true, goldFortune: entry.theme == .kinun)
             } else if entry.theme == .moon, let page = entry.sheet.page {
                 MoonFace(reading: MoonReading(page, site: entry.sheet.skySite), widget: true)
             } else if entry.theme == .fuji, let page = entry.sheet.page {
@@ -353,9 +353,9 @@ struct DashboardAlmanac: View {
                 let proverb = KoreanProverb.on(page.date.dayID.value)
                 Text(verbatim: proverb.korean).font(.system(size: compact ? 12 : 14, weight: .semibold))
                 Text(verbatim: proverb.english).font(.custom("Georgia", fixedSize: compact ? 10 : 12))
-            } else if entry.theme == .nihon {
+            } else if entry.theme == .nihon || entry.theme == .kinun {
                 let reading = NihonReading(page)
-                Text(verbatim: reading.rokuyo + "  ·  " + reading.tide)
+                Text(verbatim: entry.theme == .kinun && Kinun.isGrainDay(page) ? Kinun.grainDay + "  ·  " + reading.rokuyo : reading.rokuyo + "  ·  " + reading.tide)
                 Text(verbatim: reading.info.proverb.jp).font(Theme.mincho(compact ? 12 : 14)).lineLimit(2)
             } else if entry.theme == .moon {
                 let moon = MoonReading(page, site: entry.sheet.skySite)
@@ -406,6 +406,8 @@ struct DashboardAlmanac: View {
             inks = (TsukigoyomiFace.ink, TsukigoyomiBoard.indigo)
         } else if entry.theme == .illyeok {
             inks = (IllyeokReading(info.page).ink, Color(red: 0.12, green: 0.39, blue: 0.25))
+        } else if entry.theme == .kinun {
+            inks = (NihonFace.black, Kinun.gold)
         } else if entry.theme == .nihon {
             inks = (NihonFace.ink(info.weekday - 1, holiday: NihonReading(info.page).holiday != nil), NihonFace.blue)
         } else if entry.theme == .moon {
@@ -449,7 +451,7 @@ struct DashboardAlmanac: View {
                         Text(verbatim: IllyeokReading(info.page).weekday)
                     }
                 }
-            case .nihon:
+            case .nihon, .kinun:
                 HStack(spacing: 5) {
                     NihonNumber(day: info.day).fill(dateInk).frame(width: size * 0.95, height: size * 0.78)
                     VStack(alignment: .leading, spacing: 0) {

@@ -55,6 +55,7 @@ private struct AlmanacWindow: View {
 
     private var padSize: CGSize {
         switch theme {
+        case .kinun: CGSize(width: Kinun.boardWidth, height: 418 + Kinun.headerHeight)
         case .tsukigoyomi: CGSize(width: 332, height: 474)
         case .fuji: CGSize(width: 386, height: 510)
         case .celestialAlmanac: CGSize(width: 310, height: 418 + CelestialBinding.headroom)
@@ -184,11 +185,13 @@ private struct AlmanacWindow: View {
             .padding(.top, theme == .fuji ? 66 : 0)
             .padding(.bottom, theme == .fuji ? 26 : 0)
             .padding(.top, theme == .celestialAlmanac ? CelestialBinding.headroom : 0)
+            .padding(.top, theme == .kinun ? Kinun.headerHeight : 0)
             .padding(.top, theme == .tsukigoyomi ? 38 : 0)
             .frame(width: padSize.width, height: padSize.height)
             .background {
                 if theme == .fuji { FujiCardboard() }
-                if theme == .tsukigoyomi { TsukigoyomiBoard() }
+                if theme == .kinun { KinunBoard().allowsHitTesting(false) }
+                if theme == .tsukigoyomi { TsukigoyomiBoard().allowsHitTesting(false) }
             }
             .scaleEffect(scale).frame(width: width, height: padSize.height * scale)
     }
@@ -231,10 +234,11 @@ private struct AccessibleDay: View {
                     Text(verbatim: value.weekday + "  ·  " + value.dateLine)
                     Text(verbatim: value.proverb.korean).font(.headline)
                     Text(verbatim: value.proverb.english)
-                } else if let day = sheet.page, theme == .nihon {
+                } else if let day = sheet.page, theme == .nihon || theme == .kinun {
                     let value = NihonReading(day)
                     Text(verbatim: [value.weekday, value.holiday, value.oldDate].compactMap { $0 }.joined(separator: "  ·  "))
                     Text(verbatim: "六曜  " + value.rokuyo + "  " + (value.traditions.rokuyoRomanized ?? ""))
+                    if theme == .kinun && Kinun.isGrainDay(day) { Text("一粒万倍日 · One grain, ten thousandfold").font(.headline) }
                     Text(verbatim: "二十八宿  " + value.mansion + "宿")
                     Text(verbatim: "月齢  " + (value.age ?? "—") + "    潮名  " + value.tide)
                     Text(verbatim: value.info.proverb.jp).font(.headline)

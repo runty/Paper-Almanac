@@ -1,6 +1,33 @@
 import XCTest
 
 final class DesktopTests: XCTestCase {
+    @MainActor func testBackingBoardDragsMoveWindowAndPaperDragKeepsItInPlace() {
+        let app = XCUIApplication()
+        for (theme, percent) in [("kinun", 100), ("tsukigoyomi", 150)] {
+            app.launchArguments = ["-print.theme", theme, "-desktopCalendarSize", String(percent), "-pad.heldCivilDay", "2027-11-19"]
+            app.launch()
+            let pad = app.windows["Paper Almanac"]
+            XCTAssertTrue(pad.waitForExistence(timeout: 8))
+            let scale = CGFloat(percent) / 100
+            func drag(x: CGFloat, y: CGFloat, dx: CGFloat) {
+                let point = pad.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0))
+                    .withOffset(CGVector(dx: x * scale, dy: y * scale))
+                point.click(forDuration: 0.12, thenDragTo: point.withOffset(CGVector(dx: dx, dy: 0)), withVelocity: .slow, thenHoldForDuration: 0.15)
+            }
+            // Grab the header, side rim, bottom rim and binding, then the printed page itself.
+            let top: CGFloat = theme == "kinun" ? 46 : 26
+            for (x, y, dx) in [(0.0, 12.0, -60.0), (-154, 160, 60), (0, top + 423, -60), (0, top + 12, 60)] {
+                let before = pad.frame
+                drag(x: x, y: y, dx: dx)
+                XCTAssertGreaterThan((pad.frame.minX - before.minX) * (dx > 0 ? 1 : -1), 15, "\(theme) at (\(x), \(y))")
+            }
+            let before = pad.frame
+            drag(x: 0, y: top + 190, dx: -30)
+            XCTAssertEqual(pad.frame.minX, before.minX, accuracy: 1)
+            app.terminate()
+        }
+    }
+
     @MainActor func testCalendarSizeAndScaledPageInteractions() {
         let app = XCUIApplication()
         app.launchArguments = ["-print.theme", "tungShing"]

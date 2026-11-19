@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added **Kin’un**, a yellow Japanese tear-off calendar for Mac, iPhone, iPad, and widgets. A gilt octagonal mirror sits on the backing board. Vermilion gourds and rice sprigs mark 一粒万倍日 on the printed page.
+- On Mac, drag the exposed backing board of **Kin’un** or **Tsukigoyomi** to move the calendar. The binding strip also moves the window, and dragging the sheet lifts it for tearing.
 - Added **Tsukigoyomi**, an indigo-backed lunar calendar for Mac, iPhone, iPad and widgets. The page pairs the Moon at noon in Japan with the current solar term, a bilingual microseason reading, and the day’s Rokuyō. CarPlay shows a compact version.
 - Added **Illyeok**, a Korean tear-off calendar with patterned date numerals, a lunar date, and 31 proverbs in Korean and English. The theme is available on Mac, iPhone, iPad, and their widgets, including CarPlay.
 - Added **Rekichū**, a Japanese tear-off theme for Mac, iPhone, iPad, and widgets including CarPlay. Its full page shows Rokuyō, the old-calendar date, the daily mansion, lunar age, and a traditional tide name.
