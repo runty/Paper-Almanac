@@ -26,6 +26,8 @@ Tap or click **Do** or **Avoid** on a widget to open the calendar page for the d
 
 The **Extra Large Portrait** widget displays one complete, borderless page in your selected theme. On iPhone, open the widget picker from the Home Screen. On iPad, swipe right from the first Home Screen page to open Today View, then open the picker there. Choose **Paper Almanac** and swipe to the tall preview.
 
+On iPhone, add **Daily Almanac** from the StandBy widget gallery. It uses the small widget’s compact date and theme reading, and iOS applies its red tint in Night Mode. [Set up StandBy on iPhone](https://support.apple.com/guide/iphone/use-standby-iph878d77632/ios)
+
 ## Twin Pillars
 
 Twin Pillars prints the traditional Chinese year and day names in two vertical columns. Between them sit the large date numeral, the English weekday in vermilion, and the lunar date. A fine horizontal line introduces the activity lists, where 宜 (Do) and 忌 (Avoid) pick up the weekday’s red ink.

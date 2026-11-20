@@ -13,7 +13,7 @@ struct WidgetFace: View {
     var body: some View {
         Group {
             #if os(iOS)
-            if family == .systemSmall && !showsBackground && renderingMode == .fullColor {
+            if Self.usesDashboard(family: family, showsBackground: showsBackground, renderingMode: renderingMode) {
                 DashboardAlmanac(entry: entry)
                     .padding(contentMargins)
             } else {
@@ -27,6 +27,13 @@ struct WidgetFace: View {
         .widgetURL(URL(string: "tungshingdaily://day/" + entry.sheet.label))
         .accessibilityElement(children: .combine)
     }
+
+    #if os(iOS)
+    static func usesDashboard(family: WidgetFamily, showsBackground: Bool, renderingMode: WidgetRenderingMode) -> Bool {
+        // StandBy uses vibrant rendering in Night Mode, when WidgetKit supplies the red tint.
+        family == .systemSmall && !showsBackground && (renderingMode == .fullColor || renderingMode == .vibrant)
+    }
+    #endif
 
     private var paperFace: some View {
         GeometryReader { box in

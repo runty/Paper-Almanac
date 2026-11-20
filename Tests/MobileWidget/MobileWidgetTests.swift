@@ -71,6 +71,15 @@ final class MobileWidgetTests: XCTestCase {
         }
     }
 
+    func testSmallWidgetUsesDashboardInStandByDayAndNight() {
+        for mode: WidgetRenderingMode in [.fullColor, .vibrant] {
+            XCTAssertTrue(WidgetFace.usesDashboard(family: .systemSmall, showsBackground: false, renderingMode: mode))
+            XCTAssertFalse(WidgetFace.usesDashboard(family: .systemSmall, showsBackground: true, renderingMode: mode))
+            XCTAssertFalse(WidgetFace.usesDashboard(family: .systemMedium, showsBackground: false, renderingMode: mode))
+        }
+        XCTAssertFalse(WidgetFace.usesDashboard(family: .systemSmall, showsBackground: false, renderingMode: .accented))
+    }
+
     @MainActor func testDashboardReadingsInDayAndNightAppearance() async throws {
         let days = try await DayReader.load(["2026-10-31", "2026-11-06", "2026-11-11"])
         var holidayActivityFaces = Set<Data>()

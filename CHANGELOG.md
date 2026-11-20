@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- The iPhone StandBy widget uses the compact, background-free reading in Night Mode, with the red tint supplied by iOS.
 - On Mac, the calendar stays available on regular desktops, hides when another app goes full screen on its display, and returns when you leave full screen.
 - On Mac, a binding strip or backing board placed against a screen edge keeps its position when you resize the calendar or reopen the app.
 - The large-text reading view on iPhone and iPad has a **Tear to next day** button. With **Auto Change Date** off, it advances the held date and saves it across relaunches.
