@@ -1,6 +1,6 @@
 # Paper Almanac changelog
 
-## Unreleased
+## 0.3.2 · November 19, 2026
 
 - Added a landscape layout for the fully and partially open iPhone Duo. The calendar keeps its outer-display size and position on the right, including across relaunches, with a compact menu on the left.
 - The Duo menu uses theme-matched typography, gray checkboxes, tighter row spacing, and a single divider below About. When closed, its theme button sits beneath the Wi-Fi indicator on the right.
