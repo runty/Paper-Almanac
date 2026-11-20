@@ -36,7 +36,7 @@ struct ContentView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onAppear {
             store.refreshToday()
-            if store.theme == .moon { location.refresh() }
+            location.refresh()
         }
         .onReceive(location.$site) { store.updateSkySite($0) }
         .alert("Sky Notes", isPresented: Binding(get: { location.message != nil }, set: { if !$0 { location.message = nil } })) {

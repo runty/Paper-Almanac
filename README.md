@@ -8,9 +8,9 @@ Paper Almanac works offline on Mac, iPhone, and iPad and opens to the local date
 
 ![Twelve Mac themes, including Twin Pillars with its vertical year and day columns](docs/mac-themes.jpg)
 
-Drag the sheet to lift it, or pull a bottom corner diagonally to tear it. Release an attached sheet to let it settle back. A completed tear advances one day. On iPhone and iPad, tap the date number to return to today, or choose **Today** in the **Go to Date…** calendar. On Mac, drag the binding strip to move the calendar, including up to the menu bar and screen edges. Switching themes keeps the visible top-left corner in place. With Kin’un or Tsukigoyomi, you can also grab the exposed backing board above, beside, or below the paper. Clicking the menu-bar calendar brings the pad forward. Use that menu to jump to a date, change themes, or resize the pad.
+Drag the sheet to lift it, or pull a bottom corner diagonally to tear it. Release an attached sheet to let it settle back. A completed tear advances one day. On iPhone and iPad, tap the date number to return to today, or choose **Today** in the **Go to Date…** calendar. On Mac, drag the binding strip to move the calendar, including up to the menu bar and screen edges. Switching themes keeps the visible top-left corner in place. If the pad is against a screen edge, it stays there when you resize it or reopen the app. With Kin’un or Tsukigoyomi, you can also grab the exposed backing board above, beside, or below the paper. The pad follows you between regular desktops. When another app goes full screen on the pad’s display, the pad hides and returns when you leave full screen. Clicking the menu-bar calendar brings the pad forward on a regular desktop. Use that menu to jump to a date, change themes, or resize the pad.
 
-Turn off **Auto Change Date** in the menu-bar calendar on Mac or the paintbrush menu on iPhone and iPad to keep the pad on its current page. It stays there across midnight and app relaunches. A tear advances the held page by one day. Choose **Today** to hold the current date, or turn automatic updates back on to resume daily rollover.
+Turn off **Auto Change Date** in the menu-bar calendar on Mac or the paintbrush menu on iPhone and iPad to keep the pad on its current page. It stays there across midnight and app relaunches. A tear advances the held page by one day. On iPhone and iPad, the large-text reading view has a **Tear to next day** button. Choose **Today** to hold the current date, or turn automatic updates back on to resume daily rollover.
 
 ## iPhone Duo
 
@@ -70,7 +70,7 @@ Tsukikage (月影) means “moonlight.” Choose **Tsukikage** from the Mac menu
 
 ![Three Tsukikage pages for 2027. January 18 shows a waxing gibbous Moon, January 7 traces Orion across the new moon, and July 20 marks the Apollo 11 landing.](docs/moon-pages.png)
 
-The default sky notes use a northern mid-latitude viewpoint and require no location permission. To see where to look from your area, select **Use Current Location** in the same menu. Local notes give a guide star’s direction and approximate height above the horizon at 9 PM in your device’s time zone. The app rounds your coordinates to the nearest degree and shares them with its widgets on that device. Turning the option off clears the saved coordinates and restores the northern sky notes.
+The default sky notes use a northern mid-latitude viewpoint and require no location permission. To see where to look from your area, select **Use Current Location** in the same menu. Local notes give a guide star’s direction and approximate height above the horizon at 9 PM in your device’s time zone. The app rounds your coordinates to the nearest degree and shares them with its widgets on that device. Turning off **Use Current Location** clears the saved coordinates and restores the northern sky notes. If you revoke access in system settings, the app clears the saved coordinates when you reopen or return to it, even if only a widget uses Tsukikage.
 
 ## Tsukigoyomi
 

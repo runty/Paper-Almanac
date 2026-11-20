@@ -324,6 +324,38 @@ final class MobileUITests: XCTestCase {
         XCTAssertTrue(app.descendants(matching: .any)[todaySheetID].waitForExistence(timeout: 8))
     }
 
+    @MainActor func testAccessibilityReaderCanTearAndPersistAHeldPage() {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"]
+        app.launch()
+        app.open(URL(string: "tungshingdaily://day/2026-11-06")!)
+        acceptOpen()
+
+        let firstDay = app.buttons["2026-11-06"]
+        let nextDay = app.buttons["2026-11-07"]
+        let palette = app.buttons["Theme"]
+        let automatic = app.descendants(matching: .any)["Auto Change Date"].firstMatch
+        XCTAssertTrue(firstDay.waitForExistence(timeout: 10))
+        palette.tap()
+        XCTAssertTrue(automatic.waitForExistence(timeout: 5))
+        automatic.tap()
+        defer {
+            if nextDay.exists { nextDay.tap() }
+            palette.tap()
+            if automatic.waitForExistence(timeout: 5) { automatic.tap() }
+        }
+
+        let tear = app.buttons["Tear to next day"]
+        XCTAssertTrue(tear.waitForExistence(timeout: 5))
+        XCTAssertTrue(tear.wait(for: \.isEnabled, toEqual: true, timeout: 5))
+        tear.tap()
+        XCTAssertTrue(nextDay.waitForExistence(timeout: 5))
+        app.terminate()
+        app.launch()
+        XCTAssertTrue(nextDay.waitForExistence(timeout: 8))
+    }
+
     @MainActor func testAccessibilityReadingReflows() {
         let app = XCUIApplication()
         app.launchArguments = ["-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"]

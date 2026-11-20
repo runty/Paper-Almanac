@@ -124,7 +124,7 @@ private struct AlmanacWindow: View {
         .preferredColorScheme(.light)
         .focusedSceneValue(\.dayNavigation, pickingDate ? nil : DayNavigation(pad: store, pickDate: openPicker))
         .onChange(of: calendarLayout) { WidgetCenter.shared.reloadTimelines(ofKind: "TungShingDailyWidget") }
-        .onAppear { if theme == .moon { location.refresh() } }
+        .onAppear { location.refresh() }
         .onReceive(location.$site) { store.updateSkySite($0) }
         .alert("Sky Notes", isPresented: Binding(get: { location.message != nil }, set: { if !$0 { location.message = nil } })) {
             Button("OK") { location.message = nil }
@@ -137,7 +137,7 @@ private struct AlmanacWindow: View {
         .onChange(of: heldDay) { store.refreshToday() }
         .onChange(of: phase) {
             if phase == .active {
-                if theme == .moon { location.refresh() }
+                location.refresh()
                 store.refreshToday()
                 WidgetCenter.shared.reloadTimelines(ofKind: "TungShingDailyWidget")
             }
@@ -337,7 +337,8 @@ private struct AlmanacWindow: View {
     private var calendarPane: some View {
         GeometryReader { space in
             if textSize.isAccessibilitySize {
-                AccessibleDay(sheet: store.top, theme: theme, calendarLayout: calendarLayout, today: store.today)
+                AccessibleDay(sheet: store.top, theme: theme, calendarLayout: calendarLayout,
+                              today: store.today, tear: store.tear, canTear: store.canTear)
                     .accessibilityAction(named: "Previous day") { store.step(-1) }
                     .accessibilityAction(named: "Next day") { store.step(1) }
             } else {
@@ -408,11 +409,15 @@ private struct AccessibleDay: View {
     let theme: DailyTheme
     let calendarLayout: Bool
     let today: () -> Void
+    let tear: () -> Void
+    let canTear: Bool
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 Button(action: today) { Text(verbatim: sheet.label).font(.title.bold()) }
                     .buttonStyle(.plain).accessibilityHint("Return to today")
+                Button("Tear to next day", action: tear)
+                    .disabled(!canTear)
                 if let day = sheet.page, theme == .tsukigoyomi {
                     let value = TsukigoyomiReading(day)
                     if let rokuyo = value.almanac.traditions.rokuyo {

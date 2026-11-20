@@ -25,14 +25,9 @@ private struct CalendarWindowDrag: ViewModifier {
                 var origin = NSPoint(x: startFrame.minX + mouse.x - startMouse.x,
                                      y: startFrame.minY + mouse.y - startMouse.y)
                 if let screen = NSScreen.screens.first(where: { $0.frame.contains(mouse) }) ?? window.screen {
-                    let visible = screen.visibleFrame
-                    let theme = host.rootView.store.theme
-                    let scale = host.rootView.pageScale
-                    let width = theme.desktopVisibleWidth * scale
-                    let sideInset = (startFrame.width - width) / 2
-                    let topInset = theme.desktopVisibleTop * scale
-                    origin.x = max(visible.minX - sideInset, min(origin.x, visible.maxX - startFrame.width + sideInset))
-                    origin.y = min(origin.y, visible.maxY - startFrame.height + topInset)
+                    origin = PaperWindow.constrainedOrigin(NSRect(origin: origin, size: startFrame.size),
+                                                          within: screen.visibleFrame,
+                                                          theme: host.rootView.store.theme, scale: host.rootView.pageScale)
                 }
                 window.setFrameOrigin(origin)
             }

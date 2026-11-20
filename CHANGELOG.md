@@ -1,5 +1,12 @@
 # Paper Almanac changelog
 
+## Unreleased
+
+- On Mac, the calendar stays available on regular desktops, hides when another app goes full screen on its display, and returns when you leave full screen.
+- On Mac, a binding strip or backing board placed against a screen edge keeps its position when you resize the calendar or reopen the app.
+- The large-text reading view on iPhone and iPad has a **Tear to next day** button. With **Auto Change Date** off, it advances the held date and saves it across relaunches.
+- The app checks location access when it opens or returns to the foreground. If permission was revoked, it clears the coordinates saved for Tsukikage and refreshes its widgets, regardless of the selected app theme.
+
 ## 0.3.2 · November 19, 2026
 
 - Added a landscape layout for the fully and partially open iPhone Duo. The calendar keeps its outer-display size and position on the right, including across relaunches, with a compact menu on the left.

@@ -66,7 +66,13 @@ private enum CalendarSize: Int, CaseIterable {
         for name in [Notification.Name.NSSystemTimeZoneDidChange, .NSSystemClockDidChange] {
             center.addObserver(self, selector: #selector(clockChanged), name: name, object: nil)
         }
-        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(refresh), name: NSWorkspace.didWakeNotification, object: nil)
+        let workspace = NSWorkspace.shared.notificationCenter
+        workspace.addObserver(self, selector: #selector(refresh), name: NSWorkspace.didWakeNotification, object: nil)
+        workspace.addObserver(self, selector: #selector(updatePadVisibility), name: NSWorkspace.activeSpaceDidChangeNotification, object: nil)
+        let visibilityTimer = Timer(timeInterval: 0.5, target: self, selector: #selector(updatePadVisibility),
+                                    userInfo: nil, repeats: true)
+        visibilityTimer.tolerance = 0.1
+        RunLoop.main.add(visibilityTimer, forMode: .common)
         WidgetCenter.shared.reloadTimelines(ofKind: "TungShingDailyWidget")
         showPad()
     }
@@ -109,7 +115,7 @@ private enum CalendarSize: Int, CaseIterable {
         return menu
     }
     func menuWillOpen(_ menu: NSMenu) {
-        if menu === item?.menu { pad?.orderFrontRegardless() }
+        if menu === item?.menu, !pad.isOnFullScreenDisplay { pad.orderFrontRegardless() }
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
@@ -141,13 +147,22 @@ private enum CalendarSize: Int, CaseIterable {
         let scale = size.scale
         let old = pad.frame
         let screen = (pad.screen ?? NSScreen.main)?.visibleFrame
-        // Keep the top of the pad anchored. Trim the transparent space below it on short screens.
+        let theme = store.theme
+        let oldScale = host.rootView.pageScale
         let width = size.windowSize.width
+        // Keep the visible top fixed and trim transparent space on short screens.
         let height = min(size.windowSize.height, screen?.height ?? .greatestFiniteMagnitude)
-        var frame = NSRect(x: old.midX - width / 2, y: old.maxY - height, width: width, height: height)
+        let top = old.maxY + theme.desktopVisibleTop * (scale - oldScale)
+        var frame = NSRect(x: old.midX - width / 2, y: top - height, width: width, height: height)
         if let screen {
-            frame.origin.x = max(screen.minX, min(frame.minX, screen.maxX - width))
-            frame.origin.y = max(screen.minY, min(frame.minY, screen.maxY - height))
+            let oldVisibleWidth = theme.desktopVisibleWidth * oldScale
+            let inset = (width - theme.desktopVisibleWidth * scale) / 2
+            if abs(old.midX - oldVisibleWidth / 2 - screen.minX) <= 1 {
+                frame.origin.x = screen.minX - inset
+            } else if abs(old.midX + oldVisibleWidth / 2 - screen.maxX) <= 1 {
+                frame.origin.x = screen.maxX - width + inset
+            }
+            frame.origin = PaperWindow.constrainedOrigin(frame, within: screen, theme: theme, scale: scale)
         }
         host.rootView = ContentView(store: store, pageScale: scale)
         host.interactiveRect = CGRect(x: (width - Metrics.pageW * scale) / 2 - 12 * scale,
@@ -184,7 +199,7 @@ private enum CalendarSize: Int, CaseIterable {
     }
 
     @objc private func refresh() {
-        if store.theme == .moon { MoonLocation.shared.refresh() }
+        MoonLocation.shared.refresh()
         store.refreshToday()
         updateMenuBarDate()
     }
@@ -192,7 +207,19 @@ private enum CalendarSize: Int, CaseIterable {
         refresh()
         WidgetCenter.shared.reloadTimelines(ofKind: "TungShingDailyWidget")
     }
-    private func showPad() { pad?.makeKeyAndOrderFront(nil); NSApp.activate() }
+    @objc private func updatePadVisibility() {
+        if pad.isOnFullScreenDisplay {
+            if pad.isVisible { pad.orderOut(nil) }
+        } else if !pad.isVisible {
+            pad.orderFrontRegardless()
+        }
+    }
+
+    private func showPad() {
+        guard let pad, !pad.isOnFullScreenDisplay else { return }
+        pad.makeKeyAndOrderFront(nil)
+        NSApp.activate()
+    }
     @objc private func toggleAutomaticDate() {
         store.setAutomaticallyUpdatesDate(!store.automaticallyUpdatesDate)
     }

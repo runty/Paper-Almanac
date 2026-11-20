@@ -51,6 +51,49 @@ final class DesktopTests: XCTestCase {
         XCTAssertEqual(pad.frame.minY + 26, menuBottom, accuracy: 3)
     }
 
+    @MainActor func testTopLeftEdgePlacementSurvivesRelaunchAndResize() {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        let screen = NSScreen.main!
+        let menuBottom = screen.frame.maxY - screen.visibleFrame.maxY
+        let leftEdge = screen.visibleFrame.minX
+        app.launchArguments = ["-desktopCalendarSize", "100"]
+        for (theme, width, top, handleY) in [("Lịch Việt", 300.0, 26.0, 38.0), ("Kin’un", 316.0, 2.0, 12.0)] {
+            app.launch()
+            let pad = app.windows["Paper Almanac"]
+            XCTAssertTrue(pad.waitForExistence(timeout: 8))
+
+            let status = app.statusItems["Paper Almanac"]
+            status.click()
+            status.menuItems["Theme"].hover()
+            status.menuItems[theme].click()
+            let frame = pad.frame
+            let start = pad.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0))
+                .withOffset(CGVector(dx: 0, dy: handleY))
+            let target = start.withOffset(CGVector(dx: leftEdge + 8 - frame.midX,
+                                                   dy: menuBottom + 4 - frame.minY - handleY))
+            start.click(forDuration: 0.2, thenDragTo: target, withVelocity: .slow, thenHoldForDuration: 0.2)
+
+            func checkPlacement(scale: CGFloat) {
+                XCTAssertEqual(pad.frame.midX - width * scale / 2, leftEdge, accuracy: 3, theme)
+                XCTAssertEqual(pad.frame.minY + top * scale, menuBottom, accuracy: 3, theme)
+            }
+
+            checkPlacement(scale: 1)
+            app.terminate()
+            app.launch()
+            XCTAssertTrue(pad.waitForExistence(timeout: 8))
+            checkPlacement(scale: 1)
+
+            status.click()
+            status.menuItems["Calendar Size"].hover()
+            status.menuItems["130%"].click()
+            XCTAssertGreaterThan(pad.frame.width, frame.width)
+            checkPlacement(scale: 1.3)
+            app.terminate()
+        }
+    }
+
     @MainActor func testBackingBoardDragsMoveWindowAndPaperDragKeepsItInPlace() {
         let app = XCUIApplication()
         for (theme, percent) in [("kinun", 100), ("tsukigoyomi", 150)] {
